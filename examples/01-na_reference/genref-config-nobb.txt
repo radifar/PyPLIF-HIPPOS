@@ -1,0 +1,10 @@
+# first residue is 77
+residue_name  ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
+residue_number  40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
+
+proteins    1b9s/protein.mol2 1b9t/protein.mol2 1b9v/protein.mol2
+ligands     1b9s/ligand_FDI468_0.mol2 1b9t/ligand_RAI468_0.mol2 1b9v/ligand_RA2468_0.mol2
+
+output_mode full_nobb
+
+outfile     ref-results-nobb.txt

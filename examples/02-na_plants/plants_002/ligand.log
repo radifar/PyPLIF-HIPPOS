@@ -1,0 +1,113 @@
+
+
+                  PLANTS
+        Protein-Ligand ANT System
+               version 1.2
+
+
+author: Oliver Korb
+
+scientific contributors: T.E. Exner, T. Stuetzle
+
+contact: Oliver.Korb@uni-konstanz.de
+
+
+
+-------------------------------------------------------------
+Ligand data file: 424102.mol2 (entry 1)
+-------------------------------------------------------------
+
+
+Input molecule: 424102.mol2
+Description: 424102 CHEMBL400553
+
+
+Ligand rotatable bonds (8): 
+C    (8   , C.3  ) -N    (9   , N.am )
+C    (8   , C.3  ) -C    (13  , C.3  )
+C    (8   , C.3  ) -C    (4   , C.3  )
+C    (4   , C.3  ) -C    (3   , C.3  )
+C    (4   , C.3  ) -O    (6   , O.3  )
+C    (20  , C.3  ) -C    (21  , C.2  )
+C    (3   , C.3  ) -C    (2   , C.3  )
+CA   (15  , C.3  ) -C    (16  , C.2  )
+
+
+Ligand formal charge table:
+14    N     1.00 
+17    O     -0.50
+18    OXT   -0.50
+Ligand formal charge: 0.00
+
+
+Atom type assignment for partial score term CHEMPLP-PLP:
+
+DONOR(2): 
+    N(   9)          N(  14) [ch] 
+
+ACCEPTOR(4): 
+    O(   6)          O(  12)          O(  17) [ch]   OXT(  18) [ch] 
+
+NONPOLAR(17): 
+    C(   1)          C(   2)          C(   3)          C(   4)          C(   5)          C(   7)          C(   8)          C(  10)      
+    C(  11)          C(  13)         CA(  15)          C(  16)          C(  19)          C(  20)          C(  21)          C(  22)      
+    C(  23)      
+
+Atom type assignment for partial score term CHEM-HB:
+
+DONOR(2): 
+    N(   9)          N(  14) [ch] 
+
+ACCEPTOR(4): 
+    O(   6)          O(  12)          O(  17) [ch]   OXT(  18) [ch] 
+
+NONPOLAR(17): 
+    C(   1)          C(   2)          C(   3)          C(   4)          C(   5)          C(   7)          C(   8)          C(  10)      
+    C(  11)          C(  13)         CA(  15)          C(  16)          C(  19)          C(  20)          C(  21)          C(  22)      
+    C(  23)      
+
+HYDROGEN(3): 
+    H(  38)          H(  43) [ch]     H(  44) [ch] 
+
+Intra-ligand score: CLASH2
+Ligand clash pairs: 186
+
+Ligand torsions: 57 (57 parameters matched)
+
+Ligand input conformation score: 5978.37
+
+PLPtotal,PLPparthbond,PLPpartsteric,PLPpartmetal,PLPpartrepulsive,PLPpartburpolar,LIG_NUM_CLASH,LIG_NUM_CONTACT,LIG_NUM_NO_CONTACT,CHEMpartmetal,CHEMparthbond,CHEMparthbondCHO,DON,ACC,UNUSED_DON,UNUSED_ACC,CHEMPLP_CLASH2,TRIPOS_TORS
+
+0,0,0,0,0,0,0,0,23,0,0,0,3,4,3,4,3.78328,3.47333
+
+ACO iterations 153  time 7.00s  evaluations 1870810
+
+Cluster time 0.09s (max. 25 structures, RMSD similarity 1.00 A):
+
+rank  1  score   -66.79  file 424102 CHEMBL400553_entry_00001_conf_01
+rank  2  score   -66.69  file 424102 CHEMBL400553_entry_00001_conf_02
+rank  3  score   -65.73  file 424102 CHEMBL400553_entry_00001_conf_03
+rank  4  score   -64.48  file 424102 CHEMBL400553_entry_00001_conf_04
+rank  5  score   -64.48  file 424102 CHEMBL400553_entry_00001_conf_05
+rank  6  score   -63.14  file 424102 CHEMBL400553_entry_00001_conf_06
+rank  7  score   -63.02  file 424102 CHEMBL400553_entry_00001_conf_07
+rank  8  score   -61.96  file 424102 CHEMBL400553_entry_00001_conf_08
+rank  9  score   -61.96  file 424102 CHEMBL400553_entry_00001_conf_09
+rank 10  score   -61.47  file 424102 CHEMBL400553_entry_00001_conf_10
+rank 11  score   -61.17  file 424102 CHEMBL400553_entry_00001_conf_11
+rank 12  score   -60.67  file 424102 CHEMBL400553_entry_00001_conf_12
+rank 13  score   -60.61  file 424102 CHEMBL400553_entry_00001_conf_13
+rank 14  score   -60.19  file 424102 CHEMBL400553_entry_00001_conf_14
+rank 15  score   -59.97  file 424102 CHEMBL400553_entry_00001_conf_15
+rank 16  score   -59.84  file 424102 CHEMBL400553_entry_00001_conf_16
+rank 17  score   -59.73  file 424102 CHEMBL400553_entry_00001_conf_17
+rank 18  score   -59.33  file 424102 CHEMBL400553_entry_00001_conf_18
+rank 19  score   -59.29  file 424102 CHEMBL400553_entry_00001_conf_19
+rank 20  score   -59.23  file 424102 CHEMBL400553_entry_00001_conf_20
+rank 21  score   -59.00  file 424102 CHEMBL400553_entry_00001_conf_21
+rank 22  score   -58.90  file 424102 CHEMBL400553_entry_00001_conf_22
+rank 23  score   -58.65  file 424102 CHEMBL400553_entry_00001_conf_23
+rank 24  score   -58.50  file 424102 CHEMBL400553_entry_00001_conf_24
+rank 25  score   -57.99  file 424102 CHEMBL400553_entry_00001_conf_25
+
+

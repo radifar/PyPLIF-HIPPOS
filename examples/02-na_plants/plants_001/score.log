@@ -1,0 +1,121 @@
+
+
+                  PLANTS
+        Protein-Ligand ANT System
+               version 1.2
+
+
+author: Oliver Korb
+
+scientific contributors: T.E. Exner, T. Stuetzle
+
+contact: Oliver.Korb@uni-konstanz.de
+
+
+
+CHEMPLP =  1.00*CHEMPLP_PLP +1.00*CHEM_HB +1.00*CHEMPLP_CLASH2 +2.00*TRIPOS_TORS -20.00
+
+ID: 0 1
+Parameter settings for partial scoring function CHEMPLP-PLP:
+
+PLP hydrogen bonding: 
+parameter A: 2.30
+parameter B: 2.60
+parameter C: 3.10
+parameter D: 3.40
+parameter E: -1.00
+parameter F: 20.00
+
+PLP steric: 
+parameter A: 3.40
+parameter B: 3.60
+parameter C: 4.50
+parameter D: 5.50
+parameter E: -0.40
+parameter F: 20.00
+
+PLP buried polar atoms: 
+parameter A: 3.40
+parameter B: 3.60
+parameter C: 4.50
+parameter D: 5.50
+parameter E: -0.10
+parameter F: 20.00
+
+PLP metal: 
+parameter A: 1.40
+parameter B: 1.70
+parameter C: 2.80
+parameter D: 3.00
+parameter E: -1.00
+parameter F: 20.00
+
+PLP acceptors coordinating metal: 
+parameter A: 2.60
+parameter B: 2.80
+parameter C: 4.50
+parameter D: 5.50
+parameter E: -0.40
+parameter F: 20.00
+
+PLP repulsive: 
+parameter weight: 1.00
+parameter A: 3.20
+parameter B: 5.00
+parameter C: 0.10
+parameter D: 20.00
+
+Parameter settings for partial scoring function CHEM-HB:
+
+parameter dgHBond: -3.00
+parameter rZero: 1.85
+parameter dr1: 0.25
+parameter dr2: 0.65
+parameter alphaZero: 180.00
+parameter dAlpha1: 30.00
+parameter dAlpha2: 80.00
+parameter betaZero: 180.00
+parameter dBeta1: 80.00
+parameter dBeta2: 100.00
+parameter enableCHO: 1
+parameter dgHBondCHO: -3.00
+parameter rZeroCHO: 2.35
+parameter dr1CHO: 0.25
+parameter dr2CHO: 0.65
+parameter alphaZeroCHO: 180.00
+parameter dAlpha1CHO: 50.00
+parameter dAlpha2CHO: 100.00
+parameter betaZeroCHO: 180.00
+parameter dBeta1CHO: 80.00
+parameter dBeta2CHO: 100.00
+parameter dgMetal: -6.00
+parameter chargedHBweight: 2.00
+parameter chargedMetalWeight: 2.00
+parameter waterWaterHBweight: 1.00
+parameter waterProteinHBweight: 1.00
+parameter waterLigandHBweight: 1.00
+parameter noWaterLigandHBondPenalty: 0.00
+parameter waterEnablePenalty: 8.00
+parameter voidDonAccPenalty: 0.00
+
+ID: 2 1
+Parameter settings for intra-ligand scoring function CLASH2:
+
+parameter distPolarPolar: 2.50
+parameter distPolarPolar1-4: 2.50
+parameter distNonpolarPolar: 2.75
+parameter distNonpolarPolar1-4: 2.50
+parameter distOther: 3.00
+parameter distOther1-4: 2.75
+parameter distHH: 2.00
+parameter includeHH: 0
+parameter score: 50.00
+
+ID: 3 0
+Parameter settings for intra-ligand scoring function TRIPOS TORSION:
+
+parameter discretizationStepSize: 0.10
+parameter includeHtors: 1
+
+parameter atomOutsideBindingSitePenalty: 50.00
+
