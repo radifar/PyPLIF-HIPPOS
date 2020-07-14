@@ -24,7 +24,7 @@ if [ $1 > 0 ]  ; then
             echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc
             echo "alias hippos-genref='$INSTALLDIR/hippos-genref.py'" >> $HOME/.bashrc
         fi
-        cp -r hippos $INSTALLDIR
+        mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
         chmod +x $INSTALLDIR/hippos.py
         chmod +x $INSTALLDIR/hippos-genref.py
         # alias hippos='$HOME/.hippos/hippos.py'
@@ -66,7 +66,7 @@ else
                 echo "Aborting installation"
                 exit
             else 
-                cp -r hippos $INSTALLDIR
+                mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
                 chmod +x $INSTALLDIR/hippos.py
                 chmod +x $INSTALLDIR/hippos-genref.py
                 echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc
