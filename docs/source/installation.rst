@@ -35,6 +35,13 @@ the terminal and enter the HIPPOS directory and run setup.sh like so:
 
 ``./setup.sh``
 
+You will be prompted with a question whether to install HIPPOS in ``[HOME_DIRECTORY]/.hippos``
+which is a hidden directory inside your ``HOME_DIRECTORY``. Or would you rather
+choose your own directory. If you want to keep the default then just press `enter`
+or if you would like to choose your own installation directory you can type `y`
+and press enter, then you have to type the installation directory for example
+``/home/radifar/apps/hippos`` then press enter.
+
 If HIPPOS installed successfully then a message like 'HIPPOS successfully
 installed' should appear. When HIPPOS is already installed and you're running
 setup.sh a message like 'HIPPOS is already installed' will appear.
