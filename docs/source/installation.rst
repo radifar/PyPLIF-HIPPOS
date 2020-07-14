@@ -44,7 +44,8 @@ and press enter, then you have to type the installation directory for example
 
 If HIPPOS installed successfully then a message like 'HIPPOS successfully
 installed' should appear. When HIPPOS is already installed and you're running
-setup.sh a message like 'HIPPOS is already installed' will appear.
+setup.sh a message like 'HIPPOS is already installed' will appear, and the
+installation process will stop and exit.
 
 If you would like to install newer version of HIPPOS and overwrite the old
 one then all you need to do is by adding 'force' option to setup.sh like so:
@@ -55,7 +56,9 @@ To test if HIPPOS had been installed, *open new command line window* and type th
 
 ``hippos``
 
-Then press enter. Next type the following:
+Then press enter. Please note that it is imperative to open the new command
+line window right after the installation to allow the alias in your system get updated.
+Next type the following:
 
 ``hippos-genref``
 
