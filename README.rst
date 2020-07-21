@@ -25,7 +25,7 @@ If you are using HIPPOS please cite this paper:
 
 Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
 PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
-of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling,.
+of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling.
 https://doi.org/10.1021/acs.jcim.0c00305
 
 -----
