@@ -13,12 +13,6 @@ Welcome to PyPLIF-HIPPOS's project page. PyPLIF-HIPPOS is an upgraded version of
 
 Compared to PyPLIF, HIPPOS is not only faster and able to generate more customized interaction bitstring, but also supports both `PLANTS <https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/pharmazie-und-biochemie/pharmazie/pharmazeutische-chemie/pd-dr-t-exner/research/plants/>`_ & `VINA <http://vina.scripps.edu/>`_! More over, unlike its predecessor it is (far) more well-documented.
 
-If you are using HIPPOS please cite this paper:
-
-Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
-PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
-of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling,.
-https://doi.org/10.1021/acs.jcim.0c00305
 
 .. image:: docs/source/pyplif-bioinformation-3D-to-1D.jpg
 	:alt: PyPLIF output from PyPLIF publication
@@ -26,6 +20,13 @@ https://doi.org/10.1021/acs.jcim.0c00305
 
 .. raw:: html
 	:file: attribution-pyplif.html
+
+If you are using HIPPOS please cite this paper:
+
+Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
+PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
+of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling,.
+https://doi.org/10.1021/acs.jcim.0c00305
 
 -----
 
