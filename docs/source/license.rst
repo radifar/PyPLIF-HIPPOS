@@ -14,7 +14,13 @@ Permission to use, copy, modify and distribute this software and its documentati
 
 1. The above copyright notice appear in all copies,
 2. Both the copyright notice and this permission notice appear in supporting documentation,
-3. The user agrees that any reports or published results obtained with the software or the modified software or part of the software will acknowledge its use by citing this software and the article publishing this software.
+3. The user agrees that any reports or published results obtained with the software or the modified software or part of the software will acknowledge its use by citing this paper:
+
+Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
+PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
+of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling
+(`<https://doi.org/10.1021/acs.jcim.0c00305>`_).
+
 4. The name of Muhammad Radifar & Enade Perdana Istyastono not be used in advertising or publicity pertaining to distribution of the software without specific, written prior permission. 
 
 DISCLAIMER
