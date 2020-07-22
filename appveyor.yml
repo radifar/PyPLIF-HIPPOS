@@ -38,7 +38,7 @@ install:
 build: false
 
 test_script:
-  - pytest -v --cov=pyplif_hippos pyplif_hippos\\tests
+  - pytest -v --cov=hippos hippos\\tests
 
 on_success:
   - codecov
