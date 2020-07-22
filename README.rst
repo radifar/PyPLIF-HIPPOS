@@ -18,8 +18,7 @@ Compared to PyPLIF, HIPPOS is not only faster and able to generate more customiz
 	:alt: PyPLIF output from PyPLIF publication
 	:align: center
 
-.. raw:: html
-	:file: attribution-pyplif.html
+Illustration by Radifar et al (2013) from `Bioinformation.net <http://www.bioinformation.net/009/97320630009325.htm>`_ is licensed by `CC 4.0 BY <http://creativecommons.org/licenses/by/4.0>`_
 
 If you are using HIPPOS please cite this paper:
 
