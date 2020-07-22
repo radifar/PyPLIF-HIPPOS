@@ -29,6 +29,15 @@ PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
 of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling.
 https://doi.org/10.1021/acs.jcim.0c00305
 
+## Acknowledgment
+
+This project has received funding from the Indonesian National Research and Innovation Agency 
+under grant agreement No. 807.7/LL5/PG/2020. This project has been restructured based on the
+[Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms)
+version 1.3, and benefited greatly from [Python Package Development Best Practices](https://molssi.org/2020/04/20/may-webinar-series-python-package-development/)
+workshop.
+
+
 -----
 
 &copy; Copyright 2020, Muhammad Radifar & Enade Perdana Istyastono
