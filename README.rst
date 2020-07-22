@@ -1,7 +1,7 @@
 PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of Autodock Vina and PLANTS
 ==========================================================================================================
 
-[![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest)](https://pyplif-hippos.readthedocs.io/en/latest/)
+.. |Plastic Badge| image:: https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=plastic
 
 .. image:: docs/source/hippopotamus_small.png
 	:alt: Icons made by Freepik from Flaticon is licensed by CC 3.0 BY
