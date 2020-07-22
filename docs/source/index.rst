@@ -21,7 +21,13 @@ Welcome to PyPLIF-HIPPOS's documentation. PyPLIF-HIPPOS is an upgraded version o
 
 Compared to PyPLIF, HIPPOS is not only faster and able to generate more customized interaction bitstring, but also supports both `PLANTS <https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/pharmazie-und-biochemie/pharmazie/pharmazeutische-chemie/pd-dr-t-exner/research/plants/>`_ & `VINA <http://vina.scripps.edu/>`_! More over, unlike its predecessor it is (far) more well-documented. 
 
-.. image:: pyplif-bioinformation-3D-to-1D.jpg
+.. image:: toc-abstract-graphics_small.png
+	:alt: Table of Content Abstract Graphic JCIM
+	:align: center
+
+Reprinted with permission from https://doi.org/10.1021/acs.jcim.0c00305. Copyright 2020 American Chemical Society.
+
+.. image:: pyplif.png
 	:alt: PyPLIF output from PyPLIF publication
 	:align: center
 
