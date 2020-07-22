@@ -12,13 +12,17 @@ Welcome to PyPLIF-HIPPOS's project page. PyPLIF-HIPPOS is an upgraded version of
 
 Compared to PyPLIF, HIPPOS is not only faster and able to generate more customized interaction bitstring, but also supports both [PLANTS](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/pharmazie-und-biochemie/pharmazie/pharmazeutische-chemie/pd-dr-t-exner/research/plants/) & [Vina](http://vina.scripps.edu/)! More over, unlike its predecessor it is (far) more well-documented.
 
-![Table of Content Abstract Graphic JCIM](docs/source/toc-abstract-graphics_small.png)
+<p align="center">
+  <img alt="Table of Content Abstract Graphic JCIM" src="docs/source/toc-abstract-graphics_small.png">
+</p>
 
-Reprinted with permission from https://doi.org/10.1021/acs.jcim.0c00305. Copyright 2020 American Chemical Society.
+<p align="center">Reprinted with permission from https://doi.org/10.1021/acs.jcim.0c00305. Copyright 2020 American Chemical Society.</p>
 
-![PyPLIF output from PyPLIF publication](docs/source/pyplif.png)
+<p align="center">
+  <img alt="PyPLIF output from PyPLIF publication" src="docs/source/pyplif.png">
+</p>
 
-Illustration by Radifar et al (2013) from [Bioinformation.net](http://www.bioinformation.net/009/97320630009325.htm) is licensed by [CC 4.0 BY](http://creativecommons.org/licenses/by/4.0)
+<p align="center">Illustration by Radifar et al (2013) from <a href="http://www.bioinformation.net/009/97320630009325.htm">Bioinformation.net</a> is licensed by <a href="http://creativecommons.org/licenses/by/4.0">CC 4.0 BY</a>
 
 ## Citing HIPPOS
 
