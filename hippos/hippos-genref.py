@@ -12,10 +12,10 @@ if __name__ == "__main__":
     x = time()
     genref_config = parse_config_genref()
     proteins = genref_config['proteins']
-    ligands  = genref_config['ligands']
+    ligands = genref_config['ligands']
 
     bitstrings = get_refbitstring(genref_config)
-    
+
     outfile = open(genref_config['outfile'], 'w')
     '''
     if genref_config['use_backbone']:
@@ -39,13 +39,13 @@ if __name__ == "__main__":
           outfile.write('%s %s\n%s\n%s\n\n' % (protein, ligand, simp_bits, full_bits))
     '''
     for protein, ligand, bitstring in zip(proteins, ligands, bitstrings):
-        full_bits       = ''
-        full_nobb_bits  = ''
-        simp_bits       = ''
-        
+        full_bits = ''
+        full_nobb_bits = ''
+        simp_bits = ''
+
         for resname in genref_config['residue_name']:
             if genref_config['output_mode']['full']:
-                full_bits  += bitstring[resname].full_bit.to01()
+                full_bits += bitstring[resname].full_bit.to01()
             if genref_config['output_mode']['full_nobb']:
                 full_nobb_bits += bitstring[resname].nobb_bit.to01()
             if genref_config['output_mode']['simplified']:
@@ -57,9 +57,9 @@ if __name__ == "__main__":
         if simp_bits:
             simp_bits = 'simplified_bitstring: ' + simp_bits + '\n'
         outfile.write('Protein: %s\nLigand:  %s\n%s%s%s\n' % (protein, ligand, full_bits, full_nobb_bits, simp_bits))
-        
+
     y = time()
-    outfile.write('\nTotal time taken %.3f s.' % (y-x))
+    outfile.write('\nTotal time taken %.3f s.' % (y - x))
     outfile.close()
 
-    print('Total time taken %.3f s.' % (y-x))
+    print('Total time taken %.3f s.' % (y - x))
