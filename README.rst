@@ -17,7 +17,7 @@ Compared to PyPLIF, HIPPOS is not only faster and able to generate more customiz
 Reprinted with permission from https://doi.org/10.1021/acs.jcim.0c00305. Copyright 2020 American Chemical Society.
 
 
-.. image:: docs/source/pyplif-bioinformation-3D-to-1D.jpg
+.. image:: docs/source/pyplif.png
 	:alt: PyPLIF output from PyPLIF publication
 	:align: center
 
