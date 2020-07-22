@@ -11,6 +11,11 @@ Requirement
 * Python-BitArray
 * Python-Numpy >= 1.3
 
+Getting HIPPOS
+--------------
+
+You can get HIPPOS at Github by cloning the repository or download the code `here <https://github.com/radifar/PyPLIF-HIPPOS>`_.
+
 Installing on Linux
 -------------------
 
