@@ -4,10 +4,9 @@ PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results o
 .. image:: hippopotamus.png
 	:alt: Icons made by Freepik from Flaticon is licensed by CC 3.0 BY
 	:align: center
-	:scale: 45%
+	:scale: 35%
 	
-.. raw:: html
-	:file: docs/source/attribution-hippos.html
+Icons made by `Freepik <https://www.freepik.com/>`_ from http://www.flaticon.com is licensed by CC 3.0 BY
 
 Welcome to PyPLIF-HIPPOS's project page. PyPLIF-HIPPOS is an upgraded version of `PyPLIF <https://github.com/radifar/pyplif/>`_ (**Python-based Protein-Ligand Interaction Fingerprinting**), a tool for molecular docking post-analysis. It will translate the 3D coordinates of both ligand(s) (generated from docking simulation) and protein into a series of *interaction bitstring* (also known as *Interaction Fingerprint*) (see image below). **HIPPOS** (/ˌhipoʊz/) is a recursive acronym of **HIPPOS Is PyPLIF On Steroids**. From this point forward, PyPLIF-HIPPOS is simplified to HIPPOS.
 
@@ -19,6 +18,9 @@ Compared to PyPLIF, HIPPOS is not only faster and able to generate more customiz
 	:align: center
 
 Illustration by Radifar et al (2013) from `Bioinformation.net <http://www.bioinformation.net/009/97320630009325.htm>`_ is licensed by `CC 4.0 BY <http://creativecommons.org/licenses/by/4.0>`_
+
+Citing HIPPOS
+-------------
 
 If you are using HIPPOS please cite this paper:
 
