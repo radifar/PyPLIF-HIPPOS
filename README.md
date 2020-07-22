@@ -2,7 +2,9 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=plastic)](https://pyplif-hippos.readthedocs.io/en/latest/)
 
-![Icons made by Freepik from Flaticon is licensed by CC 3.0 BY](docs/source/hippopotamus_small.png)
+<p align="center">
+  <img alt="Icons made by Freepik from Flaticon is licensed by CC 3.0 BY" src="docs/source/hippopotamus_small.png">
+</p>
 
 Icons made by [Freepik](https://www.freepik.com/) from [Flaticon](http://www.flaticon.com) is licensed by CC 3.0 BY
 
