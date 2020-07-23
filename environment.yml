@@ -46,5 +46,4 @@ dependencies:
   - wheel=0.34.2=py37_0
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7b6447c_3
-prefix: /home/radifar/anaconda3/envs/openbabel2.4
 
