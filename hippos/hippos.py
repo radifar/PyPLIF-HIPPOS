@@ -10,7 +10,7 @@ from initialize.parse_docking_conf import *
 from ifp_processing import *
 from similarity import *
 
-if __name__ == "__main__":
+def main():
     x = time()
 
     hippos_config = parse_config()
@@ -174,3 +174,6 @@ Check the ligand pose that generate 'NA' value.
     print('Total time taken %.3f s.' % z)
     logfile.write('\nTotal time taken %.3f s.' % z)
     logfile.close()
+
+if __name__ == "__main__":
+    main()

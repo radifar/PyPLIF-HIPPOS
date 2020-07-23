@@ -22,13 +22,13 @@ if [ $1 > 0 ]  ; then
             rm -r $INSTALLDIR
         else
             echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc
-            echo "alias hippos-genref='$INSTALLDIR/hippos-genref.py'" >> $HOME/.bashrc
+            echo "alias hippos-genref='$INSTALLDIR/hippos_genref.py'" >> $HOME/.bashrc
         fi
         mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
         chmod +x $INSTALLDIR/hippos.py
-        chmod +x $INSTALLDIR/hippos-genref.py
+        chmod +x $INSTALLDIR/hippos_genref.py
         # alias hippos='$HOME/.hippos/hippos.py'
-        # alias hippos-genref='$HOME/.hippos/hippos-genref.py'
+        # alias hippos-genref='$HOME/.hippos/hippos_genref.py'
         echo "HIPPOS successfully installed"
     else
         echo "Wrong Argument"
@@ -49,11 +49,11 @@ else
             fi
             cp -r hippos $HOME/.hippos
             chmod +x $HOME/.hippos/hippos.py
-            chmod +x $HOME/.hippos/hippos-genref.py
+            chmod +x $HOME/.hippos/hippos_genref.py
             echo "alias hippos='$HOME/.hippos/hippos.py'" >> $HOME/.bashrc
-            echo "alias hippos-genref='$HOME/.hippos/hippos-genref.py'" >> $HOME/.bashrc
+            echo "alias hippos-genref='$HOME/.hippos/hippos_genref.py'" >> $HOME/.bashrc
             # alias hippos='$HOME/.hippos/hippos.py'
-            # alias hippos-genref='$HOME/.hippos/hippos-genref.py'
+            # alias hippos-genref='$HOME/.hippos/hippos_genref.py'
             echo "HIPPOS successfully installed"
         elif [ "$NODEFAULT" = 'y' ]; then
             read -p "Enter the installation directory: " INSTALLDIR
@@ -68,9 +68,9 @@ else
             else 
                 mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
                 chmod +x $INSTALLDIR/hippos.py
-                chmod +x $INSTALLDIR/hippos-genref.py
+                chmod +x $INSTALLDIR/hippos_genref.py
                 echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc
-                echo "alias hippos-genref='$INSTALLDIR/hippos-genref.py'" >> $HOME/.bashrc
+                echo "alias hippos-genref='$INSTALLDIR/hippos_genref.py'" >> $HOME/.bashrc
                 echo "HIPPOS successfully installed"
                 exit
             fi

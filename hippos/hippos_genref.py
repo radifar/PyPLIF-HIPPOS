@@ -8,7 +8,7 @@ from time import time
 from initialize.parse_conf import *
 from ifp_processing import *
 
-if __name__ == "__main__":
+def main():
     x = time()
     genref_config = parse_config_genref()
     proteins = genref_config['proteins']
@@ -63,3 +63,7 @@ if __name__ == "__main__":
     outfile.close()
 
     print('Total time taken %.3f s.' % (y - x))
+
+
+if __name__ == "__main__":
+    main()

@@ -21,7 +21,7 @@ except:
 
 setup(
     # Self-descriptive entries which should always be present
-    name='pyplif_hippos',
+    name='pyplif-hippos',
     author='Muhammad Radifar',
     author_email='muhammad.radifar@picomps.org',
     description=short_description[0],
@@ -55,5 +55,13 @@ setup(
 
     # Manual control if final package is compressible or not, set False to prevent the .egg from being made
     # zip_safe=False,
+
+    # Entry point
+    entry_points = {
+        'console_scripts': [
+            'hippos=hippos.hippos:main',
+            'hippos-genref=hippos.hippos_genref:main'
+        ],
+    }
 
 )
