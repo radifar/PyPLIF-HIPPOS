@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from initialize.parse_conf import parse_config, parse_config_genref
 from initialize.parse_docking_conf import parse_vina_conf, parse_plants_conf
+from SIMILARITY_FORMULA import sim_dict
 
 # Handle versioneer
 from ._version import get_versions
