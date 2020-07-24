@@ -31,6 +31,8 @@ install:
     # Activate the test environment
   - activate test
 
+  - conda install -c openbabel openbabel
+
     # Build and install package
   - python setup.py develop --no-deps
 
