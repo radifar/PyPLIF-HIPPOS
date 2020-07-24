@@ -1,5 +1,5 @@
 """
-Test for parse_config in hippos.initialize.parse_conf
+Test for functions in hippos.initialize.parse_conf
 """
 
 # Import package, test suite, and other packages as needed
