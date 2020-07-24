@@ -5,6 +5,7 @@ dependencies:
   - python
   - pip
 
+  - numpy
     # Testing
   - pytest
   - pytest-cov
