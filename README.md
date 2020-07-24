@@ -1,7 +1,8 @@
 # PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of Autodock Vina and PLANTS
 
-[![Travis Build Status](https://travis-ci.com/radifar/pyplif-hippos.svg?branch=master&style=plastic)](https://travis-ci.com/radifar/pyplif-hippos)
-[![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/master/graph/badge.svg?style=plastic)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
+
+[![Travis (.com) branch](https://img.shields.io/travis/com/radifar/pyplif-hippos/master?style=plastic)](https://travis-ci.com/radifar/pyplif-hippos)
+[![codecov](https://img.shields.io/codecov/c/github/radifar/pyplif-hippos?style=plastic)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=plastic)](https://pyplif-hippos.readthedocs.io/en/latest/)
 
 <p align="center">
