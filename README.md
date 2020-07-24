@@ -1,9 +1,9 @@
 # PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of Autodock Vina and PLANTS
 
-
-[![Travis (.com) branch](https://img.shields.io/travis/com/radifar/pyplif-hippos/master?style=plastic)](https://travis-ci.com/radifar/pyplif-hippos)
-[![codecov](https://img.shields.io/codecov/c/github/radifar/pyplif-hippos?style=plastic)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
-[![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=plastic)](https://pyplif-hippos.readthedocs.io/en/latest/)
+[![Build Status](https://travis-ci.com/radifar/PyPLIF-HIPPOS.svg?branch=master)](https://travis-ci.com/radifar/PyPLIF-HIPPOS)
+[![Build status](https://ci.appveyor.com/api/projects/status/ai083k8ab0kxnk5w?svg=true)](https://ci.appveyor.com/project/radifar/pyplif-hippos)
+[![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/master/graph/badge.svg)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
+[![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=flat)](https://pyplif-hippos.readthedocs.io/en/latest/)
 
 <p align="center">
   <img alt="Icons made by Freepik from Flaticon is licensed by CC 3.0 BY" src="docs/source/hippopotamus_small.png">
