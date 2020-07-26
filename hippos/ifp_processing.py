@@ -1,9 +1,9 @@
-import copy
 import numpy as np
 from bitarray import bitarray
 from openbabel import OBMol, OBConversion, OBResidueIter, OBResidueAtomIter, OBMolAtomIter
 
-from PARAMETERS import *
+from PARAMETERS import HYDROPHOBIC, AROMATIC, HBOND, ELECTROSTATIC, HBOND_ANGLE,\
+                       AROMATIC_ANGLE_LOW, AROMATIC_ANGLE_HIGH, SIMP_IFP_MATRIX
 '''
     function:
     - get_bitstring --> return residue_obj
