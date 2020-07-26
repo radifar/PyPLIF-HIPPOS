@@ -1,11 +1,11 @@
-# PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of Autodock Vina and PLANTS
+# PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of AutoDock Vina and PLANTS
 
 [![Build Status](https://travis-ci.com/radifar/PyPLIF-HIPPOS.svg?branch=master)](https://travis-ci.com/radifar/PyPLIF-HIPPOS)
-[![Build status](https://ci.appveyor.com/api/projects/status/ai083k8ab0kxnk5w?svg=true)](https://ci.appveyor.com/project/radifar/pyplif-hippos)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/ai083k8ab0kxnk5w?svg=true)](https://ci.appveyor.com/project/radifar/pyplif-hippos)   
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/radifar/PyPLIF-HIPPOS.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/radifar/PyPLIF-HIPPOS/context:python)
 [![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/master/graph/badge.svg)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=flat)](https://pyplif-hippos.readthedocs.io/en/latest/)
+[![DOI:10.1021/acs.jcim.0c00305](https://zenodo.org/badge/DOI/10.1021/acs.jcim.0c00305.svg)](https://doi.org/10.1021/acs.jcim.0c00305)
 
 <p align="center">
   <img alt="Icons made by Freepik from Flaticon is licensed by CC 3.0 BY" src="docs/source/hippopotamus_small.png">
