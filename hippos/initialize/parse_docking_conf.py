@@ -139,7 +139,7 @@ def parse_plants_conf(plants_conf):
         sys.exit(1)
 
     # just removing the first line
-    firstline = ligand_poses.readline()
+    ligand_poses.readline()
 
     mollisttemp = [line for line in ligand_poses]
     mollist = []
