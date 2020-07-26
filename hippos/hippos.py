@@ -2,21 +2,20 @@
 
 from __future__ import print_function
 
-import sys, os
+import sys
 from time import time
 
-from initialize.parse_conf import *
-from initialize.parse_docking_conf import *
-from ifp_processing import *
-from similarity import *
+from initialize.parse_conf import parse_config
+from ifp_processing import get_bitstring
+from similarity import count_abcdp, how_similar
+
 
 def main():
     x = time()
 
     hippos_config = parse_config()
-    locals().update(hippos_config)
 
-    logfile = open(logfile, 'w')  # Output #4
+    logfile = open(hippos_config['logfile'], 'w')  # Output #4
     '''
     Parse docking configuration file
     Get docking results:
@@ -27,9 +26,13 @@ def main():
     scorelist		==> List of docking score
     '''
 
-    if docking_method == "plants":
+    if hippos_config['docking_method'] == "plants":
+        from initialize.parse_docking_conf import parse_plants_conf
+        docking_conf = hippos_config['docking_conf']
         docking_results = parse_plants_conf(docking_conf)
     else:
+        from initialize.parse_docking_conf import parse_vina_conf
+        docking_conf = hippos_config['docking_conf']
         docking_results = parse_vina_conf(docking_conf)
 
     if len(docking_results['docked_ligands']) == 0:
@@ -50,30 +53,33 @@ def main():
 
     scorelist = docking_results['scorelist']
     ligand_pose = []
-    if docking_method == "plants":
+    if hippos_config['docking_method'] == "plants":
         for mol in docking_results['mollist']:
             mol = mol.split('_')
             new_name = mol[0] + '_' + mol[-1]
             ligand_pose.append(new_name)
-    if docking_method == "vina":
+    if hippos_config['docking_method'] == "vina":
         ligand_pose = docking_results['mollist']
 
+    output_mode = hippos_config['output_mode']
     simplified_flag = output_mode['simplified']
     full_flag = output_mode['full']
     full_nobb_flag = output_mode['full_nobb']
 
     if simplified_flag:
-        simplified_outfile = open(simplified_outfile, 'w')  # Output #1
+        simplified_outfile = open(hippos_config['simplified_outfile'], 'w')  # Output #1
     if full_flag:
-        full_outfile = open(full_outfile, 'w')  # Output #2
+        full_outfile = open(hippos_config['full_outfile'], 'w')  # Output #2
     if full_nobb_flag:
-        full_nobb_outfile = open(full_nobb_outfile, 'w')  # Output #3
+        full_nobb_outfile = open(hippos_config['full_nobb_outfile'], 'w')  # Output #3
 
 
     logfile.write('Ligand name is %s with %s poses\n\n' % \
         (ligand_pose[0].split('_')[0], len(ligand_pose))) # Output Logfile
+
+    similarity_coef = hippos_config['similarity_coef']
     if similarity_coef:
-        sim_outfile = open(sim_outfile, 'w')  # Output #5
+        sim_outfile = open(hippos_config['sim_outfile'], 'w')  # Output #5
         logfile.write('similarity coefficient used are %s\n' % \
             (', '.join(similarity_coef)))     # Output Logfile
     if simplified_flag:
@@ -94,7 +100,7 @@ def main():
         nobb_bits = ''
 
         bit_start = 1
-        for resname in residue_name:
+        for resname in hippos_config['residue_name']:
             if simplified_flag:
                 simp_res_bit = bitstrings[resname].simp_bits_list[pose].to01()
                 simp_bits += simp_res_bit
@@ -129,13 +135,13 @@ def main():
             abcdp_list = []
             coefficient = []
             if full_flag:
-                for full in full_ref:
+                for full in hippos_config['full_ref']:
                     abcdp_list.append(count_abcdp(full, full_bits))
             elif full_nobb_flag:
-                for nobb in full_nobb_ref:
+                for nobb in hippos_config['full_nobb_ref']:
                     abcdp_list.append(count_abcdp(nobb, nobb_bits))
             else:
-                for simp in simplified_ref:
+                for simp in hippos_config['simplified_ref']:
                     abcdp_list.append(count_abcdp(simp, simp_bits))
             for sim_coef in similarity_coef:
                 for abcdp in abcdp_list:
@@ -174,6 +180,7 @@ Check the ligand pose that generate 'NA' value.
     print('Total time taken %.3f s.' % z)
     logfile.write('\nTotal time taken %.3f s.' % z)
     logfile.close()
+
 
 if __name__ == "__main__":
     main()
