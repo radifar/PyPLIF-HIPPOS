@@ -14,7 +14,7 @@ def parse_vina_conf(vina_conf):
         configread = open(vina_conf, 'r')
         conf_path = os.path.abspath(vina_conf)
         os.chdir(os.path.dirname(conf_path))
-    except:
+    except FileNotFoundError:
         print("The VINA config file: '%s' can not be found" % (vina_conf))
         sys.exit(1)
 
@@ -39,7 +39,7 @@ def parse_vina_conf(vina_conf):
 
     try:
         ligand_out_lines = open(out, 'r')
-    except:
+    except FileNotFoundError:
         print("Ligand output file: '%s' can not be found" % (out))
         sys.exit(1)
 
@@ -96,7 +96,7 @@ def parse_plants_conf(plants_conf):
         configread = open(plants_conf, 'r')
         conf_path = os.path.abspath(plants_conf)
         os.chdir(os.path.dirname(conf_path))
-    except:
+    except FileNotFoundError:
         print("The PLANTS config file: '%s' can not be found" % (plants_conf))
         sys.exit(1)
 
@@ -134,7 +134,7 @@ def parse_plants_conf(plants_conf):
         os.chdir(plants_output)
         ligand_poses = open('features.csv', 'r')
 
-    except:
+    except FileNotFoundError:
         print('The protein ligand folder can not be found')
         sys.exit(1)
 
