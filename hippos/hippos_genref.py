@@ -5,8 +5,8 @@ from __future__ import print_function
 import sys, os, pprint
 from time import time
 
-from initialize.parse_conf import *
-from ifp_processing import *
+from initialize.parse_conf import parse_config_genref
+from ifp_processing import get_refbitstring
 
 def main():
     x = time()
