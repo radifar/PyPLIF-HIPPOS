@@ -3,7 +3,7 @@ from bitarray import bitarray
 from openbabel import OBMol, OBConversion, OBResidueIter, OBResidueAtomIter, OBMolAtomIter
 
 from PARAMETERS import HYDROPHOBIC, AROMATIC, HBOND, ELECTROSTATIC, HBOND_ANGLE,\
-                       AROMATIC_ANGLE_LOW, AROMATIC_ANGLE_HIGH, SIMP_IFP_MATRIX
+                       AROMATIC_ANGLE_LOW, AROMATIC_ANGLE_HIGH
 '''
     function:
     - get_bitstring --> return residue_obj
