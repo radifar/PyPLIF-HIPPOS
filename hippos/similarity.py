@@ -21,7 +21,7 @@ def count_abcdp(refbit, tgtbit):
 
 
 def how_similar(abcdp, sim_coef):
-    a, b, c, d, p = abcdp
+    a, b, c, d, p = abcdp   # lgtm [py/unused-local-variable]
     try:
         sim = eval(sim_dict[sim_coef])
     except ZeroDivisionError:
