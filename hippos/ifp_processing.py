@@ -1,6 +1,11 @@
 import numpy as np
 from bitarray import bitarray
-from openbabel import OBMol, OBConversion, OBResidueIter, OBResidueAtomIter, OBMolAtomIter
+
+try:
+    # Open Babel >= 3.0
+    from openbabel import openbabel as ob
+except ImportError:
+    import openbabel as ob
 
 from PARAMETERS import HYDROPHOBIC, AROMATIC, HBOND, ELECTROSTATIC, HBOND_ANGLE,\
                        AROMATIC_ANGLE_LOW, AROMATIC_ANGLE_HIGH
@@ -44,7 +49,7 @@ def get_bitstring(docking_results, hippos_config):
     '''
     Calculate IFP for each Residue in residue_obj
     Calculate IFP using
-    docked_ligands => list of OBMol
+    docked_ligands => list of ob.OBMol
     ligand_atom_group => Dictionary of atom indices & possible interaction
     '''
 
@@ -81,11 +86,11 @@ def get_refbitstring(genref_config):
     for protein, ligand in zip(proteins, ligands):
         molformat = protein.split('.')[-1]
 
-        convert = OBConversion()
+        convert = ob.OBConversion()
         convert.SetInFormat(molformat)
 
-        proteinmol = OBMol()
-        ligandmol = OBMol()
+        proteinmol = ob.OBMol()
+        ligandmol = ob.OBMol()
 
         convert.ReadFile(proteinmol, protein)
         proteinmol.DeleteNonPolarHydrogens()
@@ -116,7 +121,7 @@ def assign_atoms(ligand, docking_method):
 
     rings = getRing(ligand)
 
-    for atom in OBMolAtomIter(ligand):
+    for atom in ob.OBMolAtomIter(ligand):
         # Hydrophobic
         # Hydrophobic atoms SMARTS pattern retrieved from
         # http://www.molsoft.com/icm/smiles.html
@@ -126,7 +131,7 @@ def assign_atoms(ligand, docking_method):
         if atom.IsHbondDonor():
             h_donor.append(atom.GetId())
             h_donorh_list = []
-            for hydrogen in OBMolAtomIter(ligand):
+            for hydrogen in ob.OBMolAtomIter(ligand):
                 if atom.IsConnected(hydrogen):
                     h_donorh_list.append(hydrogen.GetId())
             h_donorh.append(h_donorh_list)
@@ -516,7 +521,7 @@ class Residue:
         self.residue_number = int(res_num) - 1
         self.residue = protein.GetResidue(self.residue_number)
 
-        self.atoms = [atom for atom in OBResidueAtomIter(self.residue)]
+        self.atoms = [atom for atom in ob.OBResidueAtomIter(self.residue)]
         # Making atom index consistent by separating hydrogen and heavy atom
         self.heavyatoms = []
         self.hydrogens = []
@@ -777,7 +782,7 @@ class Residue:
 
     def calculateIFPPlants(self, ligands, flex_proteins, ligand_atom_group):
         pose_num = len(ligands)
-        self.flex_residues = [residue.GetName() for residue in OBResidueIter(flex_proteins[0])]
+        self.flex_residues = [residue.GetName() for residue in ob.OBResidueIter(flex_proteins[0])]
 
         self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)]
         self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)]
@@ -854,7 +859,7 @@ class Residue:
                         if distance <= HBOND:
                             angle_flag = 0
                             if self.res_name in self.flex_residues:
-                                for flex_atom in OBMolAtomIter(flex):
+                                for flex_atom in ob.OBMolAtomIter(flex):
                                     if flex_atom.IsHydrogen() & (flex_atom.GetResidue().GetName() == self.res_name):
                                         angle = atom.GetAngle(flex_atom, ligand_atom)
                                         if angle > HBOND_ANGLE:

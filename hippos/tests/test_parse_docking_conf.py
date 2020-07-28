@@ -6,15 +6,20 @@ Test for functions in hippos.initialize.parse_docking_conf
 from hippos import parse_vina_conf, parse_plants_conf
 import pytest
 import os, sys
-from openbabel import OBMol
+
+try:
+    # Open Babel >= 3.0
+    from openbabel import openbabel as ob
+except ImportError:
+    import openbabel as ob
 
 def test_parse_vina_conf():
     """Test parsing AutoDock Vina configuration"""
 
     docking_results = parse_vina_conf('hippos/tests/data/vina/vina-001.conf')
 
-    assert isinstance(docking_results['protein'], OBMol)
-    assert isinstance(docking_results['docked_ligands'][0], OBMol)
+    assert isinstance(docking_results['protein'], ob.OBMol)
+    assert isinstance(docking_results['docked_ligands'][0], ob.OBMol)
     assert len(docking_results['docked_ligands']) == 20
     assert docking_results['docked_proteins'] == []
 
@@ -32,9 +37,9 @@ def test_parse_plants_conf():
 
     docking_results = parse_plants_conf('hippos/tests/data/plants/plants-001.conf')
 
-    assert isinstance(docking_results['protein'], OBMol)
-    assert isinstance(docking_results['docked_ligands'][0], OBMol)
-    assert isinstance(docking_results['docked_proteins'][0], OBMol)
+    assert isinstance(docking_results['protein'], ob.OBMol)
+    assert isinstance(docking_results['docked_ligands'][0], ob.OBMol)
+    assert isinstance(docking_results['docked_proteins'][0], ob.OBMol)
     assert len(docking_results['docked_ligands']) == 25
 
     assert len(docking_results['docked_proteins']) == 25

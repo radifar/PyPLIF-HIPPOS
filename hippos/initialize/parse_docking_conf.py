@@ -1,6 +1,10 @@
 import os, sys
 
-from openbabel import OBMol, OBConversion
+try:
+    # Open Babel >= 3.0
+    from openbabel import openbabel as ob
+except ImportError:
+    import openbabel as ob
 
 
 def parse_vina_conf(vina_conf):
@@ -49,11 +53,11 @@ def parse_vina_conf(vina_conf):
             if line[2] == "RESULT:":
                 scorelist.append(line[3])
 
-    convert = OBConversion()
+    convert = ob.OBConversion()
     convert.SetInFormat("pdbqt")
 
-    protein = OBMol()
-    ligands = OBMol()
+    protein = ob.OBMol()
+    ligands = ob.OBMol()
 
     convert.ReadFile(protein, protein_file)
 
@@ -63,7 +67,7 @@ def parse_vina_conf(vina_conf):
     not_at_end = convert.ReadFile(ligands, out)
     while not_at_end:
         docked_ligands.append(ligands)
-        ligands = OBMol()
+        ligands = ob.OBMol()
         not_at_end = convert.Read(ligands)
 
     mollist = []
@@ -119,12 +123,12 @@ def parse_plants_conf(plants_conf):
             if line_list[1] == "0":
                 write_multi_mol2 = False
 
-    convert = OBConversion()
+    convert = ob.OBConversion()
     convert.SetInFormat("mol2")
 
-    protein = OBMol()
-    ligands = OBMol()
-    flexibles = OBMol()
+    protein = ob.OBMol()
+    ligands = ob.OBMol()
+    flexibles = ob.OBMol()
 
     convert.ReadFile(protein, protein_file)
     protein.DeleteNonPolarHydrogens()
@@ -157,13 +161,13 @@ def parse_plants_conf(plants_conf):
         while not_at_end:
             ligands.DeleteNonPolarHydrogens()
             docked_ligands.append(ligands)
-            ligands = OBMol()
+            ligands = ob.OBMol()
             not_at_end = convert.Read(ligands)
 
         not_at_end = convert.ReadFile(flexibles, "docked_proteins.mol2")
         while not_at_end:
             docked_proteins.append(flexibles)
-            flexibles = OBMol()
+            flexibles = ob.OBMol()
             not_at_end = convert.Read(flexibles)
 
     else:
@@ -171,8 +175,8 @@ def parse_plants_conf(plants_conf):
             lig_file = mol + ".mol2"
             flex_file = mol + "_protein.mol2"
 
-            ligands = OBMol()
-            flexibles = OBMol()
+            ligands = ob.OBMol()
+            flexibles = ob.OBMol()
 
             convert.ReadFile(ligands, lig_file)
             ligands.DeleteNonPolarHydrogens()
