@@ -145,9 +145,9 @@ def assign_atoms(ligand, docking_method):
             if atom.GetPartialCharge() < 0:
                 negative.append(atom.GetId())
         if docking_method == 'vina':
-            if atom.IsNitrogen() & (atom.GetPartialCharge() >= -0.235):
+            if atom.GetAtomicNum() == 7 & (atom.GetPartialCharge() >= -0.235):
                 positive.append(atom.GetId())
-            if atom.IsOxygen() & (atom.GetPartialCharge() <= -0.648):
+            if atom.GetAtomicNum() == 8 & (atom.GetPartialCharge() <= -0.648):
                 negative.append(atom.GetId())
 
     # Create interaction matrix, similar to AAInteractionMatrix
@@ -526,7 +526,7 @@ class Residue:
         self.heavyatoms = []
         self.hydrogens = []
         for atom in self.atoms:
-            if atom.IsHydrogen():
+            if atom.GetAtomicNum() == 1:
                 self.hydrogens.append(atom)
             else:
                 self.heavyatoms.append(atom)
@@ -860,7 +860,7 @@ class Residue:
                             angle_flag = 0
                             if self.res_name in self.flex_residues:
                                 for flex_atom in ob.OBMolAtomIter(flex):
-                                    if flex_atom.IsHydrogen() & (flex_atom.GetResidue().GetName() == self.res_name):
+                                    if (flex_atom.GetAtomicNum() == 1) & (flex_atom.GetResidue().GetName() == self.res_name):
                                         angle = atom.GetAngle(flex_atom, ligand_atom)
                                         if angle > HBOND_ANGLE:
                                             angle_flag = 1
