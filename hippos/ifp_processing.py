@@ -145,9 +145,9 @@ def assign_atoms(ligand, docking_method):
             if atom.GetPartialCharge() < 0:
                 negative.append(atom.GetId())
         if docking_method == 'vina':
-            if atom.GetAtomicNum() == 7 & (atom.GetPartialCharge() >= -0.235):
+            if (atom.GetAtomicNum() == 7) & (atom.GetPartialCharge() >= -0.235):
                 positive.append(atom.GetId())
-            if atom.GetAtomicNum() == 8 & (atom.GetPartialCharge() <= -0.648):
+            if (atom.GetAtomicNum() == 8) & (atom.GetPartialCharge() <= -0.648):
                 negative.append(atom.GetId())
 
     # Create interaction matrix, similar to AAInteractionMatrix
