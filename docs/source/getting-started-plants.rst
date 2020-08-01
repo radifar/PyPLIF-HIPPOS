@@ -19,6 +19,9 @@ method, ``config-plants-na-notc.txt`` ::
 	residue_name  	  ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
 	residue_number    40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
 
+	full_outfile plants_notc_ifp.csv
+	logfile plants_notc.log
+
 The configuration here is pretty much self-explaining. ``docking_method`` here is plants,
 which correspond to the docking result we would like to analyse. Then the ``docking_conf``
 is the configuration file used for docking, HIPPOS require this file to find the details 
@@ -32,10 +35,10 @@ Next, you can run HIPPOS by entering the following command: ::
 
 	hippos config-plants-na-notc.txt
 
-After the calculation finished HIPPOS will generate 2 files, hippos.log and full_ifp.csv. 
-hippos.log contain the information about ligand name, number of poses, and the running time.
+After the calculation finished HIPPOS will generate 2 files, hippos.log and plants_notc_ifp.csv. 
+plants_notc.log contain the information about ligand name, number of poses, and the running time.
 If output_mode set to simplified or combo there will be a table for bit position 
-for each residue (useful for deciphering the simplified bitstring). The full_ifp.csv file will contain the ligand name,
+for each residue (useful for deciphering the simplified bitstring). The plants_notc_ifp.csv file will contain the ligand name,
 pose number, energy from docking result, and the interaction bitstring as can be seen below:
 
 .. image:: 12-plants-noref.png
@@ -65,6 +68,10 @@ as shown in ``examples/04-na_config_default/config-plants-na-tc-mc.txt`` which i
 	residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
 	residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
 
+	full_outfile plants_full_ifp.csv
+	sim_outfile plants_similarity.csv
+	logfile plants.log
+
 **Always remember that full_ref should be using the full bitstring from reference.
 Using bitstring reference of different length will cause an error and the program will stop.**
 
@@ -80,8 +87,8 @@ Next, run HIPPOS with the following command inside ``examples`` directory: ::
 
 	hippos config-plants-na-tc-mc.txt
 
-there will be 3 output file hippos.log, similarity.csv, and full_ifp.csv. The full_ifp.csv
-will be the same as the one without reference above. The similarity.csv contain the 
+there will be 3 output file plants.log, plants_similarity.csv, and plants_full_ifp.csv. The plants_full_ifp.csv
+will be the same as the one without reference above. The plants_similarity.csv contain the 
 similarity coefficient for every pose comparison. Notice
 that there are 6 similarity coefficient results which correspond to Tanimoto
 coefficient and McConnaughey coefficient calculation for 3 reference bitstring
@@ -90,7 +97,7 @@ coefficient and McConnaughey coefficient calculation for 3 reference bitstring
 	:alt: tc results
 	:align: center
 
-Last but not least the hippos.log contain the information about ligand name, number of
+Last but not least the plants.log contain the information about ligand name, number of
 poses, similarity coefficient used, and the table for bit position for each residue
 (only appear when output_mode set to simplified, useful for deciphering the
 simplified bitstring), and the total time taken.
@@ -121,6 +128,10 @@ Here is the content of configuration file example ``examples/05-na_config_nobb/c
 	residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
 	residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
 
+	full_nobb_outfile plants_nobb_ifp.csv
+	sim_outfile plants_similarity.csv
+	logfile plants.log
+
 **Always remember that full_nobb_ref should be using the full_nobb bitstring from reference.
 Using bitstring reference of different length will cause an error and the program will stop.**
 
@@ -128,8 +139,8 @@ Like before, run ``hippos`` with the following command: ::
 
 	hippos config-plants-na-tc-mc.txt
 
-Just like before, 3 output file will be generated, but the fingerprint (``full_nobb_ifp.csv``)
-and similarity.csv will be different.
+Just like before, 3 output file will be generated, but the fingerprint (``plants_nobb_ifp.csv``)
+and plants_similarity.csv will be different.
 
 Generating Simplified Interaction Bitstring and Similarity coefficient
 ----------------------------------------------------------------------
@@ -152,6 +163,10 @@ Here is the content of configuration file example ``examples/06-na_config_simpli
 	residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
 	residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
 
+	simplified_outfile plants_simplified_ifp.csv
+	sim_outfile plants_similarity.csv
+	logfile plants.log
+
 **Always remember that simplified_ref should be using the simplified bitstring from reference.
 Using bitstring reference of different length will cause an error and the program will stop.**
 
@@ -159,8 +174,8 @@ Like before, run ``hippos`` with the following command: ::
 
 	hippos config-plants-na-tc-mc.txt
 
-Just like before, 3 output file will be generated, but the fingerprint (``simplified_ifp.csv``)
-and similarity.csv will be different.
+Just like before, 3 output file will be generated, but the fingerprint (``plants_simplified_ifp.csv``)
+and plants_similarity.csv will be different.
 
 Generating Multiple Interaction Bitstring
 -----------------------------------------
@@ -174,6 +189,11 @@ Last but not least, multiple output_mode is also allowed in generation interacti
 
 	residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
 	residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
+
+	full_outfile plants_full.csv
+	full_nobb_outfile plants_nobb.csv
+	simplified_outfile plants_simplified_ifp.csv
+	logfile plants.log
 
 Like before, run ``hippos`` with the following command: ::
 
