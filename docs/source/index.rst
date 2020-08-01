@@ -6,7 +6,7 @@
 Welcome to PyPLIF HIPPOS's documentation!
 =========================================
 
-PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of Autodock Vina and PLANTS
+PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of AutoDock Vina and PLANTS
 ----------------------------------------------------------------------------------------------------------
 
 .. image:: hippopotamus.png
@@ -33,6 +33,25 @@ Reprinted with permission from https://doi.org/10.1021/acs.jcim.0c00305. Copyrig
 
 .. raw:: html
 	:file: attribution-pyplif.html
+
+Citing HIPPOS
+-------------
+
+If you are using HIPPOS please cite this paper:
+
+Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
+PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
+of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling.
+https://doi.org/10.1021/acs.jcim.0c00305
+
+Acknowledgment
+--------------
+
+This project has received funding from the `Indonesian National Research and Innovation Agency <https://international.ristekdikti.go.id/>`_
+under grant agreement No. 807.7/LL5/PG/2020. This project has been restructured based on the
+`MOLSSI Computational Molecular Science Python Cookiecutter <https://github.com/molssi/cookiecutter-cms>`_
+version 1.3, and benefited greatly from `MOLSSI Python Package Development Best Practices <https://molssi.org/2020/04/20/may-webinar-series-python-package-development/>`_
+workshop.
 
 .. toctree::
    :maxdepth: 2
