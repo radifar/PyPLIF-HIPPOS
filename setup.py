@@ -59,8 +59,8 @@ setup(
     # Entry point
     entry_points = {
         'console_scripts': [
-            'hippos=hippos.hippos:main',
-            'hippos-genref=hippos.hippos_genref:main'
+            'hippos=pyplif_hippos.hippos:main',
+            'hippos-genref=pyplif_hippos.hippos_genref:main'
         ],
     }
 

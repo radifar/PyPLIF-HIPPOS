@@ -1,9 +1,9 @@
 """
-Test for functions in hippos.initialize.parse_docking_conf
+Test for functions in pyplif_hippos.initialize.parse_docking_conf
 """
 
 # Import package, test suite, and other packages as needed
-from hippos import parse_vina_conf, parse_plants_conf
+from pyplif_hippos import parse_vina_conf, parse_plants_conf
 import pytest
 import os, sys
 
@@ -16,7 +16,7 @@ except ImportError:
 def test_parse_vina_conf():
     """Test parsing AutoDock Vina configuration"""
 
-    docking_results = parse_vina_conf('hippos/tests/data/vina/vina-001.conf')
+    docking_results = parse_vina_conf('pyplif_hippos/tests/data/vina/vina-001.conf')
 
     assert isinstance(docking_results['protein'], ob.OBMol)
     assert isinstance(docking_results['docked_ligands'][0], ob.OBMol)
@@ -35,7 +35,7 @@ def test_parse_vina_conf():
 def test_parse_plants_conf():
     """Test parsing PLANTS configuration"""
 
-    docking_results = parse_plants_conf('hippos/tests/data/plants/plants-001.conf')
+    docking_results = parse_plants_conf('pyplif_hippos/tests/data/plants/plants-001.conf')
 
     assert isinstance(docking_results['protein'], ob.OBMol)
     assert isinstance(docking_results['docked_ligands'][0], ob.OBMol)

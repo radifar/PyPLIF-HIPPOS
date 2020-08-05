@@ -3,7 +3,7 @@ Test for dictionary in SIMILARITY_FORMULA
 """
 
 # Import package, test suite, and other packages as needed
-from hippos import sim_dict
+from pyplif_hippos import sim_dict
 import pytest
 import os, sys
 

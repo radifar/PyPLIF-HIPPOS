@@ -1,9 +1,9 @@
 """
-Test for functions in hippos.initialize.parse_conf
+Test for functions in pyplif_hippos.initialize.parse_conf
 """
 
 # Import package, test suite, and other packages as needed
-from hippos import parse_config, parse_config_genref
+from pyplif_hippos import parse_config, parse_config_genref
 import pytest
 import os, sys
 

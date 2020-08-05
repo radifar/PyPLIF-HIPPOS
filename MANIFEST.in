@@ -1,6 +1,7 @@
-include LICENSE
+include LICENSE.txt
 include MANIFEST.in
 include versioneer.py
+include setup.sh
 
 graft pyplif_hippos
 global-exclude *.py[cod] __pycache__ *.so

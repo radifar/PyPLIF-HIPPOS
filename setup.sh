@@ -24,7 +24,7 @@ if [ $1 > 0 ]  ; then
             echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc
             echo "alias hippos-genref='$INSTALLDIR/hippos_genref.py'" >> $HOME/.bashrc
         fi
-        mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
+        mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r pyplif_hippos $INSTALLDIR
         chmod +x $INSTALLDIR/hippos.py
         chmod +x $INSTALLDIR/hippos_genref.py
         # alias hippos='$HOME/.hippos/hippos.py'
@@ -47,7 +47,7 @@ else
             if [ -e $HOME/.hippos ]; then
                 rm -r $HOME/.hippos
             fi
-            cp -r hippos $HOME/.hippos
+            cp -r pyplif_hippos $HOME/.hippos
             chmod +x $HOME/.hippos/hippos.py
             chmod +x $HOME/.hippos/hippos_genref.py
             echo "alias hippos='$HOME/.hippos/hippos.py'" >> $HOME/.bashrc
@@ -66,7 +66,7 @@ else
                 echo "Aborting installation"
                 exit
             else 
-                mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r hippos $INSTALLDIR
+                mkdir -p $INSTALLDIR && rmdir $INSTALLDIR && cp -r pyplif_hippos $INSTALLDIR
                 chmod +x $INSTALLDIR/hippos.py
                 chmod +x $INSTALLDIR/hippos_genref.py
                 echo "alias hippos='$INSTALLDIR/hippos.py'" >> $HOME/.bashrc

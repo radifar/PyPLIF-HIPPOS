@@ -43,7 +43,7 @@ install:
 
 
 script:
-  - pytest -v --cov=hippos hippos/tests/
+  - pytest -v --cov=pyplif_hippos pyplif_hippos/tests/
 
 notifications:
     email: false
