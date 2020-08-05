@@ -30,7 +30,7 @@ setup(
     install_requires=[
         "openbabel>=2.4.0",
         "numpy>=1.6.2",
-        "bitstring>=0.8.1"
+        "bitarray>=0.8.1"
     ],
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
