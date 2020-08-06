@@ -1,6 +1,31 @@
 Installation
 ============
 
+Quick Installation (Recommended)
+--------------------------------
+
+The easiest way to install HIPPOS is using `Conda <https://docs.anaconda.com/anaconda/install/>`_, you
+can choose either Anaconda or Miniconda. If you never used Conda before then most likely Miniconda
+is more suitable for you.
+
+After you installed Conda in your machine, install HIPPOS using the following command:
+
+``conda install -c conda-forge pyplif-hippos``
+
+Conda will deal with the dependencies like Open Babel, Bitarray, and Numpy libraries. Therefore you
+won't need the extra step below.
+
+To check if HIPPOS installed correctly try these commands:
+
+``hippos``
+
+&
+
+``hippos-genref``
+
+If HIPPOS installed correctly you should get a message that inform you the configuration file not found.
+Next, you can just jump to Getting Started with PLANTS or Vina tutorial. But if you prefer not to use Conda
+then you can install HIPPOS using the instructions below.
 
 Requirement
 -----------
