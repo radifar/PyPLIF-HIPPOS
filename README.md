@@ -1,7 +1,8 @@
 # PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results of AutoDock Vina and PLANTS
 
 [![Build Status](https://travis-ci.com/radifar/PyPLIF-HIPPOS.svg?branch=master)](https://travis-ci.com/radifar/PyPLIF-HIPPOS)
-[![Build status](https://ci.appveyor.com/api/projects/status/ai083k8ab0kxnk5w?svg=true)](https://ci.appveyor.com/project/radifar/pyplif-hippos)   
+[![Build status](https://ci.appveyor.com/api/projects/status/ai083k8ab0kxnk5w?svg=true)](https://ci.appveyor.com/project/radifar/pyplif-hippos)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/pyplif-hippos/badges/installer/conda.svg)](https://anaconda.org/conda-forge/pyplif-hippos)   
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/radifar/PyPLIF-HIPPOS.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/radifar/PyPLIF-HIPPOS/context:python)
 [![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/master/graph/badge.svg)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=flat)](https://pyplif-hippos.readthedocs.io/en/latest/)
@@ -28,6 +29,13 @@ Compared to PyPLIF, HIPPOS is not only faster and able to generate more customiz
 </p>
 
 <p align="center">Illustration by Radifar et al (2013) from <a href="http://www.bioinformation.net/009/97320630009325.htm">Bioinformation.net</a> is licensed by <a href="http://creativecommons.org/licenses/by/4.0">CC 4.0 BY</a>
+
+## Quick Installation
+
+The easiest way to install HIPPOS is using Anaconda or Miniconda,
+then type the following command:
+
+`conda install -c conda-forge pyplif-hippos`
 
 ## Citing HIPPOS
 
