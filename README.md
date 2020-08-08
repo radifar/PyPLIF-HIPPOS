@@ -8,6 +8,7 @@
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=flat)](https://pyplif-hippos.readthedocs.io/en/latest/)
 [![DOI:10.1021/acs.jcim.0c00305](https://zenodo.org/badge/DOI/10.1021/acs.jcim.0c00305.svg)](https://doi.org/10.1021/acs.jcim.0c00305)   
 [![Anaconda-Server Badge](https://img.shields.io/conda/dn/conda-forge/pyplif-hippos?color=green)](https://anaconda.org/conda-forge/pyplif-hippos)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fradifar%2Fpyplif-hippos&title=hits%20day%2Ftotal)](https://hits.seeyoufarm.com)
 
 <p align="center">
   <img alt="Icons made by Freepik from Flaticon is licensed by CC 3.0 BY" src="docs/source/hippopotamus_small.png">
