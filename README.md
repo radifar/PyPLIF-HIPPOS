@@ -34,10 +34,28 @@ Compared to PyPLIF, HIPPOS is not only faster and able to generate more customiz
 
 ## Quick Installation
 
-The easiest way to install HIPPOS is using Anaconda or Miniconda,
-then type the following command:
+The easiest way to install HIPPOS is using [Anaconda or Miniconda](https://docs.anaconda.com/anaconda/install/).
+If you have Anaconda or Miniconda ready in your machine, you can start with
+creating new environment (recommended):
 
+`conda create -n hippos python=3.6`
+
+Then activate the environment and install HIPPOS:
+
+`conda activate hippos`  
 `conda install -c conda-forge pyplif-hippos`
+
+next you can try run HIPPOS and HIPPOS-GENREF with the following command:
+
+`hippos`  
+`hippos-genref` 
+
+## How to Use HIPPOS
+
+So I already installed HIPPOS, now what? Well you could start with how to generate
+the [reference bitstring](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-genref.html)
+and Getting Started tutorial for [AutoDock Vina](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-vina.html)
+or [PLANTS](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-plants.html).
 
 ## Citing HIPPOS
 
