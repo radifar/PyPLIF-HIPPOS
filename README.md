@@ -68,7 +68,7 @@ https://doi.org/10.1021/acs.jcim.0c00305
 
 ## Acknowledgment
 
-This project has received funding from the [Indonesian National Research and Innovation Agency](https://international.ristekdikti.go.id/) 
+This project has received funding from the [National Agency for Research and Innovation](https://international.ristekdikti.go.id/) (Indonesia)
 under grant agreement No. 807.7/LL5/PG/2020. This project has been restructured based on the
 [MOLSSI Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms)
 version 1.3, and benefited greatly from [MOLSSI Python Package Development Best Practices](https://molssi.org/2020/04/20/may-webinar-series-python-package-development/)
