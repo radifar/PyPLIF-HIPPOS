@@ -17,11 +17,8 @@ won't need the extra step below.
 
 To check if HIPPOS installed correctly try these commands:
 
-``hippos``
-
-&
-
-``hippos-genref``
+|  ``hippos``
+|  ``hippos-genref``
 
 If HIPPOS installed correctly you should get a message that inform you the configuration file not found.
 Next, you can just jump to Getting Started with PLANTS or Vina tutorial. But if you prefer not to use Conda
