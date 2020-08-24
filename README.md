@@ -61,9 +61,9 @@ or [PLANTS](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-plant
 
 If you are using HIPPOS please cite this paper:
 
-Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020.
-PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results
-of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling.
+Istyastono, E., Radifar, M., Yuniarti, N., Prasasty, V. and Mungkasi, S., 2020. 
+PyPLIF HIPPOS: A Molecular Interaction Fingerprinting Tool for Docking Results 
+of AutoDock Vina and PLANTS. Journal of Chemical Information and Modeling, 60(8), pp.3697-3702.
 https://doi.org/10.1021/acs.jcim.0c00305
 
 ## Acknowledgment
