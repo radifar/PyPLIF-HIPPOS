@@ -256,7 +256,7 @@ class Residue:
         },
         'PHE': {
             'id': [4, 5, 6, 7, 8, 9, 10],
-            'bitarray': bitarray('1000')
+            'bitarray': bitarray('100')
         },
         'GLY': {
             'id': [],
