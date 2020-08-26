@@ -551,6 +551,13 @@ class Residue:
         self.res_num = res_num
         self.interactions = self.AAinteractionMatrix[self.AA_name]
 
+        """
+        Custom Residues
+        """
+        # disulfide bridge
+        if (self.AA_name == 'CYS') & (len(self.hydrogens) < 2):
+            self.interactions = (1, 0, 0, 0, 0, 0)
+
         # Classifying atoms into atom groups
         self.atomGroup = {}
         for AA_int, int_atom, int_name in \
