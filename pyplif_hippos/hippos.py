@@ -36,8 +36,9 @@ def main():
         docking_results = parse_vina_conf(docking_conf)
 
     if len(docking_results['docked_ligands']) == 0:
-        print("The docking output could not be found. Please check your docking result.")
-        logfile.write("The docking output could not be found. Please check your docking result.")
+        missing_docking_output = "The docking output could not be found. Please check your docking result."
+        print(missing_docking_output)
+        logfile.write(missing_docking_output)
         logfile.close()
         sys.exit(1)
     '''
