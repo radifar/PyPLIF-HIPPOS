@@ -40,10 +40,11 @@ def main():
         outfile.write('Protein: %s\nLigand:  %s\n%s%s%s\n' % (protein, ligand, full_bits, full_nobb_bits, simp_bits))
 
     y = time()
-    outfile.write('\nTotal time taken %.3f s.' % (y - x))
+    total_time = '\nTotal time taken %.3f s.' % (y - x)
+    outfile.write(total_time)
     outfile.close()
 
-    print('Total time taken %.3f s.' % (y - x))
+    print(total_time)
 
 
 if __name__ == "__main__":
