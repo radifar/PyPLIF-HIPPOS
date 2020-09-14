@@ -57,6 +57,10 @@ the [reference bitstring](https://pyplif-hippos.readthedocs.io/en/latest/getting
 and Getting Started tutorial for [AutoDock Vina](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-vina.html)
 or [PLANTS](https://pyplif-hippos.readthedocs.io/en/latest/getting-started-plants.html).
 
+## Ideas for Improvement? Found Bug(s)?
+
+If you have any idea for improvement or found bug to report feel free to write them [here](https://github.com/radifar/PyPLIF-HIPPOS/issues).
+
 ## Citing HIPPOS
 
 If you are using HIPPOS please cite this paper:
