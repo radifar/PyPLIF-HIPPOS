@@ -13,8 +13,10 @@ def main():
     proteins = genref_config['proteins']
     ligands = genref_config['ligands']
 
+    # calculate bitstring
     bitstrings = get_refbitstring(genref_config)
 
+    # write bitstring result to output file
     outfile = open(genref_config['outfile'], 'w')
     
     for protein, ligand, bitstring in zip(proteins, ligands, bitstrings):
