@@ -16,27 +16,7 @@ def main():
     bitstrings = get_refbitstring(genref_config)
 
     outfile = open(genref_config['outfile'], 'w')
-    '''
-    if genref_config['use_backbone']:
-      for protein, ligand, bitstring in zip(proteins, ligands, bitstrings):
-          simp_bits = ''
-          full_bits  = ''
-          for resname in genref_config['residue_name']:
-              simp_bits += bitstring[resname].simp.to01()
-              full_bits  += bitstring[resname].full.to01()
-              bb_res_bit = bitstring[resname].bb.to01()
-              simp_bits += bb_res_bit
-              full_bits  += bb_res_bit
-          outfile.write('%s %s\n%s\n%s\n\n' % (protein, ligand, simp_bits, full_bits))
-    else:
-      for protein, ligand, bitstring in zip(proteins, ligands, bitstrings):
-          simp_bits = ''
-          full_bits  = ''
-          for resname in genref_config['residue_name']:
-              simp_bits += bitstring[resname].simp.to01()
-              full_bits  += bitstring[resname].full.to01()
-          outfile.write('%s %s\n%s\n%s\n\n' % (protein, ligand, simp_bits, full_bits))
-    '''
+    
     for protein, ligand, bitstring in zip(proteins, ligands, bitstrings):
         full_bits = ''
         full_nobb_bits = ''
