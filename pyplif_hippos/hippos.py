@@ -12,6 +12,15 @@ from similarity import count_abcdp, how_similar
 
 def main():
     x = time()
+    '''
+    Steps:
+    1. Read HIPPOS config file
+    2. Read docking config file
+    3. Get docking result
+    4. Get bitstring by analyzing docking result
+    5. Write basic info to log and output file
+    6. Write bitstring (and similarity) to output file
+    '''
 
     hippos_config = parse_config()
 
@@ -35,6 +44,7 @@ def main():
         docking_conf = hippos_config['docking_conf']
         docking_results = parse_vina_conf(docking_conf)
 
+    # checking docking output, if not found then exit.
     if len(docking_results['docked_ligands']) == 0:
         missing_docking_output = "The docking output could not be found. Please check your docking result."
         print(missing_docking_output)
@@ -48,9 +58,8 @@ def main():
     '''
 
     bitstrings = get_bitstring(docking_results, hippos_config)
-    '''
-    Write Output & Log files
-    '''
+
+    # Write Output & Log files
 
     scorelist = docking_results['scorelist']
     ligand_pose = []
@@ -62,11 +71,13 @@ def main():
     if hippos_config['docking_method'] == "vina":
         ligand_pose = docking_results['mollist']
 
+    # set flag for every chosen output mode
     output_mode = hippos_config['output_mode']
     simplified_flag = output_mode['simplified']
     full_flag = output_mode['full']
     full_nobb_flag = output_mode['full_nobb']
 
+    # set file handler for every chosen output mode
     if simplified_flag:
         simplified_outfile = open(hippos_config['simplified_outfile'], 'w')  # Output #1
     if full_flag:
@@ -74,7 +85,7 @@ def main():
     if full_nobb_flag:
         full_nobb_outfile = open(hippos_config['full_nobb_outfile'], 'w')  # Output #3
 
-
+    # write ligand info and similarity coef info
     logfile.write('Ligand name is %s with %s poses\n\n' % \
         (ligand_pose[0].split('_')[0], len(ligand_pose))) # Output Logfile
 
@@ -83,13 +94,14 @@ def main():
         sim_outfile = open(hippos_config['sim_outfile'], 'w')  # Output #5
         logfile.write('similarity coefficient used are %s\n' % \
             (', '.join(similarity_coef)))     # Output Logfile
+
+    # if simplified then write the length and position for each bitstring
     if simplified_flag:
         logfile.write('%s %s %s %s\n' % \
             ('RESNAME','length','startbit','endbit'))     # Output Logfile
-    '''
-    Iterate through pose and write the ligand+pose, score, bitstring
-    '''
 
+    # Iterate through pose and write the ligand+pose, docking score,
+    # similarity coef, bitstring
     pose = 0
     log_flag = True
     bitstring_zero = False
@@ -100,6 +112,8 @@ def main():
         full_bits = ''
         nobb_bits = ''
 
+        # Concatenate bitstring from every residue, then write to their respective
+        # output file
         bit_start = 1
         for resname in hippos_config['residue_name']:
             if simplified_flag:
@@ -128,10 +142,8 @@ def main():
         if full_nobb_flag:
             full_nobb_outfile.write('%s %s %s\n' % \
                 (ligand_name.ljust(16), score.ljust(9), nobb_bits)) # Output No BB
-        '''
-        If similarity coef requested => calculate abcd and p
-        '''
 
+        # If similarity coef requested => calculate abcd and p
         if similarity_coef:
             abcdp_list = []
             coefficient = []
@@ -156,10 +168,8 @@ def main():
                 (ligand_name.ljust(16), ' '.join(coefficient))) # Output Similarity
 
         pose += 1
-    '''
-    Close all file
-    '''
 
+    # Close all file
     if simplified_flag:
         simplified_outfile.close()
     if full_flag:
