@@ -206,14 +206,7 @@ def getCrossModulus(path3):
     return (crossProd, crossModulus)
 
 
-"""
-Class Residue
-
-To contain its own atom groups and bitstring for every pose
-"""
-
-
-class Residue:
+class ResidueData:
     bs_template = {
         'ALA': bitarray('0'),
         'CYS': bitarray('00'),
@@ -517,6 +510,13 @@ class Residue:
         'TYR': (1, 1, 1, 1, 0, 0),
     }
 
+"""
+Class Residue
+
+To contain its own atom groups and bitstring for every pose
+"""
+
+class Residue(ResidueData):
     def __init__(self, protein, res_name, res_num, custom_settings):
         self.residue_number = int(res_num) - 1
         self.residue = protein.GetResidue(self.residue_number)
