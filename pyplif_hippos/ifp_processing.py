@@ -211,6 +211,13 @@ def getCrossModulus(path3):
     return (crossProd, crossModulus)
 
 
+def calcRingAngle(cross1, cross2, modulus1, modulus2):
+    dot = np.dot(cross1, cross2)
+    cos_angle = dot / (modulus1 * modulus2)
+    ring_angle = np.arccos(cos_angle) * 180 / np.pi
+    return ring_angle
+
+
 class ResidueData:
     bs_template = {
         'ALA': bitarray('0'),
@@ -638,10 +645,7 @@ class Residue(ResidueData):
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                             if distance <= AROMATIC:
                                 ligCross, ligModulus = getCrossModulus(path3atoms)
-
-                                dot = np.dot(self.cross, ligCross)
-                                cos_angle = dot / self.modulus / ligModulus
-                                ring_angle = np.arccos(cos_angle) * 180 / np.pi
+                                ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
 
                                 if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
                                     if self.simplified:
@@ -834,10 +838,7 @@ class Residue(ResidueData):
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                             if distance <= AROMATIC:
                                 ligCross, ligModulus = getCrossModulus(path3atoms)
-
-                                dot = np.dot(self.cross, ligCross)
-                                cos_angle = dot / self.modulus / ligModulus
-                                ring_angle = np.arccos(cos_angle) * 180 / np.pi
+                                ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
 
                                 if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
                                     if self.simplified:
@@ -1027,10 +1028,7 @@ class Residue(ResidueData):
                         distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                         if distance <= AROMATIC:
                             ligCross, ligModulus = getCrossModulus(path3atoms)
-
-                            dot = np.dot(self.cross, ligCross)
-                            cos_angle = dot / self.modulus / ligModulus
-                            ring_angle = np.arccos(cos_angle) * 180 / np.pi
+                            ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
 
                             if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
                                 if self.simplified:
