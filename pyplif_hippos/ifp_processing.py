@@ -632,10 +632,7 @@ class Residue(ResidueData):
             # aromatic EF & FF
             if possible_interactions[1]:
                 for path in ligand_atom_group['rings']:
-                    path3 = path[:3]
-                    path3atoms = []
-                    for i in path3:
-                        path3atoms.append(ligand.GetAtom(i))
+                    path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                     for ligand_id in path:
                         for atom in self.atomGroup['aromatic']:
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
@@ -831,10 +828,7 @@ class Residue(ResidueData):
 
             if possible_interactions[1]:
                 for path in ligand_atom_group['rings']:
-                    path3 = path[:3]
-                    path3atoms = []
-                    for i in path3:
-                        path3atoms.append(ligand.GetAtom(i))
+                    path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                     for ligand_id in path:
                         for atom in self.atomGroup['aromatic']:
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
@@ -1027,10 +1021,7 @@ class Residue(ResidueData):
 
         if possible_interactions[1]:
             for path in ligand_atom_group['rings']:
-                path3 = path[:3]
-                path3atoms = []
-                for i in path3:
-                    path3atoms.append(ligand.GetAtom(i))
+                path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                 for ligand_id in path:
                     for atom in self.atomGroup['aromatic']:
                         distance = ligand.GetAtom(ligand_id).GetDistance(atom)
