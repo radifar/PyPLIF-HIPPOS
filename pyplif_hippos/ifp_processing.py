@@ -521,11 +521,10 @@ class Residue:
         self.residue_number = int(res_num) - 1
         self.residue = protein.GetResidue(self.residue_number)
 
-        self.atoms = [atom for atom in ob.OBResidueAtomIter(self.residue)]
         # Making atom index consistent by separating hydrogen and heavy atom
         self.heavyatoms = []
         self.hydrogens = []
-        for atom in self.atoms:
+        for atom in ob.OBResidueAtomIter(self.residue):
             if atom.GetAtomicNum() == 1:
                 self.hydrogens.append(atom)
             else:
