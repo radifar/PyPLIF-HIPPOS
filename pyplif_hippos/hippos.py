@@ -106,7 +106,8 @@ def main():
     bitstring_zero = False
 
     for pose, (ligand_name, score) in enumerate(zip(ligand_pose, scorelist)):
-        ligand_name = ligand_name.replace(' ', '_')
+        ligand_name = ligand_name.replace(' ', '_').ljust(16)
+        score = score.ljust(9)
         simp_bits = ''
         full_bits = ''
         nobb_bits = ''
@@ -132,13 +133,13 @@ def main():
 
         if simplified_flag:
             simplified_outfile.write('%s %s %s\n' % \
-                (ligand_name.ljust(16), score.ljust(9), simp_bits)) # Output Simplified
+                (ligand_name, score, simp_bits)) # Output Simplified
         if full_flag:
             full_outfile.write('%s %s %s\n' % \
-                (ligand_name.ljust(16), score.ljust(9), full_bits)) # Output Full
+                (ligand_name, score, full_bits)) # Output Full
         if full_nobb_flag:
             full_nobb_outfile.write('%s %s %s\n' % \
-                (ligand_name.ljust(16), score.ljust(9), nobb_bits)) # Output No BB
+                (ligand_name, score, nobb_bits)) # Output No BB
 
         # If similarity coef requested => calculate abcd and p
         if similarity_coef:
@@ -162,7 +163,7 @@ def main():
                         coefficient.append('%s' % similarity_value)
                         bitstring_zero = True
             sim_outfile.write('%s %s\n' % \
-                (ligand_name.ljust(16), ' '.join(coefficient))) # Output Similarity
+                (ligand_name, ' '.join(coefficient))) # Output Similarity
 
     # Close all file
     if simplified_flag:
