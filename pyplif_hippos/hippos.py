@@ -132,14 +132,11 @@ def main():
         log_flag = False
 
         if simplified_flag:
-            simplified_outfile.write('%s %s %s\n' % \
-                (ligand_name, score, simp_bits)) # Output Simplified
+            simplified_outfile.write('%s %s %s\n' % (ligand_name, score, simp_bits))
         if full_flag:
-            full_outfile.write('%s %s %s\n' % \
-                (ligand_name, score, full_bits)) # Output Full
+            full_outfile.write('%s %s %s\n' % (ligand_name, score, full_bits))
         if full_nobb_flag:
-            full_nobb_outfile.write('%s %s %s\n' % \
-                (ligand_name, score, nobb_bits)) # Output No BB
+            full_nobb_outfile.write('%s %s %s\n' % (ligand_name, score, nobb_bits))
 
         # If similarity coef requested => calculate abcd and p
         if similarity_coef:
