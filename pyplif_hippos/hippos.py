@@ -175,12 +175,12 @@ def main():
     y = time()
     z = y - x
     if bitstring_zero:
-        print("It appears that one of the target or reference bitstring is zero, \
-the similarity value will be set to 'NA'. Check the ligand pose that generate 'NA' value.\n")
-        logfile.write('''
+        bitstring_error = '''
 It appears that one of the target or reference bitstring is zero,
 Check the ligand pose that generate 'NA' value.
-        ''')
+        '''
+        print(bitstring_error)
+        logfile.write(bitstring_error)
     print('Total time taken %.3f s.' % z)
     logfile.write('\nTotal time taken %.3f s.' % z)
     logfile.close()
