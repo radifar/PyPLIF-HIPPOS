@@ -2,6 +2,11 @@ import numpy as np
 from bitarray import bitarray
 
 try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
+
+try:
     # Open Babel >= 3.0
     from openbabel import openbabel as ob
 except ImportError:
@@ -588,9 +593,12 @@ class Residue(ResidueData):
 
     def calculateIFPVina(self, ligands, ligand_atom_group):
         pose_num = len(ligands)
-        self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)]
-        self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)]
-        self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)]
+        self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)] \
+            if self.full else []
+        self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)] \
+            if self.simplified else []
+        self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
+            if self.full_nobb else []
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
@@ -600,7 +608,7 @@ class Residue(ResidueData):
                 possible_interactions.append(0)
 
         for ligand, full, full_nobb, simp in \
-        zip(ligands, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
+        zip_longest(ligands, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             # hydrophobic
@@ -790,15 +798,18 @@ class Residue(ResidueData):
         pose_num = len(ligands)
         self.flex_residues = [residue.GetName() for residue in ob.OBResidueIter(flex_proteins[0])]
 
-        self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)]
-        self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)]
-        self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)]
+        self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)] \
+            if self.full else []
+        self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)] \
+            if self.simplified else []
+        self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
+            if self.full_nobb else []
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x & y else possible_interactions.append(0)
         for ligand, flex, full, full_nobb, simp in \
-        zip(ligands, flex_proteins, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
+        zip_longest(ligands, flex_proteins, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             if possible_interactions[0]:
