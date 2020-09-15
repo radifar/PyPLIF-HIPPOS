@@ -102,11 +102,10 @@ def main():
 
     # Iterate through pose and write the ligand+pose, docking score,
     # similarity coef, bitstring
-    pose = 0
     log_flag = True
     bitstring_zero = False
 
-    for ligand_name, score in zip(ligand_pose, scorelist):
+    for pose, (ligand_name, score) in enumerate(zip(ligand_pose, scorelist)):
         ligand_name = ligand_name.replace(' ', '_')
         simp_bits = ''
         full_bits = ''
@@ -166,8 +165,6 @@ def main():
                         bitstring_zero = True
             sim_outfile.write('%s %s\n' % \
                 (ligand_name.ljust(16), ' '.join(coefficient))) # Output Similarity
-
-        pose += 1
 
     # Close all file
     if simplified_flag:
