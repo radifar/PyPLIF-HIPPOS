@@ -119,11 +119,9 @@ def main():
                 simp_res_bit = bitstrings[resname].simp_bits_list[pose].to01()
                 simp_bits += simp_res_bit
             if full_flag:
-                full_res_bit = bitstrings[resname].full_bits_list[pose].to01()
-                full_bits += full_res_bit
+                full_bits += bitstrings[resname].full_bits_list[pose].to01()
             if full_nobb_flag:
-                nobb_res_bit = bitstrings[resname].full_nobb_list[pose].to01()
-                nobb_bits += nobb_res_bit
+                nobb_bits += bitstrings[resname].full_nobb_list[pose].to01()
             if log_flag & simplified_flag:
                 bitlength = len(simp_res_bit)
                 bit_end = bit_start + bitlength - 1
