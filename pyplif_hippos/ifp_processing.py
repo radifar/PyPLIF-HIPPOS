@@ -532,6 +532,10 @@ class Residue(ResidueData):
     def __init__(self, protein, res_name, res_num, custom_settings):
         self.residue_number = int(res_num) - 1
         self.residue = protein.GetResidue(self.residue_number)
+        self.res_name = res_name
+        self.AA_name = res_name[:3]
+        self.res_num = res_num
+        self.interactions = self.AAinteractionMatrix[self.AA_name]
 
         # Making atom index consistent by separating hydrogen and heavy atom
         self.heavyatoms = []
@@ -561,11 +565,6 @@ class Residue(ResidueData):
             self.simp_bitstring = self.bs_template[res_name[:3]]
         else:
             self.simplified = False
-
-        self.res_name = res_name
-        self.AA_name = res_name[:3]
-        self.res_num = res_num
-        self.interactions = self.AAinteractionMatrix[self.AA_name]
 
         # --- Custom Residues ---
         # disulfide bridge
@@ -602,14 +601,16 @@ class Residue(ResidueData):
         self.res_weight4 = custom_settings['res_weight4']
         self.res_weight5 = custom_settings['res_weight5']
 
-    def calculateIFPVina(self, ligands, ligand_atom_group):
-        pose_num = len(ligands)
+    def setup_bitstring(self, pose_num):
         self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)] \
             if self.full else []
         self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)] \
             if self.simplified else []
         self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
             if self.full_nobb else []
+
+    def calculateIFPVina(self, ligands, ligand_atom_group):
+        self.setup_bitstring(len(ligands))
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
@@ -797,15 +798,8 @@ class Residue(ResidueData):
                                 break
 
     def calculateIFPPlants(self, ligands, flex_proteins, ligand_atom_group):
-        pose_num = len(ligands)
+        self.setup_bitstring(len(ligands))
         self.flex_residues = [residue.GetName() for residue in ob.OBResidueIter(flex_proteins[0])]
-
-        self.full_bits_list = [self.full_bitstring.copy() for i in range(pose_num)] \
-            if self.full else []
-        self.simp_bits_list = [self.simp_bitstring.copy() for i in range(pose_num)] \
-            if self.simplified else []
-        self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
-            if self.full_nobb else []
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
