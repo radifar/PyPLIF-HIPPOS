@@ -569,6 +569,9 @@ class Residue(ResidueData):
             self.interactions = (1, 0, 0, 0, 0, 0)
 
         # Classifying atoms into atom groups
+        # Note: int stands for interaction not integer
+        # if interaction exist (AA_int == 1), assign atom object as 'value'
+        # to interaction 'key'
         self.atomGroup = {}
         for AA_int, int_atom, int_name in \
         zip(self.interactions, self.interactionList, self.interactionNames):
@@ -585,10 +588,8 @@ class Residue(ResidueData):
                     self.atomGroup['h_donorh'] = h_donorh_atoms
 
         if self.AA_name in self.aromatic.keys():
-            self.path3 = self.aromatic[self.AA_name]['id'][:3]
-            self.path3atoms = []
-            for i in self.path3:
-                self.path3atoms.append(self.heavyatoms[i])
+            path3 = self.aromatic[self.AA_name]['id'][:3]
+            self.path3atoms = [self.heavyatoms[i] for i in path3]
             self.cross, self.modulus = getCrossModulus(self.path3atoms)
 
         self.res_weight1 = custom_settings['res_weight1']
