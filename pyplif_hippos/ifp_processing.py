@@ -609,6 +609,14 @@ class Residue(ResidueData):
         self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
             if self.full_nobb else []
 
+    def toggle_hydrophobic(self, simp, full, full_nobb, hydrophobic_bit):
+        if self.simplified:
+            simp |= hydrophobic_bit
+        if self.full:
+            full |= bitarray('1000000')
+        if self.full_nobb:
+            full_nobb |= bitarray('1000000')
+
     def calculateIFPVina(self, ligands, ligand_atom_group):
         self.setup_bitstring(len(ligands))
 
@@ -622,17 +630,13 @@ class Residue(ResidueData):
 
             # hydrophobic
             if possible_interactions[0]:
+                hydrophobic_bit = self.hydrophobic[self.AA_name]['bitarray']
                 for ligand_id in ligand_atom_group['hydrophobic']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['hydrophobic']:
                         distance = ligand_atom.GetDistance(atom)
                         if distance <= HYDROPHOBIC:
-                            if self.simplified:
-                                simp |= self.hydrophobic[self.AA_name]['bitarray']
-                            if self.full:
-                                full |= bitarray('1000000')
-                            if self.full_nobb:
-                                full_nobb |= bitarray('1000000')
+                            self.toggle_hydrophobic(simp, full, full_nobb, hydrophobic_bit)
                             interaction_flags[0] = 1
                             break
                     if interaction_flags[0]:
@@ -810,17 +814,13 @@ class Residue(ResidueData):
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             if possible_interactions[0]:
+                hydrophobic_bit = self.hydrophobic[self.AA_name]['bitarray']
                 for ligand_id in ligand_atom_group['hydrophobic']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['hydrophobic']:
                         distance = ligand_atom.GetDistance(atom)
                         if distance <= HYDROPHOBIC:
-                            if self.simplified:
-                                simp |= self.hydrophobic[self.AA_name]['bitarray']
-                            if self.full:
-                                full |= bitarray('1000000')
-                            if self.full_nobb:
-                                full_nobb |= bitarray('1000000')
+                            self.toggle_hydrophobic(simp, full, full_nobb, hydrophobic_bit)
                             interaction_flags[0] = 1
                             break
                     if interaction_flags[0]:
@@ -1000,17 +1000,13 @@ class Residue(ResidueData):
         interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
         if possible_interactions[0]:
+            hydrophobic_bit = self.hydrophobic[self.AA_name]['bitarray']
             for ligand_id in ligand_atom_group['hydrophobic']:
                 ligand_atom = ligand.GetAtomById(ligand_id)
                 for atom in self.atomGroup['hydrophobic']:
                     distance = ligand_atom.GetDistance(atom)
                     if distance <= HYDROPHOBIC:
-                        if self.simplified:
-                            self.simp |= self.hydrophobic[self.AA_name]['bitarray']
-                        if self.full:
-                            self.full_bit |= bitarray('1000000')
-                        if self.full_nobb:
-                            self.nobb_bit |= bitarray('1000000')
+                        self.toggle_hydrophobic(simp, full, full_nobb, hydrophobic_bit)
                         interaction_flags[0] = 1
                         break
                 if interaction_flags[0]:
