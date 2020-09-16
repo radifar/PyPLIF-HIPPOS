@@ -584,11 +584,10 @@ class Residue(ResidueData):
                 self.atomGroup[int_name] = atomList
                 if int_name == 'h_donor':
                     h_donorh_list = self.h_donorh[self.AA_name]['id']
-                    h_donorh_atoms = []
+                    self.atomGroup['h_donorh'] = []
                     for h_list in h_donorh_list:
                         hydrogen = [self.hydrogens[atomID] for atomID in h_list]
-                        h_donorh_atoms.append(hydrogen)
-                    self.atomGroup['h_donorh'] = h_donorh_atoms
+                        self.atomGroup['h_donorh'].append(hydrogen)
 
         if self.AA_name in self.aromatic.keys():
             path3 = self.aromatic[self.AA_name]['id'][:3]
