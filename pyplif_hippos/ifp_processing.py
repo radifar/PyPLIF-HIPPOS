@@ -542,20 +542,19 @@ class Residue(ResidueData):
             else:
                 self.heavyatoms.append(atom)
 
-        self.output_mode = custom_settings['output_mode']
+        output_mode = custom_settings['output_mode']
         self.simplified = False
         self.full = False
         self.full_nobb = False
-        if self.output_mode['full']:
+        if output_mode['full']:
             self.full = True
-        if self.output_mode['full_nobb']:
+            self.full_bitstring = bitarray('0000000')
+        if output_mode['full_nobb']:
             self.full_nobb = True
-        if self.output_mode['simplified']:
+            self.full_nobb_bitstring = bitarray('0000000')
+        if output_mode['simplified']:
             self.simplified = True
-
-        self.full_bitstring = bitarray('0000000')
-        self.full_nobb_bitstring = bitarray('0000000')
-        self.simp_bitstring = self.bs_template[res_name[:3]]
+            self.simp_bitstring = self.bs_template[res_name[:3]]
 
         self.res_name = res_name
         self.AA_name = res_name[:3]
@@ -609,10 +608,7 @@ class Residue(ResidueData):
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
-            if x & y:
-                possible_interactions.append(1)
-            else:
-                possible_interactions.append(0)
+            possible_interactions.append(1) if x & y else possible_interactions.append(0)
 
         for ligand, full, full_nobb, simp in \
         zip_longest(ligands, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
@@ -809,6 +805,7 @@ class Residue(ResidueData):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x & y else possible_interactions.append(0)
+
         for ligand, flex, full, full_nobb, simp in \
         zip_longest(ligands, flex_proteins, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
