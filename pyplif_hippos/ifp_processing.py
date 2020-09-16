@@ -522,13 +522,13 @@ class ResidueData:
         'TYR': (1, 1, 1, 1, 0, 0),
     }
 
-"""
-Class Residue
-
-To contain its own atom groups and bitstring for every pose
-"""
 
 class Residue(ResidueData):
+    """
+    Class Residue
+
+    To contain its own atom groups and bitstring for every pose
+    """
     def __init__(self, protein, res_name, res_num, custom_settings):
         self.residue_number = int(res_num) - 1
         self.residue = protein.GetResidue(self.residue_number)
@@ -547,7 +547,7 @@ class Residue(ResidueData):
                 self.heavyatoms.append(atom)
 
         output_mode = custom_settings['output_mode']
-        
+
         if output_mode['full']:
             self.full = True
             self.full_bitstring = bitarray('0000000')
@@ -867,7 +867,8 @@ class Residue(ResidueData):
                             angle_flag = 0
                             if self.res_name in self.flex_residues:
                                 for flex_atom in ob.OBMolAtomIter(flex):
-                                    if (flex_atom.GetAtomicNum() == 1) & (flex_atom.GetResidue().GetName() == self.res_name):
+                                    if (flex_atom.GetAtomicNum() == 1) & (flex_atom.GetResidue().GetName()
+                                                                          == self.res_name):
                                         angle = atom.GetAngle(flex_atom, ligand_atom)
                                         if angle > HBOND_ANGLE:
                                             angle_flag = 1
