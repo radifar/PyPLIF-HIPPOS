@@ -994,9 +994,9 @@ class Residue(ResidueData):
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x & y else possible_interactions.append(0)
 
-        self.full_bit = self.full_bitstring.copy()
-        self.simp = self.simp_bitstring.copy()
-        self.nobb_bit = self.full_nobb_bitstring.copy()
+        self.full_bit = self.full_bitstring.copy() if self.full else None
+        self.simp = self.simp_bitstring.copy() if self.simplified else None
+        self.nobb_bit = self.full_nobb_bitstring.copy() if self.full_nobb else None
         interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
         if possible_interactions[0]:
@@ -1006,7 +1006,7 @@ class Residue(ResidueData):
                 for atom in self.atomGroup['hydrophobic']:
                     distance = ligand_atom.GetDistance(atom)
                     if distance <= HYDROPHOBIC:
-                        self.toggle_hydrophobic(simp, full, full_nobb, hydrophobic_bit)
+                        self.toggle_hydrophobic(self.simp, self.full_bit, self.nobb_bit, hydrophobic_bit)
                         interaction_flags[0] = 1
                         break
                 if interaction_flags[0]:
