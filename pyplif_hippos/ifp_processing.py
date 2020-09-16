@@ -543,27 +543,31 @@ class Residue(ResidueData):
                 self.heavyatoms.append(atom)
 
         output_mode = custom_settings['output_mode']
-        self.simplified = False
-        self.full = False
-        self.full_nobb = False
+        
         if output_mode['full']:
             self.full = True
             self.full_bitstring = bitarray('0000000')
+        else:
+            self.full = False
+
         if output_mode['full_nobb']:
             self.full_nobb = True
             self.full_nobb_bitstring = bitarray('0000000')
+        else:
+            self.full_nobb = False
+
         if output_mode['simplified']:
             self.simplified = True
             self.simp_bitstring = self.bs_template[res_name[:3]]
+        else:
+            self.simplified = False
 
         self.res_name = res_name
         self.AA_name = res_name[:3]
         self.res_num = res_num
         self.interactions = self.AAinteractionMatrix[self.AA_name]
 
-        """
-        Custom Residues
-        """
+        # --- Custom Residues ---
         # disulfide bridge
         if (self.AA_name == 'CYS') & (len(self.hydrogens) < 2):
             self.interactions = (1, 0, 0, 0, 0, 0)
