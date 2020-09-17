@@ -530,8 +530,7 @@ class Residue(ResidueData):
     To contain its own atom groups and bitstring for every pose
     """
     def __init__(self, protein, res_name, res_num, custom_settings):
-        self.residue_number = int(res_num) - 1
-        self.residue = protein.GetResidue(self.residue_number)
+        self.residue = protein.GetResidue(int(res_num) - 1)
         self.res_name = res_name
         self.AA_name = res_name[:3]
         self.res_num = res_num
@@ -571,22 +570,20 @@ class Residue(ResidueData):
         if (self.AA_name == 'CYS') & (len(self.hydrogens) < 2):
             self.interactions = (1, 0, 0, 0, 0, 0)
 
-        # Classifying atoms into atom groups
-        # Note: int stands for interaction not integer
-        # if interaction exist (AA_int == 1), assign atom object as 'value'
-        # to interaction 'key'
+        # Classifying atoms into atom groups if interaction exist,
+        # assign atom object as 'value' to interaction 'key'
         self.atomGroup = {}
-        for AA_int, int_atom, int_name in \
-        zip(self.interactions, self.interactionList, self.interactionNames):
-            if AA_int == 1:
-                atomIDs = int_atom[self.AA_name]['id']
-                atomList = [self.heavyatoms[atomID] for atomID in atomIDs]
-                self.atomGroup[int_name] = atomList
-                if int_name == 'h_donor':
+        for i, exist in enumerate(self.interactions):
+            if exist:
+                atomIDs = self.interactionList[i][self.AA_name]['id']
+                interaction = self.interactionNames[i]
+                self.atomGroup[interaction] = [self.heavyatoms[idx] for idx in atomIDs]
+
+                if interaction == 'h_donor':
                     h_donorh_list = self.h_donorh[self.AA_name]['id']
                     self.atomGroup['h_donorh'] = []
                     for h_list in h_donorh_list:
-                        hydrogen = [self.hydrogens[atomID] for atomID in h_list]
+                        hydrogen = [self.hydrogens[idx] for idx in h_list]
                         self.atomGroup['h_donorh'].append(hydrogen)
 
         if self.AA_name in self.aromatic.keys():
