@@ -608,6 +608,28 @@ class Residue(ResidueData):
             full |= bitarray('1000000')
         if self.full_nobb:
             full_nobb |= bitarray('1000000')
+    
+    def on_aromatic(self, bitlist, path3atoms, flags):
+        simp, full, full_nobb = bitlist
+        ligCross, ligModulus = getCrossModulus(path3atoms)
+        ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
+
+        if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
+            if self.simplified:
+                simp |= self.aromatic[self.AA_name]['bitarrayF2F']
+            if self.full:
+                full |= bitarray('0100000')
+            if self.full_nobb:
+                full_nobb |= bitarray('0100000')
+            flags[1] = 1
+        else:
+            if self.simplified:
+                simp |= self.aromatic[self.AA_name]['bitarrayE2F']
+            if self.full:
+                full |= bitarray('0010000')
+            if self.full_nobb:
+                full_nobb |= bitarray('0010000')
+            flags[2] = 1
 
     def calculateIFPVina(self, ligands, ligand_atom_group):
         self.setup_bitstring(len(ligands))
@@ -615,7 +637,7 @@ class Residue(ResidueData):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
-        
+
         # acceptor, donor, negative, positive refer to ligand role
         Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
         possible = Interaction._make(possible_interactions)
@@ -643,26 +665,7 @@ class Residue(ResidueData):
                         for atom in self.atomGroup['aromatic']:
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                             if distance <= AROMATIC:
-                                ligCross, ligModulus = getCrossModulus(path3atoms)
-                                ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
-
-                                if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
-                                    if self.simplified:
-                                        simp |= self.aromatic[self.AA_name]['bitarrayF2F']
-                                    if self.full:
-                                        full |= bitarray('0100000')
-                                    if self.full_nobb:
-                                        full_nobb |= bitarray('0100000')
-                                    interaction_flags[1] = 1
-                                else:
-                                    if self.simplified:
-                                        simp |= self.aromatic[self.AA_name]['bitarrayE2F']
-                                    if self.full:
-                                        full |= bitarray('0010000')
-                                    if self.full_nobb:
-                                        full_nobb |= bitarray('0010000')
-                                    interaction_flags[2] = 1
-
+                                self.on_aromatic(bitlist, path3atoms, interaction_flags)
                                 break
                         if interaction_flags[1] | interaction_flags[2]:
                             break
@@ -751,7 +754,7 @@ class Residue(ResidueData):
                             break
                     if interaction_flags[6]:
                         break
-            
+
             # calculate backbone
             if self.full:
                 if ligand_atom_group['interactions'][0]:
@@ -803,8 +806,8 @@ class Residue(ResidueData):
         Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
         possible = Interaction._make(possible_interactions)
 
-        for ligand, flex, *bitlist in zip_longest(
-            ligands, flex_proteins, self.simp_bits_list, self.full_bits_list, self.full_nobb_list):
+        for ligand, flex, *bitlist in zip_longest(ligands, flex_proteins, self.simp_bits_list, self.full_bits_list,
+                                                  self.full_nobb_list):
             simp, full, full_nobb = bitlist
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
@@ -827,26 +830,7 @@ class Residue(ResidueData):
                         for atom in self.atomGroup['aromatic']:
                             distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                             if distance <= AROMATIC:
-                                ligCross, ligModulus = getCrossModulus(path3atoms)
-                                ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
-
-                                if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
-                                    if self.simplified:
-                                        simp |= self.aromatic[self.AA_name]['bitarrayF2F']
-                                    if self.full:
-                                        full |= bitarray('0100000')
-                                    if self.full_nobb:
-                                        full_nobb |= bitarray('0100000')
-                                    interaction_flags[1] = 1
-                                else:
-                                    if self.simplified:
-                                        simp |= self.aromatic[self.AA_name]['bitarrayE2F']
-                                    if self.full:
-                                        full |= bitarray('0010000')
-                                    if self.full_nobb:
-                                        full_nobb |= bitarray('0010000')
-                                    interaction_flags[2] = 1
-
+                                self.on_aromatic(bitlist, path3atoms, interaction_flags)
                                 break
                         if interaction_flags[1] | interaction_flags[2]:
                             break
@@ -863,7 +847,7 @@ class Residue(ResidueData):
                             if self.res_name in self.flex_residues:
                                 for flex_atom in ob.OBMolAtomIter(flex):
                                     if (flex_atom.GetAtomicNum() == 1) and (flex_atom.GetResidue().GetName()
-                                                                          == self.res_name):
+                                                                            == self.res_name):
                                         angle = atom.GetAngle(flex_atom, ligand_atom)
                                         if angle > HBOND_ANGLE:
                                             angle_flag = 1
@@ -989,7 +973,7 @@ class Residue(ResidueData):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
-        
+
         # acceptor, donor, negative, positive refer to ligand role
         Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
         possible = Interaction._make(possible_interactions)
@@ -997,6 +981,7 @@ class Residue(ResidueData):
         self.full_bit = self.full_bitstring.copy() if self.full else None
         self.simp = self.simp_bitstring.copy() if self.simplified else None
         self.nobb_bit = self.full_nobb_bitstring.copy() if self.full_nobb else None
+        bitlist = (self.simp, self.full_bit, self.nobb_bit)
         interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
         if possible.hydrophobic:
@@ -1005,7 +990,7 @@ class Residue(ResidueData):
                 for atom2 in self.atomGroup['hydrophobic']:
                     distance = atom1.GetDistance(atom2)
                     if distance <= HYDROPHOBIC:
-                        self.on_hydrophobic((self.simp, self.full_bit, self.nobb_bit))
+                        self.on_hydrophobic(bitlist)
                         interaction_flags[0] = 1
                         break
                 if interaction_flags[0]:
@@ -1018,25 +1003,7 @@ class Residue(ResidueData):
                     for atom in self.atomGroup['aromatic']:
                         distance = ligand.GetAtom(ligand_id).GetDistance(atom)
                         if distance <= AROMATIC:
-                            ligCross, ligModulus = getCrossModulus(path3atoms)
-                            ring_angle = calcRingAngle(self.cross, ligCross, self.modulus, ligModulus)
-
-                            if (AROMATIC_ANGLE_LOW >= ring_angle) or (AROMATIC_ANGLE_HIGH <= ring_angle):
-                                if self.simplified:
-                                    self.simp |= self.aromatic[self.AA_name]['bitarrayF2F']
-                                if self.full:
-                                    self.full_bit |= bitarray('0100000')
-                                if self.full_nobb:
-                                    self.nobb_bit |= bitarray('0100000')
-                                interaction_flags[1] = 1
-                            else:
-                                if self.simplified:
-                                    self.simp |= self.aromatic[self.AA_name]['bitarrayE2F']
-                                if self.full:
-                                    self.full_bit |= bitarray('0010000')
-                                if self.full_nobb:
-                                    self.nobb_bit |= bitarray('0010000')
-                                interaction_flags[2] = 1
+                            self.on_aromatic(bitlist, path3atoms, interaction_flags)
 
                             break
                     if interaction_flags[1] | interaction_flags[2]:
@@ -1126,7 +1093,7 @@ class Residue(ResidueData):
                         break
                 if interaction_flags[6]:
                     break
-        
+
         # calculate backbone
         if self.full:
             if ligand_atom_group['interactions'][0]:
