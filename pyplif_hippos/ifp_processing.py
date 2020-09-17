@@ -87,10 +87,10 @@ def get_refbitstring(genref_config):
         'output_mode': genref_config['output_mode']
     }
 
-    residue_obj_list = [{} for i in range(len(ligands))]
-    ref_num = 0
-    for protein, ligand in zip(proteins, ligands):
-        molformat = protein.split('.')[-1]
+    residue_list = [{} for i in range(len(ligands))]
+
+    for i in range(len(proteins)):
+        molformat = proteins[i].split('.')[-1]
 
         convert = ob.OBConversion()
         convert.SetInFormat(molformat)
@@ -98,10 +98,10 @@ def get_refbitstring(genref_config):
         proteinmol = ob.OBMol()
         ligandmol = ob.OBMol()
 
-        convert.ReadFile(proteinmol, protein)
+        convert.ReadFile(proteinmol, proteins[i])
         proteinmol.DeleteNonPolarHydrogens()
 
-        convert.ReadFile(ligandmol, ligand)
+        convert.ReadFile(ligandmol, ligands[i])
         ligandmol.DeleteNonPolarHydrogens()
         if molformat == 'mol2':
             ligand_atom_group = assign_atoms(ligandmol, 'plants')
@@ -109,12 +109,10 @@ def get_refbitstring(genref_config):
             ligand_atom_group = assign_atoms(ligandmol, 'vina')
 
         for name, num in zip(res_name, res_num):
-            residue_obj_list[ref_num][name] = Residue(proteinmol, name, num, custom_settings)
-            residue_obj_list[ref_num][name].calculateRef(ligandmol, ligand_atom_group)
+            residue_list[i][name] = Residue(proteinmol, name, num, custom_settings)
+            residue_list[i][name].calculateRef(ligandmol, ligand_atom_group)
 
-        ref_num += 1
-
-    return residue_obj_list
+    return residue_list
 
 
 def assign_atoms(ligand, docking_method):
@@ -180,12 +178,7 @@ def assign_atoms(ligand, docking_method):
     return atom_group
 
 
-'''
-    function getRing, used in assign_atoms
-    return list of ring from GetSSSR
-'''
-
-
+# return list of ring from GetSSSR
 def getRing(mol):
     ringList = []
     for ring in mol.GetSSSR():
