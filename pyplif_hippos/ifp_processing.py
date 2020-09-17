@@ -1,5 +1,6 @@
 import numpy as np
 from bitarray import bitarray
+from ctypes import c_double
 
 try:
     from itertools import zip_longest
@@ -198,10 +199,9 @@ def getRing(mol):
 def getCrossModulus(path3):
     path3Coords = []
     for i in path3:
-        x = i.x()
-        y = i.y()
-        z = i.z()
-        npcoord = np.array([x, y, z])
+        # Get array from double pointer
+        coord = (c_double * 3).from_address(int(i.GetCoordinate()))
+        npcoord = np.array(coord)
         path3Coords.append(npcoord)
 
     a = path3Coords[0] - path3Coords[1]
