@@ -129,13 +129,12 @@ def parse_plants_conf(plants_conf):
     flexibles = ob.OBMol()
 
     convert.ReadFile(protein, protein_file)
-    protein.DeleteNonPolarHydrogens()
 
     # Extracting molecule list & score list
     try:
         os.chdir(plants_output)
         ligand_poses = open('features.csv', 'r')
-        ligand_poses.readline() # just removing the first line
+        ligand_poses.readline()  # just removing the first line
 
     except FileNotFoundError:
         print('The protein ligand folder can not be found')

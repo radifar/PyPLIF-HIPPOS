@@ -534,7 +534,7 @@ class Residue(ResidueData):
         self.heavyatoms = []
         self.hydrogens = []
         for atom in ob.OBResidueAtomIter(self.residue):
-            if atom.GetAtomicNum() == 1:
+            if atom.GetAtomicNum() == 1 and atom.IsPolarHydrogen():
                 self.hydrogens.append(atom)
             else:
                 self.heavyatoms.append(atom)
