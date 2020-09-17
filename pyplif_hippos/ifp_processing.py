@@ -598,7 +598,8 @@ class Residue(ResidueData):
         self.full_nobb_list = [self.full_nobb_bitstring.copy() for i in range(pose_num)] \
             if self.full_nobb else []
 
-    def on_hydrophobic(self, simp, full, full_nobb):
+    def on_hydrophobic(self, bitlist):
+        simp, full, full_nobb = bitlist
         if self.simplified:
             hydrophobic_bit = self.hydrophobic[self.AA_name]['bitarray']
             simp |= hydrophobic_bit
@@ -614,8 +615,8 @@ class Residue(ResidueData):
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
-        for ligand, full, full_nobb, simp in \
-        zip_longest(ligands, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
+        for ligand, *bitlist in zip_longest(ligands, self.simp_bits_list, self.full_bits_list, self.full_nobb_list):
+            simp, full, full_nobb = bitlist
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             # hydrophobic
@@ -625,7 +626,7 @@ class Residue(ResidueData):
                     for atom2 in self.atomGroup['hydrophobic']:
                         distance = atom1.GetDistance(atom2)
                         if distance <= HYDROPHOBIC:
-                            self.on_hydrophobic(simp, full, full_nobb)
+                            self.on_hydrophobic(bitlist)
                             interaction_flags[0] = 1
                             break
                     if interaction_flags[0]:
@@ -798,8 +799,9 @@ class Residue(ResidueData):
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
-        for ligand, flex, full, full_nobb, simp in \
-        zip_longest(ligands, flex_proteins, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
+        for ligand, flex, *bitlist in zip_longest(
+            ligands, flex_proteins, self.simp_bits_list, self.full_bits_list, self.full_nobb_list):
+            simp, full, full_nobb = bitlist
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             if possible_interactions[0]:
@@ -808,7 +810,7 @@ class Residue(ResidueData):
                     for atom2 in self.atomGroup['hydrophobic']:
                         distance = atom1.GetDistance(atom2)
                         if distance <= HYDROPHOBIC:
-                            self.on_hydrophobic(simp, full, full_nobb)
+                            self.on_hydrophobic(bitlist)
                             interaction_flags[0] = 1
                             break
                     if interaction_flags[0]:
@@ -994,7 +996,7 @@ class Residue(ResidueData):
                 for atom2 in self.atomGroup['hydrophobic']:
                     distance = atom1.GetDistance(atom2)
                     if distance <= HYDROPHOBIC:
-                        self.on_hydrophobic(self.simp, self.full_bit, self.nobb_bit)
+                        self.on_hydrophobic((self.simp, self.full_bit, self.nobb_bit))
                         interaction_flags[0] = 1
                         break
                 if interaction_flags[0]:
