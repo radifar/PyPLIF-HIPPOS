@@ -628,9 +628,9 @@ class Residue(ResidueData):
             # hydrophobic
             if possible_interactions[0]:
                 for ligand_id in ligand_atom_group['hydrophobic']:
-                    ligand_atom = ligand.GetAtomById(ligand_id)
-                    for atom in self.atomGroup['hydrophobic']:
-                        distance = ligand_atom.GetDistance(atom)
+                    atom1 = ligand.GetAtomById(ligand_id)
+                    for atom2 in self.atomGroup['hydrophobic']:
+                        distance = atom1.GetDistance(atom2)
                         if distance <= HYDROPHOBIC:
                             self.on_hydrophobic(simp, full, full_nobb)
                             interaction_flags[0] = 1
@@ -811,9 +811,9 @@ class Residue(ResidueData):
 
             if possible_interactions[0]:
                 for ligand_id in ligand_atom_group['hydrophobic']:
-                    ligand_atom = ligand.GetAtomById(ligand_id)
-                    for atom in self.atomGroup['hydrophobic']:
-                        distance = ligand_atom.GetDistance(atom)
+                    atom1 = ligand.GetAtomById(ligand_id)
+                    for atom2 in self.atomGroup['hydrophobic']:
+                        distance = atom1.GetDistance(atom2)
                         if distance <= HYDROPHOBIC:
                             self.on_hydrophobic(simp, full, full_nobb)
                             interaction_flags[0] = 1
@@ -997,9 +997,9 @@ class Residue(ResidueData):
 
         if possible_interactions[0]:
             for ligand_id in ligand_atom_group['hydrophobic']:
-                ligand_atom = ligand.GetAtomById(ligand_id)
-                for atom in self.atomGroup['hydrophobic']:
-                    distance = ligand_atom.GetDistance(atom)
+                atom1 = ligand.GetAtomById(ligand_id)
+                for atom2 in self.atomGroup['hydrophobic']:
+                    distance = atom1.GetDistance(atom2)
                     if distance <= HYDROPHOBIC:
                         self.on_hydrophobic(self.simp, self.full_bit, self.nobb_bit)
                         interaction_flags[0] = 1
