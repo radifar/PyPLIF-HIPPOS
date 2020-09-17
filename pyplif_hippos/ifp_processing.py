@@ -149,9 +149,9 @@ def assign_atoms(ligand, docking_method):
             if atom.GetPartialCharge() < 0:
                 negative.append(atom.GetId())
         if docking_method == 'vina':
-            if (atom.GetAtomicNum() == 7) & (atom.GetPartialCharge() >= -0.235):
+            if (atom.GetAtomicNum() == 7) and (atom.GetPartialCharge() >= -0.235):
                 positive.append(atom.GetId())
-            if (atom.GetAtomicNum() == 8) & (atom.GetPartialCharge() <= -0.648):
+            if (atom.GetAtomicNum() == 8) and (atom.GetPartialCharge() <= -0.648):
                 negative.append(atom.GetId())
 
     # Create interaction matrix, similar to AAInteractionMatrix
@@ -560,7 +560,7 @@ class Residue(ResidueData):
 
         # --- Custom Residues ---
         # disulfide bridge
-        if (self.AA_name == 'CYS') & (len(self.hydrogens) < 2):
+        if (self.AA_name == 'CYS') and (len(self.hydrogens) < 2):
             self.interactions = (1, 0, 0, 0, 0, 0)
 
         # Classifying atoms into atom groups if interaction exist,
@@ -612,7 +612,7 @@ class Residue(ResidueData):
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
-            possible_interactions.append(1) if x & y else possible_interactions.append(0)
+            possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
         for ligand, full, full_nobb, simp in \
         zip_longest(ligands, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
@@ -662,7 +662,7 @@ class Residue(ResidueData):
                                 break
                         if interaction_flags[1] | interaction_flags[2]:
                             break
-                    if interaction_flags[1] & interaction_flags[2]:
+                    if interaction_flags[1] and interaction_flags[2]:
                         break
 
             # H acceptor
@@ -762,7 +762,7 @@ class Residue(ResidueData):
                             full |= bitarray('1000000')
                             break
                 notPRO = False if self.AA_name == 'PRO' else True
-                if ligand_atom_group['interactions'][3] & notPRO:
+                if ligand_atom_group['interactions'][3] and notPRO:
                     for ligand_id in ligand_atom_group['h_accept']:
                         bb_atom = self.heavyatoms[0]
                         ligand_atom = ligand.GetAtomById(ligand_id)
@@ -796,7 +796,7 @@ class Residue(ResidueData):
 
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
-            possible_interactions.append(1) if x & y else possible_interactions.append(0)
+            possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
         for ligand, flex, full, full_nobb, simp in \
         zip_longest(ligands, flex_proteins, self.full_bits_list, self.full_nobb_list, self.simp_bits_list):
@@ -844,7 +844,7 @@ class Residue(ResidueData):
                                 break
                         if interaction_flags[1] | interaction_flags[2]:
                             break
-                    if interaction_flags[1] & interaction_flags[2]:
+                    if interaction_flags[1] and interaction_flags[2]:
                         break
 
             if possible_interactions[2]:
@@ -856,7 +856,7 @@ class Residue(ResidueData):
                             angle_flag = 0
                             if self.res_name in self.flex_residues:
                                 for flex_atom in ob.OBMolAtomIter(flex):
-                                    if (flex_atom.GetAtomicNum() == 1) & (flex_atom.GetResidue().GetName()
+                                    if (flex_atom.GetAtomicNum() == 1) and (flex_atom.GetResidue().GetName()
                                                                           == self.res_name):
                                         angle = atom.GetAngle(flex_atom, ligand_atom)
                                         if angle > HBOND_ANGLE:
@@ -950,7 +950,7 @@ class Residue(ResidueData):
                             full |= bitarray('1000000')
                             break
                 notPRO = False if self.AA_name == 'PRO' else True
-                if ligand_atom_group['interactions'][3] & notPRO:
+                if ligand_atom_group['interactions'][3] and notPRO:
                     for ligand_id in ligand_atom_group['h_accept']:
                         bb_atom = self.heavyatoms[0]
                         ligand_atom = ligand.GetAtomById(ligand_id)
@@ -981,7 +981,7 @@ class Residue(ResidueData):
     def calculateRef(self, ligand, ligand_atom_group):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
-            possible_interactions.append(1) if x & y else possible_interactions.append(0)
+            possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
         self.full_bit = self.full_bitstring.copy() if self.full else None
         self.simp = self.simp_bitstring.copy() if self.simplified else None
@@ -1030,7 +1030,7 @@ class Residue(ResidueData):
                             break
                     if interaction_flags[1] | interaction_flags[2]:
                         break
-                if interaction_flags[1] & interaction_flags[2]:
+                if interaction_flags[1] and interaction_flags[2]:
                     break
 
         if possible_interactions[2]:
@@ -1126,7 +1126,7 @@ class Residue(ResidueData):
                         self.full_bit |= bitarray('1000000')
                         break
             notPRO = False if self.AA_name == 'PRO' else True
-            if ligand_atom_group['interactions'][3] & notPRO:
+            if ligand_atom_group['interactions'][3] and notPRO:
                 for ligand_id in ligand_atom_group['h_accept']:
                     bb_atom = self.heavyatoms[0]
                     ligand_atom = ligand.GetAtomById(ligand_id)
