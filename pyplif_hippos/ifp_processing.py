@@ -1,3 +1,4 @@
+from collections import namedtuple
 import numpy as np
 from bitarray import bitarray
 from ctypes import c_double
@@ -614,13 +615,16 @@ class Residue(ResidueData):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
+        
+        # acceptor, donor, negative, positive refer to ligand role
+        Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
+        possible = Interaction._make(possible_interactions)
 
         for ligand, *bitlist in zip_longest(ligands, self.simp_bits_list, self.full_bits_list, self.full_nobb_list):
             simp, full, full_nobb = bitlist
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
-            # hydrophobic
-            if possible_interactions[0]:
+            if possible.hydrophobic:
                 for ligand_id in ligand_atom_group['hydrophobic']:
                     atom1 = ligand.GetAtomById(ligand_id)
                     for atom2 in self.atomGroup['hydrophobic']:
@@ -632,8 +636,7 @@ class Residue(ResidueData):
                     if interaction_flags[0]:
                         break
 
-            # aromatic EF & FF
-            if possible_interactions[1]:
+            if possible.aromatic:
                 for path in ligand_atom_group['rings']:
                     path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                     for ligand_id in path:
@@ -666,8 +669,7 @@ class Residue(ResidueData):
                     if interaction_flags[1] and interaction_flags[2]:
                         break
 
-            # H acceptor
-            if possible_interactions[2]:
+            if possible.acceptor:
                 for ligand_id in ligand_atom_group['h_accept']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom, h_list in zip(self.atomGroup['h_donor'], self.atomGroup['h_donorh']):
@@ -692,8 +694,7 @@ class Residue(ResidueData):
                     if interaction_flags[3]:
                         break
 
-            # H donor
-            if possible_interactions[3]:
+            if possible.donor:
                 for ligand_id, h_list in zip(ligand_atom_group['h_donor'], ligand_atom_group['h_donorh']):
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['h_accept']:
@@ -717,8 +718,7 @@ class Residue(ResidueData):
                         if interaction_flags[4]:
                             break
 
-            # ligand negative - protein positive
-            if possible_interactions[4]:
+            if possible.negative:
                 for ligand_id in ligand_atom_group['negative']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['positive']:
@@ -735,8 +735,7 @@ class Residue(ResidueData):
                     if interaction_flags[5]:
                         break
 
-            # ligand positive - protein negative
-            if possible_interactions[5]:
+            if possible.positive:
                 for ligand_id in ligand_atom_group['positive']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['negative']:
@@ -752,7 +751,8 @@ class Residue(ResidueData):
                             break
                     if interaction_flags[6]:
                         break
-
+            
+            # calculate backbone
             if self.full:
                 if ligand_atom_group['interactions'][0]:
                     for ligand_id in ligand_atom_group['hydrophobic']:
@@ -799,12 +799,16 @@ class Residue(ResidueData):
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
 
+        # acceptor, donor, negative, positive refer to ligand role
+        Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
+        possible = Interaction._make(possible_interactions)
+
         for ligand, flex, *bitlist in zip_longest(
             ligands, flex_proteins, self.simp_bits_list, self.full_bits_list, self.full_nobb_list):
             simp, full, full_nobb = bitlist
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
-            if possible_interactions[0]:
+            if possible.hydrophobic:
                 for ligand_id in ligand_atom_group['hydrophobic']:
                     atom1 = ligand.GetAtomById(ligand_id)
                     for atom2 in self.atomGroup['hydrophobic']:
@@ -816,7 +820,7 @@ class Residue(ResidueData):
                     if interaction_flags[0]:
                         break
 
-            if possible_interactions[1]:
+            if possible.aromatic:
                 for path in ligand_atom_group['rings']:
                     path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                     for ligand_id in path:
@@ -849,7 +853,7 @@ class Residue(ResidueData):
                     if interaction_flags[1] and interaction_flags[2]:
                         break
 
-            if possible_interactions[2]:
+            if possible.acceptor:
                 for ligand_id in ligand_atom_group['h_accept']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom, h_list in zip(self.atomGroup['h_donor'], self.atomGroup['h_donorh']):
@@ -884,7 +888,7 @@ class Residue(ResidueData):
                     if interaction_flags[3]:
                         break
 
-            if possible_interactions[3]:
+            if possible.donor:
                 for ligand_id, h_list in zip(ligand_atom_group['h_donor'], ligand_atom_group['h_donorh']):
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['h_accept']:
@@ -908,7 +912,7 @@ class Residue(ResidueData):
                         if interaction_flags[4]:
                             break
 
-            if possible_interactions[4]:
+            if possible.negative:
                 for ligand_id in ligand_atom_group['negative']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['positive']:
@@ -925,7 +929,7 @@ class Residue(ResidueData):
                     if interaction_flags[5]:
                         break
 
-            if possible_interactions[5]:
+            if possible.positive:
                 for ligand_id in ligand_atom_group['positive']:
                     ligand_atom = ligand.GetAtomById(ligand_id)
                     for atom in self.atomGroup['negative']:
@@ -942,6 +946,7 @@ class Residue(ResidueData):
                     if interaction_flags[6]:
                         break
 
+            # calculate backbone
             if self.full:
                 if ligand_atom_group['interactions'][0]:
                     for ligand_id in ligand_atom_group['hydrophobic']:
@@ -984,13 +989,17 @@ class Residue(ResidueData):
         possible_interactions = []
         for x, y in zip(self.interactions, ligand_atom_group['interactions']):
             possible_interactions.append(1) if x and y else possible_interactions.append(0)
+        
+        # acceptor, donor, negative, positive refer to ligand role
+        Interaction = namedtuple('Interaction', 'hydrophobic aromatic acceptor donor negative positive')
+        possible = Interaction._make(possible_interactions)
 
         self.full_bit = self.full_bitstring.copy() if self.full else None
         self.simp = self.simp_bitstring.copy() if self.simplified else None
         self.nobb_bit = self.full_nobb_bitstring.copy() if self.full_nobb else None
         interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
-        if possible_interactions[0]:
+        if possible.hydrophobic:
             for ligand_id in ligand_atom_group['hydrophobic']:
                 atom1 = ligand.GetAtomById(ligand_id)
                 for atom2 in self.atomGroup['hydrophobic']:
@@ -1002,7 +1011,7 @@ class Residue(ResidueData):
                 if interaction_flags[0]:
                     break
 
-        if possible_interactions[1]:
+        if possible.aromatic:
             for path in ligand_atom_group['rings']:
                 path3atoms = [ligand.GetAtom(i) for i in path[:3]]
                 for ligand_id in path:
@@ -1035,7 +1044,7 @@ class Residue(ResidueData):
                 if interaction_flags[1] and interaction_flags[2]:
                     break
 
-        if possible_interactions[2]:
+        if possible.acceptor:
             for ligand_id in ligand_atom_group['h_accept']:
                 ligand_atom = ligand.GetAtomById(ligand_id)
                 for atom, h_list in zip(self.atomGroup['h_donor'], self.atomGroup['h_donorh']):
@@ -1060,7 +1069,7 @@ class Residue(ResidueData):
                 if interaction_flags[3]:
                     break
 
-        if possible_interactions[3]:
+        if possible.donor:
             for ligand_id, h_list in zip(ligand_atom_group['h_donor'], ligand_atom_group['h_donorh']):
                 ligand_atom = ligand.GetAtomById(ligand_id)
                 for atom in self.atomGroup['h_accept']:
@@ -1084,7 +1093,7 @@ class Residue(ResidueData):
                     if interaction_flags[4]:
                         break
 
-        if possible_interactions[4]:
+        if possible.negative:
             for ligand_id in ligand_atom_group['negative']:
                 ligand_atom = ligand.GetAtomById(ligand_id)
                 for atom in self.atomGroup['positive']:
@@ -1101,7 +1110,7 @@ class Residue(ResidueData):
                 if interaction_flags[5]:
                     break
 
-        if possible_interactions[5]:
+        if possible.positive:
             for ligand_id in ligand_atom_group['positive']:
                 ligand_atom = ligand.GetAtomById(ligand_id)
                 for atom in self.atomGroup['negative']:
@@ -1117,7 +1126,8 @@ class Residue(ResidueData):
                         break
                 if interaction_flags[6]:
                     break
-
+        
+        # calculate backbone
         if self.full:
             if ligand_atom_group['interactions'][0]:
                 for ligand_id in ligand_atom_group['hydrophobic']:
