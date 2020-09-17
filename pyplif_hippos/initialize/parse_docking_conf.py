@@ -104,8 +104,7 @@ def parse_plants_conf(plants_conf):
         print("The PLANTS config file: '%s' can not be found" % (plants_conf))
         sys.exit(1)
 
-    config_lines = [line for line in configread]
-    for line in config_lines:
+    for line in configread:
         uncommented = line.split('#')[0]
         line_list = uncommented.split()
 
@@ -137,21 +136,19 @@ def parse_plants_conf(plants_conf):
     try:
         os.chdir(plants_output)
         ligand_poses = open('features.csv', 'r')
+        ligand_poses.readline() # just removing the first line
 
     except FileNotFoundError:
         print('The protein ligand folder can not be found')
         sys.exit(1)
 
-    # just removing the first line
-    ligand_poses.readline()
-
-    mollisttemp = [line for line in ligand_poses]
     mollist = []
     scorelist = []
 
-    for mol in mollisttemp:
-        mollist.append(mol.split(',')[0])
-        scorelist.append(mol.split(',')[1])
+    for mol in ligand_poses:
+        mol = mol.split(',')
+        mollist.append(mol[0])
+        scorelist.append(mol[1])
 
     docked_ligands = []
     docked_proteins = []
