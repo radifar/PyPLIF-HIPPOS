@@ -49,9 +49,8 @@ def parse_vina_conf(vina_conf):
 
     for line in ligand_out_lines:
         line = line.split()
-        if len(line) > 2:
-            if line[2] == "RESULT:":
-                scorelist.append(line[3])
+        if (len(line) > 2) and (line[2] == "RESULT:"):
+            scorelist.append(line[3])
 
     convert = ob.OBConversion()
     convert.SetInFormat("pdbqt")
@@ -72,8 +71,8 @@ def parse_vina_conf(vina_conf):
 
     mollist = []
     ligand_name = ligand_file[:-6]
-    for name in range(len(docked_ligands)):
-        ligand_pose = ligand_name + '_' + str(name + 1)
+    for i in range(len(docked_ligands)):
+        ligand_pose = ligand_name + '_' + str(i + 1)
         mollist.append(ligand_pose)
 
     docking_results = {
