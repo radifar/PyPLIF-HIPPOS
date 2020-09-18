@@ -22,22 +22,21 @@ def parse_vina_conf(vina_conf):
         print("The VINA config file: '%s' can not be found" % (vina_conf))
         sys.exit(1)
 
-    config_lines = [line for line in configread]
-    for line in config_lines:
+    for line in configread:
         uncommented = line.split('#')[0]
         line_list = uncommented.split()
 
         if not line_list:
             continue
-        option = line_list[0]
+        option, _, value = line_list
 
         if option == "receptor":
-            protein_file = line_list[2]
+            protein_file = value
         if option == "ligand":
-            ligand_file = line_list[2]
+            ligand_file = value
             out = ligand_file[:-6] + "_out" + ligand_file[-6:]
         if option == "out":
-            out = line_list[2]
+            out = value
 
     scorelist = []
 
@@ -109,16 +108,16 @@ def parse_plants_conf(plants_conf):
 
         if not line_list:
             continue
-        option = line_list[0]
+        option, value, *_ = line_list
 
         if option == "output_dir":
-            plants_output = line_list[1]
+            plants_output = value
         if option == "protein_file":
-            protein_file = line_list[1]
+            protein_file = value
         if option == "ligand_file":
-            ligand_file = line_list[1]
+            ligand_file = value
         if option == "write_multi_mol2":
-            if line_list[1] == "0":
+            if value == "0":
                 write_multi_mol2 = False
 
     convert = ob.OBConversion()
