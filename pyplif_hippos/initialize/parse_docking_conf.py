@@ -10,46 +10,40 @@ except ImportError:
 def parse_vina_conf(vina_conf):
     original_path = os.getcwd()
 
-    protein_file = ""
-    ligand_file = ""
-    out = ""
-
     try:
-        configread = open(vina_conf, 'r')
-        conf_path = os.path.abspath(vina_conf)
-        os.chdir(os.path.dirname(conf_path))
+        with open(vina_conf, 'r') as f:
+            for line in f:
+                uncommented = line.split('#')[0]
+                line_list = uncommented.split()
+
+                if not line_list:
+                    continue
+                option, _, value = line_list
+
+                if option == "receptor":
+                    protein_file = value
+                if option == "ligand":
+                    ligand_file = value
+                    out = ligand_file[:-6] + "_out" + ligand_file[-6:]
+                if option == "out":
+                    out = value
     except FileNotFoundError:
         print("The VINA config file: '%s' can not be found" % (vina_conf))
         sys.exit(1)
 
-    for line in configread:
-        uncommented = line.split('#')[0]
-        line_list = uncommented.split()
-
-        if not line_list:
-            continue
-        option, _, value = line_list
-
-        if option == "receptor":
-            protein_file = value
-        if option == "ligand":
-            ligand_file = value
-            out = ligand_file[:-6] + "_out" + ligand_file[-6:]
-        if option == "out":
-            out = value
-
-    scorelist = []
+    conf_path = os.path.abspath(vina_conf)
+    os.chdir(os.path.dirname(conf_path))
 
     try:
-        ligand_out_lines = open(out, 'r')
+        scorelist = []
+        with open(out, 'r') as f:
+            for line in f:
+                line = line.split()
+                if (len(line) > 2) and (line[2] == "RESULT:"):
+                    scorelist.append(line[3])
     except FileNotFoundError:
         print("Ligand output file: '%s' can not be found" % (out))
         sys.exit(1)
-
-    for line in ligand_out_lines:
-        line = line.split()
-        if (len(line) > 2) and (line[2] == "RESULT:"):
-            scorelist.append(line[3])
 
     convert = ob.OBConversion()
     convert.SetInFormat("pdbqt")
@@ -88,37 +82,33 @@ def parse_vina_conf(vina_conf):
 
 def parse_plants_conf(plants_conf):
     original_path = os.getcwd()
-
-    protein_file = ""
-    ligand_file = ""
     write_multi_mol2 = True
-    plants_output = ""
 
     try:
-        configread = open(plants_conf, 'r')
-        conf_path = os.path.abspath(plants_conf)
-        os.chdir(os.path.dirname(conf_path))
+        with open(plants_conf, 'r') as f:
+            for line in f:
+                uncommented = line.split('#')[0]
+                line_list = uncommented.split()
+
+                if not line_list:
+                    continue
+                option, value, *_ = line_list
+
+                if option == "output_dir":
+                    plants_output = value
+                if option == "protein_file":
+                    protein_file = value
+                if option == "ligand_file":
+                    ligand_file = value
+                if option == "write_multi_mol2":
+                    if value == "0":
+                        write_multi_mol2 = False
     except FileNotFoundError:
         print("The PLANTS config file: '%s' can not be found" % (plants_conf))
         sys.exit(1)
 
-    for line in configread:
-        uncommented = line.split('#')[0]
-        line_list = uncommented.split()
-
-        if not line_list:
-            continue
-        option, value, *_ = line_list
-
-        if option == "output_dir":
-            plants_output = value
-        if option == "protein_file":
-            protein_file = value
-        if option == "ligand_file":
-            ligand_file = value
-        if option == "write_multi_mol2":
-            if value == "0":
-                write_multi_mol2 = False
+    conf_path = os.path.abspath(plants_conf)
+    os.chdir(os.path.dirname(conf_path))
 
     convert = ob.OBConversion()
     convert.SetInFormat("mol2")
@@ -132,20 +122,17 @@ def parse_plants_conf(plants_conf):
     # Extracting molecule list & score list
     try:
         os.chdir(plants_output)
-        ligand_poses = open('features.csv', 'r')
-        ligand_poses.readline()  # just removing the first line
-
+        mollist = []
+        scorelist = []
+        with open('features.csv', 'r') as f:
+            f.readline()  # just removing the first line
+            for mol in f:
+                mol = mol.split(',')
+                mollist.append(mol[0])
+                scorelist.append(mol[1])
     except FileNotFoundError:
         print('The protein ligand folder can not be found')
         sys.exit(1)
-
-    mollist = []
-    scorelist = []
-
-    for mol in ligand_poses:
-        mol = mol.split(',')
-        mollist.append(mol[0])
-        scorelist.append(mol[1])
 
     docked_ligands = []
     docked_proteins = []
