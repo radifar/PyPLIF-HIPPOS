@@ -100,8 +100,6 @@ def get_refbitstring(genref_config):
         ligandmol = ob.OBMol()
 
         convert.ReadFile(proteinmol, proteins[i])
-        proteinmol.DeleteNonPolarHydrogens()
-
         convert.ReadFile(ligandmol, ligands[i])
         ligandmol.DeleteNonPolarHydrogens()
         if molformat == 'mol2':
