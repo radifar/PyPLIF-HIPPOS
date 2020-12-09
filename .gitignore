@@ -92,6 +92,12 @@ ENV/
 .spyderproject
 .spyproject
 
+# VS Code settings
+.vscode/
+
+# Pycharm settings
+.idea/
+
 # Rope project settings
 .ropeproject
 
@@ -109,7 +115,6 @@ ENV/
 *tc.csv
 *simplified.csv
 *.kate-swp
-.vscode/
 hippos.log
 .directory
 docs/build/
