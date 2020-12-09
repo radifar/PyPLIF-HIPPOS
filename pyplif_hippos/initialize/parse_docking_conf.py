@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 try:
     # Open Babel >= 3.0
@@ -28,7 +29,7 @@ def parse_vina_conf(vina_conf):
                 if option == "out":
                     out = value
     except FileNotFoundError:
-        print("The VINA config file: '%s' can not be found" % (vina_conf))
+        print("The VINA config file: '%s' can not be found" % vina_conf)
         sys.exit(1)
 
     conf_path = os.path.abspath(vina_conf)
@@ -42,7 +43,7 @@ def parse_vina_conf(vina_conf):
                 if (len(line) > 2) and (line[2] == "RESULT:"):
                     scorelist.append(line[3])
     except FileNotFoundError:
-        print("Ligand output file: '%s' can not be found" % (out))
+        print("Ligand output file: '%s' can not be found" % out)
         sys.exit(1)
 
     convert = ob.OBConversion()
@@ -104,7 +105,7 @@ def parse_plants_conf(plants_conf):
                     if value == "0":
                         write_multi_mol2 = False
     except FileNotFoundError:
-        print("The PLANTS config file: '%s' can not be found" % (plants_conf))
+        print("The PLANTS config file: '%s' can not be found" % plants_conf)
         sys.exit(1)
 
     conf_path = os.path.abspath(plants_conf)
