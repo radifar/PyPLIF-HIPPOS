@@ -12,6 +12,8 @@ from pyplif_hippos import parse_config, parse_config_genref
 def test_parse_config(tmpdir):
     """Test parsing HIPPOS configuration"""
 
+    # Setup
+
     config_file = tmpdir.mkdir("sub").join("config.txt")
     config_file.write(
         """
@@ -38,16 +40,26 @@ logfile plants.log
     else:
         sys.argv.append(arg)
 
+    full_ref1 = "00000100000000000000000000000000000100000000000001000000000000010000001000000000000000000001000000000000000000000000000000101000000000000000000101000000000010000"
+    full_ref2 = "00010101000000000000000000000000000100000000000001010000000000010000001000000000000010000000000000000000000001011000001000001000000000000000000101000000000000000"
+    full_ref3 = "00010101000000100000000000000000000100000000000001010100100000010000001000000000000010000001000000000000010000000000100000101010000000000000000001000000000000000"
+
+    residue_name = "ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409"
+    residue_number = "40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333"
+    residue_name = residue_name.split()
+    residue_number = residue_number.split()
+
+    # Exercise
+
     hippos_config = parse_config()
+
+    # Verify
 
     assert hippos_config["docking_method"] == "plants"
     assert hippos_config["docking_conf"] == "plants-003.conf"
     assert "tanimoto" in hippos_config["similarity_coef"]
     assert "mcconnaughey" in hippos_config["similarity_coef"]
 
-    full_ref1 = "00000100000000000000000000000000000100000000000001000000000000010000001000000000000000000001000000000000000000000000000000101000000000000000000101000000000010000"
-    full_ref2 = "00010101000000000000000000000000000100000000000001010000000000010000001000000000000010000000000000000000000001011000001000001000000000000000000101000000000000000"
-    full_ref3 = "00010101000000100000000000000000000100000000000001010100100000010000001000000000000010000001000000000000010000000000100000101010000000000000000001000000000000000"
     assert full_ref1 in hippos_config["full_ref"]
     assert full_ref2 in hippos_config["full_ref"]
     assert full_ref3 in hippos_config["full_ref"]
@@ -55,10 +67,6 @@ logfile plants.log
     assert hippos_config["simplified_ref"] == []
     assert hippos_config["use_backbone"]
 
-    residue_name = "ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409"
-    residue_number = "40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333"
-    residue_name = residue_name.split()
-    residue_number = residue_number.split()
     assert hippos_config["residue_name"] == residue_name
     assert hippos_config["residue_number"] == residue_number
 
@@ -72,6 +80,8 @@ logfile plants.log
 
     assert hippos_config["sim_outfile"] == "plants_similarity.csv"
     assert hippos_config["logfile"] == "plants.log"
+
+    # Clean up - None
 
 
 def test_parse_config_genref(tmpdir):
