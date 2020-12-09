@@ -48,7 +48,7 @@ def parse_config():
     try:
         configread = open(config, "r")
     except FileNotFoundError:
-        print("The config file: '%s' can not be found" % (config))
+        print("The config file: '%s' can not be found" % config)
         sys.exit(1)
 
     configlines = [line for line in configread]
@@ -68,7 +68,7 @@ def parse_config():
             if value in method:
                 docking_method = value
             else:
-                print("docking method '%s' is not recognized" % (value))
+                print("docking method '%s' is not recognized" % value)
                 sys.exit(1)
 
         elif option == "docking_conf":
@@ -127,7 +127,7 @@ def parse_config():
                 if value in mode:
                     output_mode[value] = True
                 else:
-                    print("output_mode '%s' is not recognized" % (value))
+                    print("output_mode '%s' is not recognized" % value)
                     sys.exit(1)
 
         elif option == "simplified_outfile":
@@ -141,7 +141,7 @@ def parse_config():
         elif option == "logfile":
             logfile = line_list[1]
         elif option:
-            print("Warning: '%s' option is not recognized" % (option))
+            print("Warning: '%s' option is not recognized" % option)
 
     # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
@@ -211,7 +211,7 @@ def parse_config_genref():
     try:
         configread = open(config, "r")
     except FileNotFoundError:
-        print("The config file: '%s' can not be found" % (config))
+        print("The config file: '%s' can not be found" % config)
         sys.exit(1)
 
     configlines = [line for line in configread]
@@ -260,7 +260,7 @@ def parse_config_genref():
                 if value in mode:
                     output_mode[value] = True
                 else:
-                    print("output_mode '%s' is not recognized" % (value))
+                    print("output_mode '%s' is not recognized" % value)
                     sys.exit(1)
 
         elif option == "outfile":
@@ -268,7 +268,7 @@ def parse_config_genref():
         elif option == "logfile":
             logfile = line_list[1]
         elif option:
-            print("Warning: '%s' option is not recognized" % (option))
+            print("Warning: '%s' option is not recognized" % option)
 
     # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
