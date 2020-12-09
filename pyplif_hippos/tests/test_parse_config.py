@@ -2,10 +2,11 @@
 Test for functions in pyplif_hippos.initialize.parse_conf
 """
 
+import os
+import sys
+
 # Import package, test suite, and other packages as needed
 from pyplif_hippos import parse_config, parse_config_genref
-import pytest
-import os, sys
 
 
 def test_parse_config(tmpdir):
@@ -52,7 +53,7 @@ logfile plants.log
     assert full_ref3 in hippos_config["full_ref"]
     assert hippos_config["full_nobb_ref"] == []
     assert hippos_config["simplified_ref"] == []
-    assert hippos_config["use_backbone"] == True
+    assert hippos_config["use_backbone"]
 
     residue_name = "ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409"
     residue_number = "40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333"
@@ -61,9 +62,9 @@ logfile plants.log
     assert hippos_config["residue_name"] == residue_name
     assert hippos_config["residue_number"] == residue_number
 
-    assert hippos_config["output_mode"]["full"] == True
-    assert hippos_config["output_mode"]["full_nobb"] == False
-    assert hippos_config["output_mode"]["simplified"] == False
+    assert hippos_config["output_mode"]["full"]
+    assert not hippos_config["output_mode"]["full_nobb"]
+    assert not hippos_config["output_mode"]["simplified"]
 
     assert hippos_config["simplified_outfile"] == "simplified_ifp.csv"
     assert hippos_config["full_outfile"] == "plants_full_ifp.csv"
@@ -107,7 +108,7 @@ outfile     ref-results.txt
     assert "1b9t/ligand_RAI468_0.mol2" in hippos_config["ligands"]
     assert "1b9v/ligand_RA2468_0.mol2" in hippos_config["ligands"]
 
-    assert hippos_config["use_backbone"] == True
+    assert hippos_config["use_backbone"]
 
     residue_name = "ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409"
     residue_number = "40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333"
@@ -116,9 +117,9 @@ outfile     ref-results.txt
     assert hippos_config["residue_name"] == residue_name
     assert hippos_config["residue_number"] == residue_number
 
-    assert hippos_config["output_mode"]["full"] == True
-    assert hippos_config["output_mode"]["full_nobb"] == False
-    assert hippos_config["output_mode"]["simplified"] == False
+    assert hippos_config["output_mode"]["full"]
+    assert not hippos_config["output_mode"]["full_nobb"]
+    assert not hippos_config["output_mode"]["simplified"]
 
     assert hippos_config["outfile"] == "ref-results.txt"
     assert hippos_config["logfile"] == "hippos-genref.log"
