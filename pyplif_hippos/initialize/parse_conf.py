@@ -27,9 +27,9 @@ def parse_config():
 
     output_mode = {"full": False, "full_nobb": False, "simplified": False}
     output_mode_undefined = {"full": False, "full_nobb": False, "simplified": False}
-    '''
+    """
     Default values
-    '''
+    """
 
     simplified_outfile = "simplified_ifp.csv"
     full_outfile = "full_ifp.csv"
@@ -46,7 +46,7 @@ def parse_config():
         print("\t hippos <config file>\n")
 
     try:
-        configread = open(config, 'r')
+        configread = open(config, "r")
     except FileNotFoundError:
         print("The config file: '%s' can not be found" % (config))
         sys.exit(1)
@@ -55,7 +55,7 @@ def parse_config():
     configread.close()
 
     for line in configlines:
-        uncommented = line.split('#')[0]
+        uncommented = line.split("#")[0]
         line_list = uncommented.split()
 
         if not line_list:
@@ -145,34 +145,34 @@ def parse_config():
 
     # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
-        output_mode['full'] = True
+        output_mode["full"] = True
 
     parse_result = {
-        'docking_method': docking_method,
-        'docking_conf': docking_conf,
-        'similarity_coef': similarity_coef,
-        'full_ref': full_ref,
-        'full_nobb_ref': full_nobb_ref,
-        'simplified_ref': simplified_ref,
-        'use_backbone': use_backbone,
-        'residue_name': res_name,
-        'residue_number': res_num,
-        'res_weight1': res_weight1,
-        'res_weight2': res_weight2,
-        'res_weight3': res_weight3,
-        'res_weight4': res_weight4,
-        'res_weight5': res_weight5,
-        'docking_score': docking_score,
-        'output_mode': output_mode,
-        'simplified_outfile': simplified_outfile,
-        'full_outfile': full_outfile,
-        'full_nobb_outfile': full_nobb_outfile,
-        'sim_outfile': sim_outfile,
-        'logfile': logfile,
+        "docking_method": docking_method,
+        "docking_conf": docking_conf,
+        "similarity_coef": similarity_coef,
+        "full_ref": full_ref,
+        "full_nobb_ref": full_nobb_ref,
+        "simplified_ref": simplified_ref,
+        "use_backbone": use_backbone,
+        "residue_name": res_name,
+        "residue_number": res_num,
+        "res_weight1": res_weight1,
+        "res_weight2": res_weight2,
+        "res_weight3": res_weight3,
+        "res_weight4": res_weight4,
+        "res_weight5": res_weight5,
+        "docking_score": docking_score,
+        "output_mode": output_mode,
+        "simplified_outfile": simplified_outfile,
+        "full_outfile": full_outfile,
+        "full_nobb_outfile": full_nobb_outfile,
+        "sim_outfile": sim_outfile,
+        "logfile": logfile,
     }
-    '''import pprint
+    """import pprint
     pp = pprint.PrettyPrinter()
-    pp.pprint(parse_result)'''
+    pp.pprint(parse_result)"""
     return parse_result
 
 
@@ -209,7 +209,7 @@ def parse_config_genref():
         print("\t hippos-genref <config file>\n")
 
     try:
-        configread = open(config, 'r')
+        configread = open(config, "r")
     except FileNotFoundError:
         print("The config file: '%s' can not be found" % (config))
         sys.exit(1)
@@ -218,7 +218,7 @@ def parse_config_genref():
     configread.close()
 
     for line in configlines:
-        uncommented = line.split('#')[0]
+        uncommented = line.split("#")[0]
         line_list = uncommented.split()
 
         if not line_list:
@@ -272,22 +272,22 @@ def parse_config_genref():
 
     # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
-        output_mode['full'] = True
+        output_mode["full"] = True
 
     parse_result = {
-        'proteins': proteins,
-        'ligands': ligands,
-        'use_backbone': use_backbone,
-        'residue_name': res_name,
-        'residue_number': res_num,
-        'res_weight1': res_weight1,
-        'res_weight2': res_weight2,
-        'res_weight3': res_weight3,
-        'res_weight4': res_weight4,
-        'res_weight5': res_weight5,
-        'outfile': outfile,
-        'logfile': logfile,
-        'output_mode': output_mode,
+        "proteins": proteins,
+        "ligands": ligands,
+        "use_backbone": use_backbone,
+        "residue_name": res_name,
+        "residue_number": res_num,
+        "res_weight1": res_weight1,
+        "res_weight2": res_weight2,
+        "res_weight3": res_weight3,
+        "res_weight4": res_weight4,
+        "res_weight5": res_weight5,
+        "outfile": outfile,
+        "logfile": logfile,
+        "output_mode": output_mode,
     }
 
     return parse_result

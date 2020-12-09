@@ -11,9 +11,9 @@ def parse_vina_conf(vina_conf):
     original_path = os.getcwd()
 
     try:
-        with open(vina_conf, 'r') as f:
+        with open(vina_conf, "r") as f:
             for line in f:
-                uncommented = line.split('#')[0]
+                uncommented = line.split("#")[0]
                 line_list = uncommented.split()
 
                 if not line_list:
@@ -36,7 +36,7 @@ def parse_vina_conf(vina_conf):
 
     try:
         scorelist = []
-        with open(out, 'r') as f:
+        with open(out, "r") as f:
             for line in f:
                 line = line.split()
                 if (len(line) > 2) and (line[2] == "RESULT:"):
@@ -65,15 +65,15 @@ def parse_vina_conf(vina_conf):
     mollist = []
     ligand_name = ligand_file[:-6]
     for i in range(len(docked_ligands)):
-        ligand_pose = ligand_name + '_' + str(i + 1)
+        ligand_pose = ligand_name + "_" + str(i + 1)
         mollist.append(ligand_pose)
 
     docking_results = {
-        'protein': protein,
-        'docked_ligands': docked_ligands,
-        'docked_proteins': docked_proteins,
-        'mollist': mollist,
-        'scorelist': scorelist,
+        "protein": protein,
+        "docked_ligands": docked_ligands,
+        "docked_proteins": docked_proteins,
+        "mollist": mollist,
+        "scorelist": scorelist,
     }
 
     os.chdir(original_path)
@@ -85,9 +85,9 @@ def parse_plants_conf(plants_conf):
     write_multi_mol2 = True
 
     try:
-        with open(plants_conf, 'r') as f:
+        with open(plants_conf, "r") as f:
             for line in f:
-                uncommented = line.split('#')[0]
+                uncommented = line.split("#")[0]
                 line_list = uncommented.split()
 
                 if not line_list:
@@ -124,14 +124,14 @@ def parse_plants_conf(plants_conf):
         os.chdir(plants_output)
         mollist = []
         scorelist = []
-        with open('features.csv', 'r') as f:
+        with open("features.csv", "r") as f:
             f.readline()  # just removing the first line
             for mol in f:
-                mol = mol.split(',')
+                mol = mol.split(",")
                 mollist.append(mol[0])
                 scorelist.append(mol[1])
     except FileNotFoundError:
-        print('The protein ligand folder can not be found')
+        print("The protein ligand folder can not be found")
         sys.exit(1)
 
     docked_ligands = []
@@ -167,11 +167,11 @@ def parse_plants_conf(plants_conf):
             docked_proteins.append(flexibles)
 
     docking_results = {
-        'protein': protein,
-        'docked_ligands': docked_ligands,
-        'docked_proteins': docked_proteins,
-        'mollist': mollist,
-        'scorelist': scorelist,
+        "protein": protein,
+        "docked_ligands": docked_ligands,
+        "docked_proteins": docked_proteins,
+        "mollist": mollist,
+        "scorelist": scorelist,
     }
 
     os.chdir(original_path)

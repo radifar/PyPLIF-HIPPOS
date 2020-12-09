@@ -1,11 +1,12 @@
 from bitarray import bitarray
 from SIMILARITY_FORMULA import sim_dict
-'''
+
+"""
 Based on "Similarity Coefficients for Binary Chemoinformatics
 Data: Overview and Extended Comparison Using Simulated and 
 Real Data Sets" by Todeschini et al. 2012
 dx.doi.org/10.1021/ci300261r
-'''
+"""
 
 
 def count_abcdp(refbit, tgtbit):
@@ -21,9 +22,9 @@ def count_abcdp(refbit, tgtbit):
 
 
 def how_similar(abcdp, sim_coef):
-    a, b, c, d, p = abcdp   # lgtm [py/unused-local-variable]
+    a, b, c, d, p = abcdp  # lgtm [py/unused-local-variable]
     try:
         sim = eval(sim_dict[sim_coef])
     except ZeroDivisionError:
-        sim = 'NA'
+        sim = "NA"
     return sim
