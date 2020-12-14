@@ -60,7 +60,7 @@ string in the output. The bitstring simplification rule can be seen in
 the table below. Number 1-7 in the header of the table correspond to
 the interaction type described in PyPLIF
 
-.. code-block:: none
+.. code-block::
 
     1 Correspond to Hydrophobic
     2 Correspond to Aromatic Face to Face
