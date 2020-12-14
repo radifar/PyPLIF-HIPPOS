@@ -7,6 +7,7 @@ dependencies:
 
     # Package dependencies
   - numpy
+  - bitarray
   
     # Testing
   - pytest
