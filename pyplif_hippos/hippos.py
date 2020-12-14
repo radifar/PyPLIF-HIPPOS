@@ -132,8 +132,11 @@ def main():
         bit_start = 1
         for resname in hippos_config["residue_name"]:
             bit_replace_index = bitstrings[resname].bit_replace_index
+            simp_bit_replace_index = bitstrings[resname].simp_bit_replace_index
             if simplified_flag:
                 simp_res_bit = bitstrings[resname].simp_bits_list[pose].to01()
+                if bool(sum(simp_bit_replace_index)):
+                    simp_res_bit = replace_bit_char(simp_res_bit, simp_bit_replace_index)
                 simp_bits += simp_res_bit
             if full_flag:
                 full_res_bit = bitstrings[resname].full_bits_list[pose].to01()

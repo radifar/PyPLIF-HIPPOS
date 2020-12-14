@@ -406,6 +406,7 @@ class Residue(ResidueData):
         self.AA_name = res_name[:3]
         self.res_num = res_num
         self.interactions = self.AAinteractionMatrix[self.AA_name]
+        output_mode = custom_settings["output_mode"]
 
         self.bit_replace_index = [0, 0, 0, 0, 0, 0, 0]
         for interaction in custom_settings["omit_interaction"]:
@@ -437,9 +438,18 @@ class Residue(ResidueData):
         else:
             self.full_nobb = False
 
+        self.simp_bit_replace_index = []
         if output_mode["simplified"]:
             self.simplified = True
             self.simp_bitstring = self.bs_template[res_name[:3]]
+
+            if bool(sum(self.bit_replace_index)):
+                for i, bit in enumerate(self.interactions):
+                    if bit == 1:
+                        if self.bit_replace_index[i] == 1:
+                            self.simp_bit_replace_index.append(1)
+                        else:
+                            self.simp_bit_replace_index.append(0)
         else:
             self.simplified = False
 
