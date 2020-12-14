@@ -8,8 +8,18 @@ Real Data Sets" by Todeschini et al. 2012
 dx.doi.org/10.1021/ci300261r
 """
 
+def clean_omitted_interactions(refbit, tgtbit):
+    clean_refbit = ""
+    clean_tgtbit = ""
+    for ref, tgt in zip(refbit, tgtbit):
+        if tgt != "n":
+            clean_refbit += ref
+            clean_tgtbit += tgt
+    return clean_refbit, clean_tgtbit
+
 
 def count_abcdp(refbit, tgtbit):
+    refbit, tgtbit = clean_omitted_interactions(refbit, tgtbit)
     refbit = bitarray(refbit)
     tgtbit = bitarray(tgtbit)
     a = (refbit & tgtbit).count()

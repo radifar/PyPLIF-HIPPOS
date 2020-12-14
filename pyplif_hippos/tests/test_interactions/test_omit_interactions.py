@@ -7,7 +7,7 @@ import sys
 
 from collections import namedtuple
 
-from pyplif_hippos import parse_config, hippos
+from pyplif_hippos import parse_config, hippos, similarity
 
 
 def test_configuration_single_omit_interaction(tmpdir):
@@ -313,8 +313,6 @@ def test_replace_bit_char():
     # Arrange
 
     bitstring = "1000001"
-    omit_interaction_list = []
-    Omit_interaction = namedtuple('omit_interaction', 'interaction_type res_name')
 
     omit_hydrophobic = [1, 0, 0, 0, 0, 0, 0]
     omit_aromatic = [0, 1, 1, 0, 0, 0, 0]
@@ -353,3 +351,20 @@ def test_replace_bit_char():
     assert bitstring_9 == "1n00001"
     assert bitstring_10 == "10n0001"
 
+
+def test_cleanup_omitted_interaction():
+    """Test for bitstring preparation prior to similarity calculation"""
+
+    # Arrange
+
+    refbit = "000001000101"
+    tgtbit = "11n00n000011"
+
+    # Act
+
+    clean_refbit, clean_tgtbit = similarity.clean_omitted_interactions(refbit, tgtbit)
+
+    # Assert
+
+    assert clean_refbit == "0000000101"
+    assert clean_tgtbit == "1100000011"

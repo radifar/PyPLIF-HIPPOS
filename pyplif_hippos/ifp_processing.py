@@ -44,6 +44,7 @@ def get_bitstring(docking_results, hippos_config):
     flex_protein = docking_results["docked_proteins"]
 
     custom_settings = {
+        "omit_interaction": hippos_config["omit_interaction"],
         "backbone": hippos_config["use_backbone"],
         "output_mode": hippos_config["output_mode"],
         "res_weight1": hippos_config["res_weight1"],
@@ -378,6 +379,19 @@ class ResidueData:
         "TYR": (1, 1, 1, 1, 0, 0),
     }
 
+    omitted_bit = {
+        "hydrophobic": [0],
+        "aromatic": [1, 2],
+        "h_bond": [3, 4],
+        "electrostatic": [5, 6],
+        "h_bond_donor": [3],
+        "h_bond_acceptor": [4],
+        "electrostatic_positive": [5],
+        "electrostatic_negative": [6],
+        "aromatic_facetoface": [1],
+        "aromatic_edgetoface": [2]
+    }
+
 
 class Residue(ResidueData):
     """
@@ -392,6 +406,13 @@ class Residue(ResidueData):
         self.AA_name = res_name[:3]
         self.res_num = res_num
         self.interactions = self.AAinteractionMatrix[self.AA_name]
+
+        self.bit_replace_index = [0, 0, 0, 0, 0, 0, 0]
+        for interaction in custom_settings["omit_interaction"]:
+            if res_name in interaction.res_name:
+                replace_bit = self.omitted_bit[interaction.interaction_type]
+                for i in replace_bit:
+                    self.bit_replace_index[i] = 1
 
         # Making atom index consistent by separating hydrogen and heavy atom
         self.heavyatoms = []
