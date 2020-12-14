@@ -2,6 +2,8 @@ from __future__ import print_function
 
 import sys
 
+from collections import namedtuple
+
 
 def parse_config():
     #  Default configuration
@@ -24,6 +26,9 @@ def parse_config():
     res_weight4 = []
     res_weight5 = []
     docking_score = True
+
+    omit_interaction_list = []
+    Omit_interaction = namedtuple('omit_interaction', 'interaction_type res_name')
 
     output_mode = {"full": False, "full_nobb": False, "simplified": False}
     output_mode_undefined = {"full": False, "full_nobb": False, "simplified": False}
@@ -102,6 +107,12 @@ def parse_config():
         elif option == "residue_number":
             res_num = line_list[1:]
 
+        elif option == "omit_interaction":
+            interaction_type = line_list[1]
+            omitted_residue = line_list[2:]
+            omit_interaction = Omit_interaction(interaction_type, omitted_residue)
+            omit_interaction_list.append(omit_interaction)
+
         elif option == "res_weight1":
             res_weight1 = line_list[1:]
         elif option == "res_weight2":
@@ -157,6 +168,7 @@ def parse_config():
         "use_backbone": use_backbone,
         "residue_name": res_name,
         "residue_number": res_num,
+        "omit_interaction": omit_interaction_list,
         "res_weight1": res_weight1,
         "res_weight2": res_weight2,
         "res_weight3": res_weight3,

@@ -8,7 +8,7 @@ import sys
 from pyplif_hippos import parse_config
 
 
-def test_configuration_omit_interaction(tmpdir):
+def test_configuration_single_omit_interaction(tmpdir):
     """Test configuration specific for omitting specific interaction"""
 
     # Arrange
