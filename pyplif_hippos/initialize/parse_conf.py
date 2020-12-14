@@ -29,6 +29,18 @@ def parse_config():
 
     omit_interaction_list = []
     Omit_interaction = namedtuple('omit_interaction', 'interaction_type res_name')
+    abbr_interaction = {
+        "HPB": "hydrophobic",
+        "ARM": "aromatic",
+        "HBD": "h_bond",
+        "ELE": "electrostatic",
+        "HBD_DON": "h_bond_donor",
+        "HBD_ACC": "h_bond_acceptor",
+        "ELE_POS": "electrostatic_positive",
+        "ELE_NEG": "electrostatic_negative",
+        "ARM_F2F": "aromatic_facetoface",
+        "ARM_E2F": "aromatic_edgetoface"
+    }
 
     output_mode = {"full": False, "full_nobb": False, "simplified": False}
     output_mode_undefined = {"full": False, "full_nobb": False, "simplified": False}
@@ -110,6 +122,10 @@ def parse_config():
         elif option == "omit_interaction":
             interaction_type = line_list[1]
             omitted_residue = line_list[2:]
+
+            if interaction_type in abbr_interaction.keys():
+                interaction_type = abbr_interaction[interaction_type]
+
             omit_interaction = Omit_interaction(interaction_type, omitted_residue)
             omit_interaction_list.append(omit_interaction)
 
