@@ -10,6 +10,13 @@ from ifp_processing import get_bitstring
 from similarity import count_abcdp, how_similar
 
 
+def replace_bit_char(bitstring, bit_index_list):
+    for i, v in enumerate(bit_index_list):
+        if v == 1:
+            bitstring = bitstring[:i] + "n" + bitstring[i+1:]
+    return bitstring
+
+
 def main():
     x = time()
     """
