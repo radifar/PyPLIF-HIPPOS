@@ -443,8 +443,15 @@ class Residue(ResidueData):
             self.simplified = True
             self.simp_bitstring = self.bs_template[res_name[:3]]
 
+            seven_bit_interactions = []
+            for i, bit in enumerate(self.interactions):
+                if i == 1:
+                    aromatic_bit = [bit, bit]
+                    seven_bit_interactions.extend(aromatic_bit)
+                else:
+                    seven_bit_interactions.append(bit)
             if bool(sum(self.bit_replace_index)):
-                for i, bit in enumerate(self.interactions):
+                for i, bit in enumerate(seven_bit_interactions):
                     if bit == 1:
                         if self.bit_replace_index[i] == 1:
                             self.simp_bit_replace_index.append(1)
