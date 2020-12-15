@@ -554,10 +554,10 @@ class Residue(ResidueData):
         )
         possible = Interaction._make(possible_interactions)
 
-        for ligand, *bitlist in zip_longest(
+        for ligand, simp, full, full_nobb in zip_longest(
             ligands, self.simp_bits_list, self.full_bits_list, self.full_nobb_list
         ):
-            simp, full, full_nobb = bitlist
+            bitlist = simp, full, full_nobb
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             if possible.hydrophobic:
@@ -732,14 +732,14 @@ class Residue(ResidueData):
         )
         possible = Interaction._make(possible_interactions)
 
-        for ligand, flex, *bitlist in zip_longest(
+        for ligand, flex, simp, full, full_nobb in zip_longest(
             ligands,
             flex_proteins,
             self.simp_bits_list,
             self.full_bits_list,
             self.full_nobb_list,
         ):
-            simp, full, full_nobb = bitlist
+            bitlist = simp, full, full_nobb
             interaction_flags = [0, 0, 0, 0, 0, 0, 0]
 
             if possible.hydrophobic:

@@ -93,7 +93,8 @@ def parse_plants_conf(plants_conf):
 
                 if not line_list:
                     continue
-                option, value, *_ = line_list
+                line_list = line_list[:2]
+                option, value = line_list
 
                 if option == "output_dir":
                     plants_output = value
