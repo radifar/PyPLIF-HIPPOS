@@ -448,6 +448,9 @@ class Residue(ResidueData):
                     if bit == 1:
                         if self.bit_replace_index[i] == 1:
                             self.simp_bit_replace_index.append(1)
+                            # for aromatic, append another 1
+                            if i == 1:
+                                self.simp_bit_replace_index.append(1)
                         else:
                             self.simp_bit_replace_index.append(0)
         else:
