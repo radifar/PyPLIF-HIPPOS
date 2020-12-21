@@ -4,11 +4,8 @@
 
 if [ $1 > 0 ]  ; then
     if  [ $1 = 'uninstall' ]; then
-        INSTALLDIR=`cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2`
+        INSTALLDIR=$(cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2 | sed "s/hippos.py//")
         if [ $INSTALLDIR ] ; then
-            CHARNUM=`echo "$INSTALLDIR" | wc -c`
-            let "CHARNUM-=11"
-            INSTALLDIR=`echo $INSTALLDIR | cut -c-$CHARNUM`
             rm -r $INSTALLDIR
             gawk '$0 !~/alias hippos/ { print $0 }' $HOME/.bashrc > .bashrc.tmp
             cat .bashrc.tmp > $HOME/.bashrc
@@ -17,7 +14,7 @@ if [ $1 > 0 ]  ; then
             echo "HIPPOS never been installed before"
         fi
     elif [ $1 = 'force' ]; then
-        INSTALLDIR=`cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2 | sed "s/hippos.py//"`
+        INSTALLDIR=$(cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2 | sed "s/hippos.py//")
         if [ $INSTALLDIR ]; then
             rm -r $INSTALLDIR
         else
