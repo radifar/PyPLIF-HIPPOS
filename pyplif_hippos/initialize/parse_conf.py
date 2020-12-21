@@ -28,7 +28,7 @@ def parse_config():
     docking_score = True
 
     omit_interaction_list = []
-    Omit_interaction = namedtuple('omit_interaction', 'interaction_type res_name')
+    Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
     abbr_interaction = {
         "HPB": "hydrophobic",
         "ARM": "aromatic",
@@ -39,7 +39,7 @@ def parse_config():
         "ELE_POS": "electrostatic_positive",
         "ELE_NEG": "electrostatic_negative",
         "ARM_F2F": "aromatic_facetoface",
-        "ARM_E2F": "aromatic_edgetoface"
+        "ARM_E2F": "aromatic_edgetoface",
     }
 
     output_mode = {"full": False, "full_nobb": False, "simplified": False}
