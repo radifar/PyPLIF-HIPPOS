@@ -64,7 +64,7 @@ def parse_config():
 
     try:
         configread = open(config, "r")
-    except FileNotFoundError:
+    except IOError:
         print("The config file: '%s' can not be found" % config)
         sys.exit(1)
 
@@ -238,7 +238,7 @@ def parse_config_genref():
 
     try:
         configread = open(config, "r")
-    except FileNotFoundError:
+    except IOError:
         print("The config file: '%s' can not be found" % config)
         sys.exit(1)
 

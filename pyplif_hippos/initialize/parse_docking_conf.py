@@ -28,7 +28,7 @@ def parse_vina_conf(vina_conf):
                     out = ligand_file[:-6] + "_out" + ligand_file[-6:]
                 if option == "out":
                     out = value
-    except FileNotFoundError:
+    except IOError:
         print("The VINA config file: '%s' can not be found" % vina_conf)
         sys.exit(1)
 
@@ -42,7 +42,7 @@ def parse_vina_conf(vina_conf):
                 line = line.split()
                 if (len(line) > 2) and (line[2] == "RESULT:"):
                     scorelist.append(line[3])
-    except FileNotFoundError:
+    except IOError:
         print("Ligand output file: '%s' can not be found" % out)
         sys.exit(1)
 
@@ -105,7 +105,7 @@ def parse_plants_conf(plants_conf):
                 if option == "write_multi_mol2":
                     if value == "0":
                         write_multi_mol2 = False
-    except FileNotFoundError:
+    except IOError:
         print("The PLANTS config file: '%s' can not be found" % plants_conf)
         sys.exit(1)
 
@@ -132,7 +132,7 @@ def parse_plants_conf(plants_conf):
                 mol = mol.split(",")
                 mollist.append(mol[0])
                 scorelist.append(mol[1])
-    except FileNotFoundError:
+    except IOError:
         print("The protein ligand folder can not be found")
         sys.exit(1)
 
