@@ -389,7 +389,7 @@ class ResidueData:
         "electrostatic_positive": [5],
         "electrostatic_negative": [6],
         "aromatic_facetoface": [1],
-        "aromatic_edgetoface": [2]
+        "aromatic_edgetoface": [2],
     }
 
 
