@@ -91,6 +91,25 @@ Advanced Options
 	
 	Extract the docking score of ligand poses from docking results and attach them to output file.
 
+* **omit_interaction** (optional)
+	value: ``interaction_type`` and ``residue_name``
+
+	where ``interaction_type`` is one of the following value:
+
+	- ``hydrophobic`` or ``HPB``
+	- ``aromatic`` or ``ARM``
+	- ``h_bond`` or ``HBD``
+	- ``electrostatic`` or ``ELE``
+	- ``h_bond_donor`` or ``HBD_DON``
+	- ``h_bond_acceptor`` or ``HBD_ACC``
+	- ``electrostatic_positive`` or ``ELE_POS``
+	- ``electrostatic_negative`` or ``ELE_NEG``
+	- ``aromatic_facetoface`` or ``ARM_F2F``
+	- ``aromatic_edgetoface`` or ``ARM_E2F``
+
+	While ``residue_name`` specify which residue will be omitted. Usage example:
+
+	``omit_interaction hydrophobic ARG223``
 
 ..
 	* **res_weight1** (optional)

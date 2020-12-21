@@ -38,7 +38,8 @@ As a quick start here is three different scenario on omitting interaction.
 Omit single interaction
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-This configuration file shows how you can omit hydrophobic interaction on ARG223 residue ::
+This configuration file (`examples-input/08-na_omit_interaction/vina-omit-simple.txt`)
+shows how you can omit hydrophobic interaction on ARG223 residue ::
 
     docking_method    vina    # plants or vina
     docking_conf      ../03-na_vina/vina-003.conf
@@ -51,6 +52,10 @@ This configuration file shows how you can omit hydrophobic interaction on ARG223
 
     residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
     residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
+
+    full_outfile omit-simple.csv
+    sim_outfile omit-simple-similarity.csv
+    logfile omit-simple.log
 
 Here is the excerpt from the bitstring output using the above configuration file ::
 
@@ -65,8 +70,8 @@ Notice that there is an ``n`` character that replace one of the bit.
 Omit single interaction in several residue
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The following configuration file shows how you can omit hydrophobic interaction on ARG150
-TRP177 ARG223 residues ::
+The following configuration file (`examples-input/08-na_omit_interaction/vina-omit-residues.txt`)
+shows how you can omit hydrophobic interaction on ARG150 TRP177 ARG223 residues ::
 
     docking_method    vina    # plants or vina
     docking_conf      ../03-na_vina/vina-003.conf
@@ -79,6 +84,10 @@ TRP177 ARG223 residues ::
 
     residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
     residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
+
+    full_outfile omit-residues.csv
+    sim_outfile omit-residues-similarity.csv
+    logfile omit-residues.log
 
 Here is the excerpt from the bitstring output using the above configuration file ::
 
@@ -93,7 +102,8 @@ Notice that there are three ``n``, each of them replace hydrophobic interaction 
 Omit more than one interaction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-And here is how you can omit more than one interaction, this configuration file shows you how
+And here is how you can omit more than one interaction, this configuration file
+(`examples-input/08-na_omit_interaction/vina-omit-interactions.txt`) shows you how
 to omit the hydrophobic interaction on ARG223 and hydrogen bond (both as donor and acceptor) on
 ARG292 ::
 
@@ -109,6 +119,10 @@ ARG292 ::
 
     residue_name ARG116 GLU117 LEU132 LYS148 ASP149 ARG150 ARG154 TRP177 SER178 ILE221 ARG223 THR224 GLU226 ALA245 HIS273 GLU275 GLU276 ARG292 ASP294 GLY347 ARG374 TRP408 TYR409
     residue_number 40 41 56 72 73 74 78 101 102 145 147 148 150 169 197 199 200 216 218 271 298 332 333
+
+    full_outfile omit-interactions.csv
+    sim_outfile omit-interactions-similarity.csv
+    logfile omit-interactions.log
 
 Here is the excerpt from the bitstring output using the above configuration file ::
 
