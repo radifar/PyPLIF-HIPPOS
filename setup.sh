@@ -17,7 +17,7 @@ if [ $1 > 0 ]  ; then
             echo "HIPPOS never been installed before"
         fi
     elif [ $1 = 'force' ]; then
-        INSTALLDIR=`cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2`
+        INSTALLDIR=`cat ~/.bashrc | grep hippos.py | cut -d"'" -f 2 | sed "s/hippos.py//"`
         if [ $INSTALLDIR ]; then
             rm -r $INSTALLDIR
         else
