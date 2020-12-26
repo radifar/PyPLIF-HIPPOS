@@ -90,6 +90,7 @@ def get_refbitstring(genref_config):
     res_num = genref_config["residue_number"]
 
     custom_settings = {
+        "omit_interaction": [],
         "backbone": genref_config["use_backbone"],
         "res_weight1": genref_config["res_weight1"],
         "res_weight2": genref_config["res_weight2"],
