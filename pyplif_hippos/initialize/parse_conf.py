@@ -198,9 +198,7 @@ def parse_config():
         "sim_outfile": sim_outfile,
         "logfile": logfile,
     }
-    """import pprint
-    pp = pprint.PrettyPrinter()
-    pp.pprint(parse_result)"""
+
     return parse_result
 
 
