@@ -36,6 +36,14 @@ from PARAMETERS import (
 """
 
 
+def get_direct_bitstring(protein, ligand_list, hippos_config):
+    return 1
+
+
+def get_complex_bitstring(complex_list, hippos_config):
+    return 2
+
+
 def get_bitstring(docking_results, hippos_config):
     protein = docking_results["protein"]
     res_name = hippos_config["residue_name"]

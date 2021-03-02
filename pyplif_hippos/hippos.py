@@ -2,12 +2,35 @@
 
 from __future__ import print_function
 
+import glob
+import re
 import sys
 from time import time
 
 from initialize.parse_conf import parse_config
-from ifp_processing import get_bitstring
+from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bitstring
 from similarity import count_abcdp, how_similar
+
+
+def enumerate_ligand_files(ligand_list, ligand_files):
+    temp_ligand_list = []
+    for ligand in ligand_files:
+        for filename in glob.glob(ligand):
+            temp_ligand_list.append(filename)
+    temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
+    ligand_list.extend(temp_ligand_list)
+
+
+def enumerate_ligand_file_list(ligand_list, ligand_file_list):
+    for ligand_file in ligand_file_list:
+        temp_ligand_list = []
+        with open(ligand_file, 'r') as ligands:
+            for ligand in ligands:
+                ligand = ligand.strip()
+                for filename in glob.glob(ligand):
+                    temp_ligand_list.append(filename)
+            temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
+            ligand_list.extend(temp_ligand_list)
 
 
 def replace_bit_char(bitstring, bit_index_list):
@@ -32,55 +55,74 @@ def main():
     hippos_config = parse_config()
 
     logfile = open(hippos_config["logfile"], "w")  # Output #4
-    """
-    Parse docking configuration file
-    Get docking results:
-    protein			==> OBMol Object
-    docked_ligands 	==> List of OBMol
-    docked_proteins ==> List of OBMol (only for PLANTS)
-    mollist			==> List of ligand name + pose number
-    scorelist		==> List of docking score
-    """
 
-    if hippos_config["docking_method"] == "plants":
-        from initialize.parse_docking_conf import parse_plants_conf
-
-        docking_conf = hippos_config["docking_conf"]
-        docking_results = parse_plants_conf(docking_conf)
+    if hippos_config["direct_ifp"]:
+        if not hippos_config["complex_list"]:
+            bitstrings = get_direct_bitstring("protein", "ligand", hippos_config)
+            ligand_list = []
+            if hippos_config["ligand_files"]:
+                ligand_files = hippos_config["ligand_files"]
+                enumerate_ligand_files(ligand_list, ligand_files)
+            if hippos_config["ligand_file_list"]:
+                ligand_file_list = hippos_config["ligand_file_list"]
+                enumerate_ligand_file_list(ligand_list, ligand_file_list)
+            print(ligand_list)
+        else:
+            bitstrings = get_complex_bitstring("complex_list", hippos_config)
+            print(bitstrings)
+        ligand_pose = []
+        scorelist = []
+        sys.exit(0)
     else:
-        from initialize.parse_docking_conf import parse_vina_conf
+        """
+        Parse docking configuration file
+        Get docking results:
+        protein			==> OBMol Object
+        docked_ligands 	==> List of OBMol
+        docked_proteins ==> List of OBMol (only for PLANTS)
+        mollist			==> List of ligand name + pose number
+        scorelist		==> List of docking score
+        """
 
-        docking_conf = hippos_config["docking_conf"]
-        docking_results = parse_vina_conf(docking_conf)
+        if hippos_config["docking_method"] == "plants":
+            from initialize.parse_docking_conf import parse_plants_conf
 
-    # checking docking output, if not found then exit.
-    if len(docking_results["docked_ligands"]) == 0:
-        missing_docking_output = (
-            "The docking output could not be found. Please check your docking result."
-        )
-        print(missing_docking_output)
-        logfile.write(missing_docking_output)
-        logfile.close()
-        sys.exit(1)
-    """
-    Get Bitstring using docking results & hippos configuration
-    bitstrings		==> Dictionary, with resname as key
-                        Residue object as value
-    """
+            docking_conf = hippos_config["docking_conf"]
+            docking_results = parse_plants_conf(docking_conf)
+        else:
+            from initialize.parse_docking_conf import parse_vina_conf
 
-    bitstrings = get_bitstring(docking_results, hippos_config)
+            docking_conf = hippos_config["docking_conf"]
+            docking_results = parse_vina_conf(docking_conf)
+
+        # checking docking output, if not found then exit.
+        if len(docking_results["docked_ligands"]) == 0:
+            missing_docking_output = (
+                "The docking output could not be found. Please check your docking result."
+            )
+            print(missing_docking_output)
+            logfile.write(missing_docking_output)
+            logfile.close()
+            sys.exit(1)
+        """
+        Get Bitstring using docking results & hippos configuration
+        bitstrings		==> Dictionary, with resname as key
+                            Residue object as value
+        """
+
+        bitstrings = get_bitstring(docking_results, hippos_config)
 
     # Write Output & Log files
 
-    scorelist = docking_results["scorelist"]
-    ligand_pose = []
-    if hippos_config["docking_method"] == "plants":
-        for mol in docking_results["mollist"]:
-            mol = mol.split("_")
-            new_name = mol[0] + "_" + mol[-1]
-            ligand_pose.append(new_name)
-    if hippos_config["docking_method"] == "vina":
-        ligand_pose = docking_results["mollist"]
+        scorelist = docking_results["scorelist"]
+        ligand_pose = []
+        if hippos_config["docking_method"] == "plants":
+            for mol in docking_results["mollist"]:
+                mol = mol.split("_")
+                new_name = mol[0] + "_" + mol[-1]
+                ligand_pose.append(new_name)
+        if hippos_config["docking_method"] == "vina":
+            ligand_pose = docking_results["mollist"]
 
     # set flag for every chosen output mode
     output_mode = hippos_config["output_mode"]

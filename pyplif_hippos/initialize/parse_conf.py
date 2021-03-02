@@ -9,6 +9,12 @@ def parse_config():
     #  Default configuration
     config = "config.txt"
 
+    direct_ifp = False
+    protein = ""
+    ligand_files = []
+    ligand_file_list = []
+    complex_list = []
+
     #  Identifiers initialization
     docking_method = ""
     docking_conf = ""
@@ -79,7 +85,27 @@ def parse_config():
             continue
         option = line_list[0]
 
-        if option == "docking_method":
+        if option == "direct_ifp":
+            value = line_list[1]
+            if value == "true":
+                direct_ifp = True
+
+        elif option == "protein":
+            protein = line_list[1]
+
+        elif option == "ligand_files":
+            value = line_list[1:]
+            ligand_files = value
+
+        elif option == "ligand_list":
+            value = line_list[1:]
+            ligand_file_list = value
+
+        elif option == "complex_list":
+            value = line_list[1:]
+            complex_list = value
+
+        elif option == "docking_method":
             value = line_list[1]
             method = ["vina", "plants"]
             if value in method:
@@ -175,6 +201,11 @@ def parse_config():
         output_mode["full"] = True
 
     parse_result = {
+        "direct_ifp": direct_ifp,
+        "protein": protein,
+        "ligand_files": ligand_files,
+        "ligand_file_list": ligand_file_list,
+        "complex_list": complex_list,
         "docking_method": docking_method,
         "docking_conf": docking_conf,
         "similarity_coef": similarity_coef,
