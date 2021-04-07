@@ -8,6 +8,7 @@ import sys
 from time import time
 
 from initialize.parse_conf import parse_config
+from parse_mol import parse_ligands, parse_protein
 from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bitstring
 from similarity import count_abcdp, how_similar
 
@@ -58,7 +59,6 @@ def main():
 
     if hippos_config["direct_ifp"]:
         if not hippos_config["complex_list"]:
-            bitstrings = get_direct_bitstring("protein", "ligand", hippos_config)
             ligand_list = []
             if hippos_config["ligand_files"]:
                 ligand_files = hippos_config["ligand_files"]
@@ -66,7 +66,12 @@ def main():
             if hippos_config["ligand_file_list"]:
                 ligand_file_list = hippos_config["ligand_file_list"]
                 enumerate_ligand_file_list(ligand_list, ligand_file_list)
-            print(ligand_list)
+            protein = hippos_config["protein"]
+
+            ligand_mol_list = parse_ligands(ligand_list)
+            protein_mol = parse_protein(protein)
+            bitstrings = get_direct_bitstring(protein, ligand_mol_list, hippos_config)
+            print(protein_mol)
         else:
             bitstrings = get_complex_bitstring("complex_list", hippos_config)
             print(bitstrings)

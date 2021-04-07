@@ -36,8 +36,8 @@ from PARAMETERS import (
 """
 
 
-def get_direct_bitstring(protein, ligand_list, hippos_config):
-    return 1
+def get_direct_bitstring(protein, ligand_mol_list, hippos_config):
+    return ligand_mol_list
 
 
 def get_complex_bitstring(complex_list, hippos_config):
