@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'PyPLIF HIPPOS'
-copyright = u'2020, Muhammad Radifar & Enade Perdana Istyastono'
+copyright = u'2021, Muhammad Radifar & Enade Perdana Istyastono'
 author = u'Muhammad Radifar & Enade Perdana Istyastono'
 
 # The short X.Y version
