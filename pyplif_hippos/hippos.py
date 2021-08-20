@@ -70,14 +70,15 @@ def main():
 
             ligand_mol_list = parse_ligands(ligand_list)
             protein_mol = parse_protein(protein)
-            bitstrings = get_direct_bitstring(protein, ligand_mol_list, hippos_config)
-            print(protein_mol)
+
+            bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config)
+            ligand_pose = ligand_list
+            scorelist = []
+            for pose in ligand_list:
+                scorelist.append("")
         else:
             bitstrings = get_complex_bitstring("complex_list", hippos_config)
             print(bitstrings)
-        ligand_pose = []
-        scorelist = []
-        sys.exit(0)
     else:
         """
         Parse docking configuration file

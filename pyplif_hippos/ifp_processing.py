@@ -36,8 +36,35 @@ from PARAMETERS import (
 """
 
 
-def get_direct_bitstring(protein, ligand_mol_list, hippos_config):
-    return ligand_mol_list
+def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
+
+    res_name = hippos_config["residue_name"]
+    res_num = hippos_config["residue_number"]
+
+    custom_settings = {
+        "omit_interaction": hippos_config["omit_interaction"],
+        "backbone": hippos_config["use_backbone"],
+        "output_mode": hippos_config["output_mode"],
+        "res_weight1": hippos_config["res_weight1"],
+        "res_weight2": hippos_config["res_weight2"],
+        "res_weight3": hippos_config["res_weight3"],
+        "res_weight4": hippos_config["res_weight4"],
+        "res_weight5": hippos_config["res_weight5"],
+    }
+
+    residue_obj = {}
+    for name, num in zip(res_name, res_num):
+        residue_obj[name] = Residue(protein_mol, name, num, custom_settings)
+
+    ligand_atom_groups = []
+    for ligand in ligand_mol_list:
+        ligand_atom_group = assign_atoms(ligand, "vina")
+        ligand_atom_groups.append(ligand_atom_group)
+
+    for name in res_name:
+        residue_obj[name].calculateDirectIFP(ligand_mol_list, ligand_atom_groups)
+
+    return residue_obj
 
 
 def get_complex_bitstring(complex_list, hippos_config):
@@ -415,7 +442,6 @@ class Residue(ResidueData):
         self.AA_name = res_name[:3]
         self.res_num = res_num
         self.interactions = self.AAinteractionMatrix[self.AA_name]
-        output_mode = custom_settings["output_mode"]
 
         self.bit_replace_index = [0, 0, 0, 0, 0, 0, 0]
         for interaction in custom_settings["omit_interaction"]:
@@ -803,6 +829,182 @@ class Residue(ResidueData):
                                     if angle > HBOND_ANGLE:
                                         angle_flag = 1
                                         break
+
+                            if angle_flag:
+                                if self.simplified:
+                                    simp |= self.h_donor[self.AA_name]["bitarray"]
+                                if self.full:
+                                    full |= bitarray("0001000")
+                                if self.full_nobb:
+                                    full_nobb |= bitarray("0001000")
+                                interaction_flags[3] = 1
+                                break
+                    if interaction_flags[3]:
+                        break
+
+            if possible.donor:
+                for ligand_id, h_list in zip(
+                    ligand_atom_group["h_donor"], ligand_atom_group["h_donorh"]
+                ):
+                    ligand_atom = ligand.GetAtomById(ligand_id)
+                    for atom in self.atomGroup["h_accept"]:
+                        distance = ligand_atom.GetDistance(atom)
+                        if distance <= HBOND:
+                            angle_flag = 0
+                            for h in h_list:
+                                hydrogen = ligand.GetAtomById(h)
+                                angle = ligand_atom.GetAngle(hydrogen, atom)
+                                if angle > HBOND_ANGLE:
+                                    angle_flag = 1
+                                    break
+                            if angle_flag:
+                                if self.simplified:
+                                    simp |= self.h_accept[self.AA_name]["bitarray"]
+                                if self.full:
+                                    full |= bitarray("0000100")
+                                if self.full_nobb:
+                                    full_nobb |= bitarray("0000100")
+                                interaction_flags[4] = 1
+                        if interaction_flags[4]:
+                            break
+
+            if possible.negative:
+                for ligand_id in ligand_atom_group["negative"]:
+                    ligand_atom = ligand.GetAtomById(ligand_id)
+                    for atom in self.atomGroup["positive"]:
+                        distance = ligand_atom.GetDistance(atom)
+                        if distance <= ELECTROSTATIC:
+                            if self.simplified:
+                                simp |= self.positive[self.AA_name]["bitarray"]
+                            if self.full:
+                                full |= bitarray("0000010")
+                            if self.full_nobb:
+                                full_nobb |= bitarray("0000010")
+                            interaction_flags[5] = 1
+                            break
+                    if interaction_flags[5]:
+                        break
+
+            if possible.positive:
+                for ligand_id in ligand_atom_group["positive"]:
+                    ligand_atom = ligand.GetAtomById(ligand_id)
+                    for atom in self.atomGroup["negative"]:
+                        distance = ligand_atom.GetDistance(atom)
+                        if distance <= ELECTROSTATIC:
+                            if self.simplified:
+                                simp |= self.negative[self.AA_name]["bitarray"]
+                            if self.full:
+                                full |= bitarray("0000001")
+                            if self.full_nobb:
+                                full_nobb |= bitarray("0000001")
+                            interaction_flags[6] = 1
+                            break
+                    if interaction_flags[6]:
+                        break
+
+            # calculate backbone
+            if self.full:
+                if ligand_atom_group["interactions"][0]:
+                    for ligand_id in ligand_atom_group["hydrophobic"]:
+                        ligand_atom = ligand.GetAtomById(ligand_id)
+                        bb_atom = self.heavyatoms[1]
+                        distance = ligand_atom.GetDistance(bb_atom)
+                        if distance <= HYDROPHOBIC:
+                            full |= bitarray("1000000")
+                            break
+                notPRO = False if self.AA_name == "PRO" else True
+                if ligand_atom_group["interactions"][3] and notPRO:
+                    for ligand_id in ligand_atom_group["h_accept"]:
+                        bb_atom = self.heavyatoms[0]
+                        ligand_atom = ligand.GetAtomById(ligand_id)
+                        distance = ligand_atom.GetDistance(bb_atom)
+                        if distance <= HBOND:
+                            hydrogen = self.hydrogens[0]
+                            angle = bb_atom.GetAngle(hydrogen, ligand_atom)
+                            if angle > HBOND_ANGLE:
+                                full |= bitarray("0001000")
+                                break
+                if ligand_atom_group["interactions"][2]:
+                    for ligand_id, h_list in zip(
+                        ligand_atom_group["h_donor"], ligand_atom_group["h_donorh"]
+                    ):
+                        ligand_atom = ligand.GetAtomById(ligand_id)
+                        bb_atom = self.heavyatoms[3]
+                        distance = ligand_atom.GetDistance(bb_atom)
+                        if distance <= HBOND:
+                            angle_flag = 0
+                            for h in h_list:
+                                hydrogen = ligand.GetAtomById(h)
+                                angle = ligand_atom.GetAngle(hydrogen, bb_atom)
+                                if angle > HBOND_ANGLE:
+                                    angle_flag = 1
+                                    break
+                            if angle_flag:
+                                full |= bitarray("0000100")
+                                break
+
+    def calculateDirectIFP(self, ligands, ligand_atom_groups):
+        self.setup_bitstring(len(ligands))
+
+        for ligand, ligand_atom_group, simp, full, full_nobb in zip_longest(
+            ligands, ligand_atom_groups, self.simp_bits_list, self.full_bits_list, self.full_nobb_list
+        ):
+
+            possible_interactions = []
+            for x, y in zip(self.interactions, ligand_atom_group["interactions"]):
+                possible_interactions.append(
+                    1
+                ) if x and y else possible_interactions.append(0)
+
+            # acceptor, donor, negative, positive refer to ligand role
+            Interaction = namedtuple(
+                "Interaction", "hydrophobic aromatic acceptor donor negative positive"
+            )
+            possible = Interaction._make(possible_interactions)
+
+            bitlist = simp, full, full_nobb
+            interaction_flags = [0, 0, 0, 0, 0, 0, 0]
+
+            if possible.hydrophobic:
+                for ligand_id in ligand_atom_group["hydrophobic"]:
+                    atom1 = ligand.GetAtomById(ligand_id)
+                    for atom2 in self.atomGroup["hydrophobic"]:
+                        distance = atom1.GetDistance(atom2)
+                        if distance <= HYDROPHOBIC:
+                            self.on_hydrophobic(bitlist)
+                            interaction_flags[0] = 1
+                            break
+                    if interaction_flags[0]:
+                        break
+
+            if possible.aromatic:
+                for path in ligand_atom_group["rings"]:
+                    path3atoms = [ligand.GetAtom(i) for i in path[:3]]
+                    for ligand_id in path:
+                        for atom in self.atomGroup["aromatic"]:
+                            distance = ligand.GetAtom(ligand_id).GetDistance(atom)
+                            if distance <= AROMATIC:
+                                self.on_aromatic(bitlist, path3atoms, interaction_flags)
+                                break
+                        if interaction_flags[1] | interaction_flags[2]:
+                            break
+                    if interaction_flags[1] and interaction_flags[2]:
+                        break
+
+            if possible.acceptor:
+                for ligand_id in ligand_atom_group["h_accept"]:
+                    ligand_atom = ligand.GetAtomById(ligand_id)
+                    for atom, h_list in zip(
+                        self.atomGroup["h_donor"], self.atomGroup["h_donorh"]
+                    ):
+                        distance = ligand_atom.GetDistance(atom)
+                        if distance <= HBOND:
+                            angle_flag = 0
+                            for hydrogen in h_list:
+                                angle = atom.GetAngle(hydrogen, ligand_atom)
+                                if angle > HBOND_ANGLE:
+                                    angle_flag = 1
+                                    break
 
                             if angle_flag:
                                 if self.simplified:
