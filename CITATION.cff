@@ -1,0 +1,37 @@
+# YAML 1.2
+---
+abstract: "We describe here our tool named PyPLIF HIPPOS, which was newly developed to analyze the docking results of AutoDock Vina and PLANTS. Its predecessor, PyPLIF (https://github.com/radifar/pyplif), is a molecular interaction fingerprinting tool for the docking results of PLANTS, exclusively. Unlike its predecessor, PyPLIF HIPPOS speeds up the computational times by separating the reference generation and docking analysis. PyPLIF HIPPOS also offers more options compared to PyPLIF. PyPLIF HIPPOS for Linux is stored as the Supporting Information in this application note and can be accessed in GitHub (https://github.com/radifar/PyPLIF-HIPPOS). Additionally, we present here the application of the tool in a retrospective structure-based virtual screening campaign targeting neuraminidase."
+authors: 
+  -
+    affiliation: "Faculty of Pharmacy, Sanata Dharma University"
+    family-names: Istyastono
+    given-names: "Enade Perdana"
+    orcid: "https://orcid.org/0000-0002-8344-5587"
+  -
+    affiliation: "Center for Molecular Modeling (molmod.org)"
+    family-names: Radifar
+    given-names: Muhammad
+    orcid: "https://orcid.org/0000-0001-9156-9478"
+  -
+    affiliation: "Department of Pharmacology and Clinical Pharmacy, Faculty of Pharmacy, Universitas Gadjah Mada"
+    family-names: Yuniarti
+    given-names: Nunung
+    orcid: "https://orcid.org/0000-0002-4500-6065"
+  -
+    affiliation: "Faculty of Biotechnology, Atma Jaya Catholic University of Indonesia"
+    family-names: Prasasty
+    given-names: "Vivitri Dewi"
+    orcid: "https://orcid.org/0000-0002-2992-1247"
+  -
+    affiliation: "Department of Mathematics, Faculty of Science and Technology, Sanata Dharma University"
+    family-names: Mungkasi
+    given-names: Sudi
+    orcid: "https://orcid.org/0000-0001-5319-9744"
+cff-version: "1.1.0"
+date-released: 2020-07-20
+doi: "10.1021/acs.jcim.0c00305"
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/radifar/PyPLIF-HIPPOS"
+title: "PyPLIF-HIPPOS"
+version: "0.1.2"
+...
