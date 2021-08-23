@@ -35,21 +35,21 @@ def parse_config():
 
     omit_interaction_list = []
     Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
-    abbr_interaction = {
-        "HPB": "hydrophobic",
-        "ARM": "aromatic",
-        "HBD": "h_bond",
-        "ELE": "electrostatic",
-        "HBD_DON": "h_bond_donor",
-        "HBD_ACC": "h_bond_acceptor",
-        "ELE_POS": "electrostatic_positive",
-        "ELE_NEG": "electrostatic_negative",
-        "ARM_F2F": "aromatic_facetoface",
-        "ARM_E2F": "aromatic_edgetoface",
-    }
+    abbr_interaction = dict(
+        HPB="hydrophobic",
+        ARM="aromatic",
+        HBD="h_bond",
+        ELE="electrostatic",
+        HBD_DON="h_bond_donor",
+        HBD_ACC="h_bond_acceptor",
+        ELE_POS="electrostatic_positive",
+        ELE_NEG="electrostatic_negative",
+        ARM_F2F="aromatic_facetoface",
+        ARM_E2F="aromatic_edgetoface",
+    )
 
-    output_mode = {"full": False, "full_nobb": False, "simplified": False}
-    output_mode_undefined = {"full": False, "full_nobb": False, "simplified": False}
+    output_mode = dict(full=False, full_nobb=False, simplified=False)
+    output_mode_undefined = dict(full=False, full_nobb=False, simplified=False)
     """
     Default values
     """
@@ -200,35 +200,35 @@ def parse_config():
     if output_mode == output_mode_undefined:
         output_mode["full"] = True
 
-    parse_result = {
-        "direct_ifp": direct_ifp,
-        "protein": protein,
-        "ligand_files": ligand_files,
-        "ligand_file_list": ligand_file_list,
-        "complex_list": complex_list,
-        "docking_method": docking_method,
-        "docking_conf": docking_conf,
-        "similarity_coef": similarity_coef,
-        "full_ref": full_ref,
-        "full_nobb_ref": full_nobb_ref,
-        "simplified_ref": simplified_ref,
-        "use_backbone": use_backbone,
-        "residue_name": res_name,
-        "residue_number": res_num,
-        "omit_interaction": omit_interaction_list,
-        "res_weight1": res_weight1,
-        "res_weight2": res_weight2,
-        "res_weight3": res_weight3,
-        "res_weight4": res_weight4,
-        "res_weight5": res_weight5,
-        "docking_score": docking_score,
-        "output_mode": output_mode,
-        "simplified_outfile": simplified_outfile,
-        "full_outfile": full_outfile,
-        "full_nobb_outfile": full_nobb_outfile,
-        "sim_outfile": sim_outfile,
-        "logfile": logfile,
-    }
+    parse_result = dict(
+        direct_ifp=direct_ifp,
+        protein=protein,
+        ligand_files=ligand_files,
+        ligand_file_list=ligand_file_list,
+        complex_list=complex_list,
+        docking_method=docking_method,
+        docking_conf=docking_conf,
+        similarity_coef=similarity_coef,
+        full_ref=full_ref,
+        full_nobb_ref=full_nobb_ref,
+        simplified_ref=simplified_ref,
+        use_backbone=use_backbone,
+        residue_name=res_name,
+        residue_number=res_num,
+        omit_interaction=omit_interaction_list,
+        res_weight1=res_weight1,
+        res_weight2=res_weight2,
+        res_weight3=res_weight3,
+        res_weight4=res_weight4,
+        res_weight5=res_weight5,
+        docking_score=docking_score,
+        output_mode=output_mode,
+        simplified_outfile=simplified_outfile,
+        full_outfile=full_outfile,
+        full_nobb_outfile=full_nobb_outfile,
+        sim_outfile=sim_outfile,
+        logfile=logfile,
+    )
 
     return parse_result
 
@@ -251,8 +251,8 @@ def parse_config_genref():
     res_weight4 = []
     res_weight5 = []
 
-    output_mode = {"full": False, "full_nobb": False, "simplified": False}
-    output_mode_undefined = {"full": False, "full_nobb": False, "simplified": False}
+    output_mode = dict(full=False, full_nobb=False, simplified=False)
+    output_mode_undefined = dict(full=False, full_nobb=False, simplified=False)
 
     outfile = "genref-results.txt"
     logfile = "hippos-genref.log"
@@ -331,20 +331,20 @@ def parse_config_genref():
     if output_mode == output_mode_undefined:
         output_mode["full"] = True
 
-    parse_result = {
-        "proteins": proteins,
-        "ligands": ligands,
-        "use_backbone": use_backbone,
-        "residue_name": res_name,
-        "residue_number": res_num,
-        "res_weight1": res_weight1,
-        "res_weight2": res_weight2,
-        "res_weight3": res_weight3,
-        "res_weight4": res_weight4,
-        "res_weight5": res_weight5,
-        "outfile": outfile,
-        "logfile": logfile,
-        "output_mode": output_mode,
-    }
+    parse_result = dict(
+        proteins=proteins,
+        ligands=ligands,
+        use_backbone=use_backbone,
+        residue_name=res_name,
+        residue_number=res_num,
+        res_weight1=res_weight1,
+        res_weight2=res_weight2,
+        res_weight3=res_weight3,
+        res_weight4=res_weight4,
+        res_weight5=res_weight5,
+        outfile=outfile,
+        logfile=logfile,
+        output_mode=output_mode,
+    )
 
     return parse_result
