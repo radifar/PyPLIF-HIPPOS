@@ -47,7 +47,6 @@ def parse_config():
     )
 
     output_mode = dict(full=False, full_nobb=False, simplified=False)
-    output_mode_undefined = dict(full=False, full_nobb=False, simplified=False)
 
     simplified_outfile = "simplified_ifp.csv"
     full_outfile = "full_ifp.csv"
@@ -177,6 +176,8 @@ def parse_config():
                 else:
                     print("output_mode '%s' is not recognized" % value)
                     sys.exit(1)
+            if all(not value for value in output_mode.values()):
+                output_mode["full"] = True
 
         elif option == "simplified_outfile":
             simplified_outfile = line_list[1]
@@ -190,9 +191,6 @@ def parse_config():
             logfile = line_list[1]
         elif option:
             print("Warning: '%s' option is not recognized" % option)
-
-    if output_mode == output_mode_undefined:
-        output_mode["full"] = True
 
     parse_result = dict(
         direct_ifp=direct_ifp,
@@ -243,7 +241,6 @@ def parse_config_genref():
     res_weight5 = []
 
     output_mode = dict(full=False, full_nobb=False, simplified=False)
-    output_mode_undefined = dict(full=False, full_nobb=False, simplified=False)
 
     outfile = "genref-results.txt"
     logfile = "hippos-genref.log"
@@ -310,6 +307,8 @@ def parse_config_genref():
                 else:
                     print("output_mode '%s' is not recognized" % value)
                     sys.exit(1)
+            if all(not value for value in output_mode.values()):
+                output_mode["full"] = True
 
         elif option == "outfile":
             outfile = line_list[1]
@@ -317,9 +316,6 @@ def parse_config_genref():
             logfile = line_list[1]
         elif option:
             print("Warning: '%s' option is not recognized" % option)
-
-    if output_mode == output_mode_undefined:
-        output_mode["full"] = True
 
     parse_result = dict(
         proteins=proteins,
