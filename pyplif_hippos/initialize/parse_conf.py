@@ -6,7 +6,6 @@ from collections import namedtuple
 
 
 def parse_config():
-    #  Default configuration
     config = "config.txt"
 
     direct_ifp = False
@@ -15,7 +14,6 @@ def parse_config():
     ligand_file_list = []
     complex_list = []
 
-    #  Identifiers initialization
     docking_method = ""
     docking_conf = ""
     similarity_coef = []
@@ -50,9 +48,6 @@ def parse_config():
 
     output_mode = dict(full=False, full_nobb=False, simplified=False)
     output_mode_undefined = dict(full=False, full_nobb=False, simplified=False)
-    """
-    Default values
-    """
 
     simplified_outfile = "simplified_ifp.csv"
     full_outfile = "full_ifp.csv"
@@ -196,7 +191,6 @@ def parse_config():
         elif option:
             print("Warning: '%s' option is not recognized" % option)
 
-    # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
         output_mode["full"] = True
 
@@ -234,10 +228,7 @@ def parse_config():
 
 
 def parse_config_genref():
-    #  Default configuration
     config = "genref-config.txt"
-
-    #  Identifiers initialization
 
     proteins = ""
     ligands = ""
@@ -327,7 +318,6 @@ def parse_config_genref():
         elif option:
             print("Warning: '%s' option is not recognized" % option)
 
-    # Check output_mode value, if undefined then assign default value
     if output_mode == output_mode_undefined:
         output_mode["full"] = True
 
