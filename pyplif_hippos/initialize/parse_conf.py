@@ -5,6 +5,217 @@ import sys
 from collections import namedtuple
 
 
+class ParseBase:
+    def __init__(self):
+        self.use_backbone = True
+        self.res_name = []
+        self.res_num = []
+        self.res_weight = []
+        self.config_lines = []
+        self.output_mode = dict(full=False, full_nobb=False, simplified=False)
+
+    def read_config(self, config_file, config_type):
+        if len(sys.argv) > 1:
+            config_file = sys.argv[1]
+        else:
+            marker = ""
+            if config_type == "genref":
+                marker = "-GENREF"
+            print("HIPPOS%s config file not defined, using %s instead" % (marker, config_file))
+            print("To change the config file, use it as argument after HIPPOS%s" % marker)
+            print("Example:")
+            print("\t hippos%s <config file>\n" % marker.lower())
+
+        try:
+            with open(config_file, "r") as f:
+                self.config_lines = [line.split("#")[0].split() for line in f]
+        except IOError:
+            print("The config file: '%s' can not be found" % config_file)
+            sys.exit(1)
+
+
+class ParseConfig(ParseBase):
+    def __init__(self):
+        super().__init__()
+        self.config = "config.txt"
+        self.type = "hippos"
+        self.read_config(self.config, self.type)
+
+        self.direct_ifp = False
+        self.protein = ""
+        self.ligand_files = []
+        self.ligand_file_list = []
+        self.complex_list = []
+
+        self.docking_score = True
+        self.docking_method = ""
+        self.docking_conf = ""
+
+        self.similarity_coef = []
+        self.simplified_ref = []
+        self.full_ref = []
+        self.full_nobb_ref = []
+        self.omit_interaction_list = []
+        self.Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
+        self.abbr_interaction = dict(
+            HPB="hydrophobic",
+            ARM="aromatic",
+            HBD="h_bond",
+            ELE="electrostatic",
+            HBD_DON="h_bond_donor",
+            HBD_ACC="h_bond_acceptor",
+            ELE_POS="electrostatic_positive",
+            ELE_NEG="electrostatic_negative",
+            ARM_F2F="aromatic_facetoface",
+            ARM_E2F="aromatic_edgetoface",
+        )
+
+        self.simplified_outfile = "simplified_ifp.csv"
+        self.full_outfile = "full_ifp.csv"
+        self.full_nobb_outfile = "full_nobb_ifp.csv"
+        self.sim_outfile = "similarity.csv"
+        self.logfile = "hippos.log"
+
+        self.direct_ifp_options = [
+            "direct_ifp",
+            "protein",
+            "ligand_files",
+            "ligand_list",
+            "complex_list",
+        ]
+
+        self.docking_options = [
+            "docking_score",
+            "docking_method",
+            "docking_conf",
+        ]
+
+        self.fingerprinting_options = [
+            "similarity_coef",
+            "simplified_ref",
+            "full_ref",
+            "full_nobb_ref",
+            "use_backbone",
+            "residue_name",
+            "residue_number",
+            "omit_interaction",
+            "res_weight",
+        ]
+
+        self.output_options = [
+            "output_mode",
+            "simplified_outfile",
+            "full_outfile",
+            "full_nobb_outfile",
+            "sim_outfile",
+            "logfile",
+        ]
+
+    def parse_config(self):
+        for line in self.config_lines:
+            if not line:
+                continue
+
+            option = line[0]
+            single_value = None
+            multiple_value = None
+            if len(line) > 1:
+                single_value = line[1]
+                multiple_value = line[1:]
+
+            if option in self.direct_ifp_options:
+                if option == "direct_ifp":
+                    self.direct_ifp = True
+                elif option == "protein":
+                    self.protein = single_value
+                elif option == "ligand_files":
+                    self.ligand_files = multiple_value
+                elif option == "ligand_list":
+                    self.ligand_file_list = multiple_value
+                else:
+                    self.complex_list = multiple_value
+
+            elif option in self.docking_options:
+                if option == "docking_score":
+                    bool_val = ["yes", "no"]
+                    if single_value in bool_val:
+                        if single_value == "no":
+                            self.docking_score = False
+                elif option == "docking_method":
+                    method = ["vina", "plants"]
+                    if single_value in method:
+                        self.docking_method = single_value
+                    else:
+                        print("docking method '%s' is not recognized" % single_value)
+                        sys.exit(1)
+                else:
+                    self.docking_conf = single_value
+
+            elif option in self.fingerprinting_options:
+                if option == "similarity_coef":
+                    self.similarity_coef = multiple_value
+                elif option == "simplified_ref":
+                    self.simplified_ref = multiple_value
+                elif option == "full_ref":
+                    self.full_ref = multiple_value
+                elif option == "full_nobb_ref":
+                    self.full_nobb_ref = multiple_value
+                elif option == "use_backbone":
+                    bool_val = ["yes", "no"]
+                    if single_value in bool_val:
+                        if single_value == "no":
+                            self.use_backbone = False
+                elif option == "residue_name":
+                    self.res_name = multiple_value
+                elif option == "residue_number":
+                    self.res_num = multiple_value
+                elif option == "omit_interaction":
+                    interaction_type = single_value
+                    omitted_residue = line[2:]
+
+                    if interaction_type in self.abbr_interaction:
+                        interaction_type = self.abbr_interaction[interaction_type]
+
+                    omit_interaction = self.Omit_interaction(interaction_type, omitted_residue)
+                    self.omit_interaction_list.append(omit_interaction)
+                else:
+                    self.res_weight = multiple_value
+
+            elif option in self.output_options:
+                if option == "output_mode":
+                    for value in multiple_value:
+                        if value in ("full", "full_nobb", "simplified"):
+                            self.output_mode[value] = True
+                        else:
+                            print("output_mode '%s' is not recognized" % value)
+                            sys.exit(1)
+
+                    if not any(self.output_mode.values()):
+                        self.output_mode["full"] = True
+                elif option == "simplified_outfile":
+                    self.simplified_outfile = single_value
+                elif option == "full_outfile":
+                    self.full_outfile = single_value
+                elif option == "full_nobb_outfile":
+                    self.full_nobb_outfile = single_value
+                elif option == "sim_outfile":
+                    self.sim_outfile = single_value
+                else:
+                    self.logfile = single_value
+
+            else:
+                print("Warning: '%s' option is not recognized" % option)
+
+
+class ParseConfigGenref(ParseBase):
+    def __init__(self):
+        super().__init__()
+        self.config = "genref-config.txt"
+        self.type = "genref"
+        self.read_config(self.config, self.type)
+        print(self.config_lines)
+
+
 def parse_config():
     config = "config.txt"
 
@@ -24,11 +235,7 @@ def parse_config():
     use_backbone = True
     res_name = []
     res_num = []
-    res_weight1 = []
-    res_weight2 = []
-    res_weight3 = []
-    res_weight4 = []
-    res_weight5 = []
+    res_weight = []
     docking_score = True
 
     omit_interaction_list = []
@@ -77,70 +284,66 @@ def parse_config():
 
         if not line_list:
             continue
+
         option = line_list[0]
+        single_value = None
+        multiple_value = None
+        if len(line_list) > 1:
+            single_value = line_list[1]
+            multiple_value = line_list[1:]
 
         if option == "direct_ifp":
-            value = line_list[1]
-            if value == "true":
+            if single_value == "true":
                 direct_ifp = True
 
         elif option == "protein":
-            protein = line_list[1]
+            protein = single_value
 
         elif option == "ligand_files":
-            value = line_list[1:]
-            ligand_files = value
+            ligand_files = multiple_value
 
         elif option == "ligand_list":
-            value = line_list[1:]
-            ligand_file_list = value
+            ligand_file_list = multiple_value
 
         elif option == "complex_list":
-            value = line_list[1:]
-            complex_list = value
+            complex_list = multiple_value
 
         elif option == "docking_method":
-            value = line_list[1]
             method = ["vina", "plants"]
-            if value in method:
-                docking_method = value
+            if single_value in method:
+                docking_method = single_value
             else:
-                print("docking method '%s' is not recognized" % value)
+                print("docking method '%s' is not recognized" % single_value)
                 sys.exit(1)
 
         elif option == "docking_conf":
-            docking_conf = line_list[1]
+            docking_conf = single_value
 
         elif option == "similarity_coef":
-            value = line_list[1:]
-            similarity_coef = value
+            similarity_coef = multiple_value
 
         elif option == "simplified_ref":
-            value = line_list[1:]
-            simplified_ref = value
+            simplified_ref = multiple_value
 
         elif option == "full_ref":
-            value = line_list[1:]
-            full_ref = value
+            full_ref = multiple_value
 
         elif option == "full_nobb_ref":
-            value = line_list[1:]
-            full_nobb_ref = value
+            full_nobb_ref = multiple_value
 
         elif option == "use_backbone":
-            value = line_list[1]
             bool_val = ["yes", "no"]
-            if value in bool_val:
-                if value == "no":
+            if single_value in bool_val:
+                if single_value == "no":
                     use_backbone = False
 
         elif option == "residue_name":
-            res_name = line_list[1:]
+            res_name = multiple_value
         elif option == "residue_number":
-            res_num = line_list[1:]
+            res_num = multiple_value
 
         elif option == "omit_interaction":
-            interaction_type = line_list[1]
+            interaction_type = single_value
             omitted_residue = line_list[2:]
 
             if interaction_type in abbr_interaction.keys():
@@ -149,28 +352,18 @@ def parse_config():
             omit_interaction = Omit_interaction(interaction_type, omitted_residue)
             omit_interaction_list.append(omit_interaction)
 
-        elif option == "res_weight1":
-            res_weight1 = line_list[1:]
-        elif option == "res_weight2":
-            res_weight2 = line_list[1:]
-        elif option == "res_weight3":
-            res_weight3 = line_list[1:]
-        elif option == "res_weight4":
-            res_weight4 = line_list[1:]
-        elif option == "res_weight5":
-            res_weight5 = line_list[1:]
+        elif option == "res_weight":
+            res_weight = multiple_value
 
         elif option == "docking_score":
-            value = line_list[1]
             bool_val = ["yes", "no"]
-            if value in bool_val:
-                if value == "no":
+            if single_value in bool_val:
+                if single_value == "no":
                     docking_score = False
 
         elif option == "output_mode":
-            values = line_list[1:]
             mode = ["full", "full_nobb", "simplified"]
-            for value in values:
+            for value in multiple_value:
                 if value in mode:
                     output_mode[value] = True
                 else:
@@ -180,15 +373,15 @@ def parse_config():
                 output_mode["full"] = True
 
         elif option == "simplified_outfile":
-            simplified_outfile = line_list[1]
+            simplified_outfile = single_value
         elif option == "full_outfile":
-            full_outfile = line_list[1]
+            full_outfile = single_value
         elif option == "full_nobb_outfile":
-            full_nobb_outfile = line_list[1]
+            full_nobb_outfile = single_value
         elif option == "sim_outfile":
-            sim_outfile = line_list[1]
+            sim_outfile = single_value
         elif option == "logfile":
-            logfile = line_list[1]
+            logfile = single_value
         elif option:
             print("Warning: '%s' option is not recognized" % option)
 
@@ -208,11 +401,7 @@ def parse_config():
         residue_name=res_name,
         residue_number=res_num,
         omit_interaction=omit_interaction_list,
-        res_weight1=res_weight1,
-        res_weight2=res_weight2,
-        res_weight3=res_weight3,
-        res_weight4=res_weight4,
-        res_weight5=res_weight5,
+        res_weight=res_weight,
         docking_score=docking_score,
         output_mode=output_mode,
         simplified_outfile=simplified_outfile,
@@ -234,11 +423,7 @@ def parse_config_genref():
     use_backbone = True
     res_name = []
     res_num = []
-    res_weight1 = []
-    res_weight2 = []
-    res_weight3 = []
-    res_weight4 = []
-    res_weight5 = []
+    res_weight = []
 
     output_mode = dict(full=False, full_nobb=False, simplified=False)
 
@@ -287,16 +472,8 @@ def parse_config_genref():
         elif option == "residue_number":
             res_num = line_list[1:]
 
-        elif option == "res_weight1":
-            res_weight1 = line_list[1:]
-        elif option == "res_weight2":
-            res_weight2 = line_list[1:]
-        elif option == "res_weight3":
-            res_weight3 = line_list[1:]
-        elif option == "res_weight4":
-            res_weight4 = line_list[1:]
-        elif option == "res_weight5":
-            res_weight5 = line_list[1:]
+        elif option == "res_weight":
+            res_weight = line_list[1:]
 
         elif option == "output_mode":
             values = line_list[1:]
@@ -323,11 +500,7 @@ def parse_config_genref():
         use_backbone=use_backbone,
         residue_name=res_name,
         residue_number=res_num,
-        res_weight1=res_weight1,
-        res_weight2=res_weight2,
-        res_weight3=res_weight3,
-        res_weight4=res_weight4,
-        res_weight5=res_weight5,
+        res_weight=res_weight,
         outfile=outfile,
         logfile=logfile,
         output_mode=output_mode,

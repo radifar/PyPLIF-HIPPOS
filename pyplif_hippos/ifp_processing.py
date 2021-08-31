@@ -45,11 +45,7 @@ def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
         "omit_interaction": hippos_config["omit_interaction"],
         "backbone": hippos_config["use_backbone"],
         "output_mode": hippos_config["output_mode"],
-        "res_weight1": hippos_config["res_weight1"],
-        "res_weight2": hippos_config["res_weight2"],
-        "res_weight3": hippos_config["res_weight3"],
-        "res_weight4": hippos_config["res_weight4"],
-        "res_weight5": hippos_config["res_weight5"],
+        "res_weight": hippos_config["res_weight"],
     }
 
     residue_obj = {}
@@ -82,11 +78,7 @@ def get_bitstring(docking_results, hippos_config):
         "omit_interaction": hippos_config["omit_interaction"],
         "backbone": hippos_config["use_backbone"],
         "output_mode": hippos_config["output_mode"],
-        "res_weight1": hippos_config["res_weight1"],
-        "res_weight2": hippos_config["res_weight2"],
-        "res_weight3": hippos_config["res_weight3"],
-        "res_weight4": hippos_config["res_weight4"],
-        "res_weight5": hippos_config["res_weight5"],
+        "res_weight": hippos_config["res_weight"],
     }
     """
     Assigning residue_obj
@@ -127,11 +119,7 @@ def get_refbitstring(genref_config):
     custom_settings = {
         "omit_interaction": [],
         "backbone": genref_config["use_backbone"],
-        "res_weight1": genref_config["res_weight1"],
-        "res_weight2": genref_config["res_weight2"],
-        "res_weight3": genref_config["res_weight3"],
-        "res_weight4": genref_config["res_weight4"],
-        "res_weight5": genref_config["res_weight5"],
+        "res_weight": genref_config["res_weight"],
         "output_mode": genref_config["output_mode"],
     }
 
@@ -521,11 +509,7 @@ class Residue(ResidueData):
             self.path3atoms = [self.heavyatoms[i] for i in path3]
             self.cross, self.modulus = getCrossModulus(self.path3atoms)
 
-        self.res_weight1 = custom_settings["res_weight1"]
-        self.res_weight2 = custom_settings["res_weight2"]
-        self.res_weight3 = custom_settings["res_weight3"]
-        self.res_weight4 = custom_settings["res_weight4"]
-        self.res_weight5 = custom_settings["res_weight5"]
+        self.res_weight = custom_settings["res_weight"]
 
     def setup_bitstring(self, pose_num):
         self.full_bits_list = (
