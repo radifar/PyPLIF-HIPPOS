@@ -38,15 +38,15 @@ from PARAMETERS import (
 
 def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
 
-    res_name = hippos_config["residue_name"]
-    res_num = hippos_config["residue_number"]
+    res_name = hippos_config.residue_name
+    res_num = hippos_config.residue_number
 
-    custom_settings = {
-        "omit_interaction": hippos_config["omit_interaction"],
-        "backbone": hippos_config["use_backbone"],
-        "output_mode": hippos_config["output_mode"],
-        "res_weight": hippos_config["res_weight"],
-    }
+    custom_settings = dict(
+        omit_interaction=hippos_config.omit_interaction,
+        backbone=hippos_config.use_backbone,
+        output_mode=hippos_config.output_mode,
+        res_weight=hippos_config.res_weight
+    )
 
     residue_obj = {}
     for name, num in zip(res_name, res_num):
@@ -69,17 +69,17 @@ def get_complex_bitstring(complex_list, hippos_config):
 
 def get_bitstring(docking_results, hippos_config):
     protein = docking_results["protein"]
-    res_name = hippos_config["residue_name"]
-    res_num = hippos_config["residue_number"]
+    res_name = hippos_config.residue_name
+    res_num = hippos_config.residue_number
     ligands = docking_results["docked_ligands"]
     flex_protein = docking_results["docked_proteins"]
 
-    custom_settings = {
-        "omit_interaction": hippos_config["omit_interaction"],
-        "backbone": hippos_config["use_backbone"],
-        "output_mode": hippos_config["output_mode"],
-        "res_weight": hippos_config["res_weight"],
-    }
+    custom_settings = dict(
+        omit_interaction=hippos_config.omit_interaction,
+        backbone=hippos_config.use_backbone,
+        output_mode=hippos_config.output_mode,
+        res_weight=hippos_config.res_weight
+    )
     """
     Assigning residue_obj
     key   => residue_name, eg. ASP107
@@ -96,7 +96,7 @@ def get_bitstring(docking_results, hippos_config):
     ligand_atom_group => Dictionary of atom indices & possible interaction
     """
 
-    if hippos_config["docking_method"] == "vina":
+    if hippos_config.docking_method == "vina":
         ligand_atom_group = assign_atoms(ligands[0], "vina")
         for name in res_name:
             residue_obj[name].calculateIFPVina(ligands, ligand_atom_group)

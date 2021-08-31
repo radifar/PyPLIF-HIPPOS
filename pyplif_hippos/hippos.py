@@ -53,20 +53,21 @@ def main():
     6. Write bitstring (and similarity) to output file
     """
 
-    hippos_config = parse_config()
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
 
-    logfile = open(hippos_config["logfile"], "w")  # Output #4
+    logfile = open(hippos_config.logfile, "w")  # Output #4
 
-    if hippos_config["direct_ifp"]:
-        if not hippos_config["complex_list"]:
+    if hippos_config.direct_ifp:
+        if not hippos_config.complex_list:
             ligand_list = []
-            if hippos_config["ligand_files"]:
-                ligand_files = hippos_config["ligand_files"]
+            if hippos_config.ligand_files:
+                ligand_files = hippos_config.ligand_files
                 enumerate_ligand_files(ligand_list, ligand_files)
-            if hippos_config["ligand_file_list"]:
-                ligand_file_list = hippos_config["ligand_file_list"]
+            if hippos_config.ligand_file_list:
+                ligand_file_list = hippos_config.ligand_file_list
                 enumerate_ligand_file_list(ligand_list, ligand_file_list)
-            protein = hippos_config["protein"]
+            protein = hippos_config.protein
 
             ligand_mol_list = parse_ligands(ligand_list)
             protein_mol = parse_protein(protein)
@@ -90,15 +91,15 @@ def main():
         scorelist		==> List of docking score
         """
 
-        if hippos_config["docking_method"] == "plants":
+        if hippos_config.docking_method == "plants":
             from initialize.parse_docking_conf import parse_plants_conf
 
-            docking_conf = hippos_config["docking_conf"]
+            docking_conf = hippos_config.docking_conf
             docking_results = parse_plants_conf(docking_conf)
         else:
             from initialize.parse_docking_conf import parse_vina_conf
 
-            docking_conf = hippos_config["docking_conf"]
+            docking_conf = hippos_config.docking_conf
             docking_results = parse_vina_conf(docking_conf)
 
         # checking docking output, if not found then exit.
@@ -122,27 +123,27 @@ def main():
 
         scorelist = docking_results["scorelist"]
         ligand_pose = []
-        if hippos_config["docking_method"] == "plants":
+        if hippos_config.docking_method == "plants":
             for mol in docking_results["mollist"]:
                 mol = mol.split("_")
                 new_name = mol[0] + "_" + mol[-1]
                 ligand_pose.append(new_name)
-        if hippos_config["docking_method"] == "vina":
+        if hippos_config.docking_method == "vina":
             ligand_pose = docking_results["mollist"]
 
     # set flag for every chosen output mode
-    output_mode = hippos_config["output_mode"]
+    output_mode = hippos_config.output_mode
     simplified_flag = output_mode["simplified"]
     full_flag = output_mode["full"]
     full_nobb_flag = output_mode["full_nobb"]
 
     # set file handler for every chosen output mode
     if simplified_flag:
-        simplified_outfile = open(hippos_config["simplified_outfile"], "w")  # Output #1
+        simplified_outfile = open(hippos_config.simplified_outfile, "w")  # Output #1
     if full_flag:
-        full_outfile = open(hippos_config["full_outfile"], "w")  # Output #2
+        full_outfile = open(hippos_config.full_outfile, "w")  # Output #2
     if full_nobb_flag:
-        full_nobb_outfile = open(hippos_config["full_nobb_outfile"], "w")  # Output #3
+        full_nobb_outfile = open(hippos_config.full_nobb_outfile, "w")  # Output #3
 
     # write ligand info and similarity coef info
     logfile.write(
@@ -150,9 +151,9 @@ def main():
         % (ligand_pose[0].split("_")[0], len(ligand_pose))
     )  # Output Logfile
 
-    similarity_coef = hippos_config["similarity_coef"]
+    similarity_coef = hippos_config.similarity_coef
     if similarity_coef:
-        sim_outfile = open(hippos_config["sim_outfile"], "w")  # Output #5
+        sim_outfile = open(hippos_config.sim_outfile, "w")  # Output #5
         logfile.write(
             "similarity coefficient used are %s\n" % (", ".join(similarity_coef))
         )  # Output Logfile
@@ -178,7 +179,7 @@ def main():
         # Concatenate bitstring from every residue, then write to their respective
         # output file
         bit_start = 1
-        for resname in hippos_config["residue_name"]:
+        for resname in hippos_config.residue_name:
             bit_replace_index = bitstrings[resname].bit_replace_index
             simp_bit_replace_index = bitstrings[resname].simp_bit_replace_index
             if simplified_flag:
@@ -217,13 +218,13 @@ def main():
             abcdp_list = []
             coefficient = []
             if full_flag:
-                for full in hippos_config["full_ref"]:
+                for full in hippos_config.full_ref:
                     abcdp_list.append(count_abcdp(full, full_bits))
             elif full_nobb_flag:
-                for nobb in hippos_config["full_nobb_ref"]:
+                for nobb in hippos_config.full_nobb_ref:
                     abcdp_list.append(count_abcdp(nobb, nobb_bits))
             else:
-                for simp in hippos_config["simplified_ref"]:
+                for simp in hippos_config.simplified_ref:
                     abcdp_list.append(count_abcdp(simp, simp_bits))
             for sim_coef in similarity_coef:
                 for abcdp in abcdp_list:

@@ -8,8 +8,8 @@ from collections import namedtuple
 class ParseBase:
     def __init__(self):
         self.use_backbone = True
-        self.res_name = []
-        self.res_num = []
+        self.residue_name = []
+        self.residue_number = []
         self.res_weight = []
         self.config_lines = []
         self.output_mode = dict(full=False, full_nobb=False, simplified=False)
@@ -55,7 +55,7 @@ class ParseConfig(ParseBase):
         self.simplified_ref = []
         self.full_ref = []
         self.full_nobb_ref = []
-        self.omit_interaction_list = []
+        self.omit_interaction = []
         self.Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
         self.abbr_interaction = dict(
             HPB="hydrophobic",
@@ -166,9 +166,9 @@ class ParseConfig(ParseBase):
                         if single_value == "no":
                             self.use_backbone = False
                 elif option == "residue_name":
-                    self.res_name = multiple_value
+                    self.residue_name = multiple_value
                 elif option == "residue_number":
-                    self.res_num = multiple_value
+                    self.residue_number = multiple_value
                 elif option == "omit_interaction":
                     interaction_type = single_value
                     omitted_residue = line[2:]
@@ -176,8 +176,8 @@ class ParseConfig(ParseBase):
                     if interaction_type in self.abbr_interaction:
                         interaction_type = self.abbr_interaction[interaction_type]
 
-                    omit_interaction = self.Omit_interaction(interaction_type, omitted_residue)
-                    self.omit_interaction_list.append(omit_interaction)
+                    omit_this = self.Omit_interaction(interaction_type, omitted_residue)
+                    self.omit_interaction.append(omit_this)
                 else:
                     self.res_weight = multiple_value
 
@@ -214,204 +214,6 @@ class ParseConfigGenref(ParseBase):
         self.type = "genref"
         self.read_config(self.config, self.type)
         print(self.config_lines)
-
-
-def parse_config():
-    config = "config.txt"
-
-    direct_ifp = False
-    protein = ""
-    ligand_files = []
-    ligand_file_list = []
-    complex_list = []
-
-    docking_method = ""
-    docking_conf = ""
-    similarity_coef = []
-    simplified_ref = []
-    full_ref = []
-    full_nobb_ref = []
-
-    use_backbone = True
-    res_name = []
-    res_num = []
-    res_weight = []
-    docking_score = True
-
-    omit_interaction_list = []
-    Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
-    abbr_interaction = dict(
-        HPB="hydrophobic",
-        ARM="aromatic",
-        HBD="h_bond",
-        ELE="electrostatic",
-        HBD_DON="h_bond_donor",
-        HBD_ACC="h_bond_acceptor",
-        ELE_POS="electrostatic_positive",
-        ELE_NEG="electrostatic_negative",
-        ARM_F2F="aromatic_facetoface",
-        ARM_E2F="aromatic_edgetoface",
-    )
-
-    output_mode = dict(full=False, full_nobb=False, simplified=False)
-
-    simplified_outfile = "simplified_ifp.csv"
-    full_outfile = "full_ifp.csv"
-    full_nobb_outfile = "full_nobb_ifp.csv"
-    sim_outfile = "similarity.csv"
-    logfile = "hippos.log"
-
-    if len(sys.argv) > 1:
-        config = sys.argv[1]
-    else:
-        print("HIPPOS config file not defined, using config.txt instead")
-        print("To change the config file, use it as argument after HIPPOS")
-        print("Example:")
-        print("\t hippos <config file>\n")
-
-    try:
-        configread = open(config, "r")
-    except IOError:
-        print("The config file: '%s' can not be found" % config)
-        sys.exit(1)
-
-    configlines = [line for line in configread]
-    configread.close()
-
-    for line in configlines:
-        uncommented = line.split("#")[0]
-        line_list = uncommented.split()
-
-        if not line_list:
-            continue
-
-        option = line_list[0]
-        single_value = None
-        multiple_value = None
-        if len(line_list) > 1:
-            single_value = line_list[1]
-            multiple_value = line_list[1:]
-
-        if option == "direct_ifp":
-            if single_value == "true":
-                direct_ifp = True
-
-        elif option == "protein":
-            protein = single_value
-
-        elif option == "ligand_files":
-            ligand_files = multiple_value
-
-        elif option == "ligand_list":
-            ligand_file_list = multiple_value
-
-        elif option == "complex_list":
-            complex_list = multiple_value
-
-        elif option == "docking_method":
-            method = ["vina", "plants"]
-            if single_value in method:
-                docking_method = single_value
-            else:
-                print("docking method '%s' is not recognized" % single_value)
-                sys.exit(1)
-
-        elif option == "docking_conf":
-            docking_conf = single_value
-
-        elif option == "similarity_coef":
-            similarity_coef = multiple_value
-
-        elif option == "simplified_ref":
-            simplified_ref = multiple_value
-
-        elif option == "full_ref":
-            full_ref = multiple_value
-
-        elif option == "full_nobb_ref":
-            full_nobb_ref = multiple_value
-
-        elif option == "use_backbone":
-            bool_val = ["yes", "no"]
-            if single_value in bool_val:
-                if single_value == "no":
-                    use_backbone = False
-
-        elif option == "residue_name":
-            res_name = multiple_value
-        elif option == "residue_number":
-            res_num = multiple_value
-
-        elif option == "omit_interaction":
-            interaction_type = single_value
-            omitted_residue = line_list[2:]
-
-            if interaction_type in abbr_interaction.keys():
-                interaction_type = abbr_interaction[interaction_type]
-
-            omit_interaction = Omit_interaction(interaction_type, omitted_residue)
-            omit_interaction_list.append(omit_interaction)
-
-        elif option == "res_weight":
-            res_weight = multiple_value
-
-        elif option == "docking_score":
-            bool_val = ["yes", "no"]
-            if single_value in bool_val:
-                if single_value == "no":
-                    docking_score = False
-
-        elif option == "output_mode":
-            mode = ["full", "full_nobb", "simplified"]
-            for value in multiple_value:
-                if value in mode:
-                    output_mode[value] = True
-                else:
-                    print("output_mode '%s' is not recognized" % value)
-                    sys.exit(1)
-            if all(not value for value in output_mode.values()):
-                output_mode["full"] = True
-
-        elif option == "simplified_outfile":
-            simplified_outfile = single_value
-        elif option == "full_outfile":
-            full_outfile = single_value
-        elif option == "full_nobb_outfile":
-            full_nobb_outfile = single_value
-        elif option == "sim_outfile":
-            sim_outfile = single_value
-        elif option == "logfile":
-            logfile = single_value
-        elif option:
-            print("Warning: '%s' option is not recognized" % option)
-
-    parse_result = dict(
-        direct_ifp=direct_ifp,
-        protein=protein,
-        ligand_files=ligand_files,
-        ligand_file_list=ligand_file_list,
-        complex_list=complex_list,
-        docking_method=docking_method,
-        docking_conf=docking_conf,
-        similarity_coef=similarity_coef,
-        full_ref=full_ref,
-        full_nobb_ref=full_nobb_ref,
-        simplified_ref=simplified_ref,
-        use_backbone=use_backbone,
-        residue_name=res_name,
-        residue_number=res_num,
-        omit_interaction=omit_interaction_list,
-        res_weight=res_weight,
-        docking_score=docking_score,
-        output_mode=output_mode,
-        simplified_outfile=simplified_outfile,
-        full_outfile=full_outfile,
-        full_nobb_outfile=full_nobb_outfile,
-        sim_outfile=sim_outfile,
-        logfile=logfile,
-    )
-
-    return parse_result
 
 
 def parse_config_genref():
