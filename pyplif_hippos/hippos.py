@@ -7,7 +7,7 @@ import re
 import sys
 from time import time
 
-from initialize.parse_conf import parse_config, ParseConfig
+from initialize.parse_conf import ParseConfig
 from parse_mol import parse_ligands, parse_protein
 from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bitstring
 from similarity import count_abcdp, how_similar

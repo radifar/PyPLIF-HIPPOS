@@ -111,16 +111,16 @@ def get_bitstring(docking_results, hippos_config):
 
 
 def get_refbitstring(genref_config):
-    proteins = genref_config["proteins"]
-    ligands = genref_config["ligands"]
-    res_name = genref_config["residue_name"]
-    res_num = genref_config["residue_number"]
+    proteins = genref_config.proteins
+    ligands = genref_config.ligands
+    res_name = genref_config.residue_name
+    res_num = genref_config.residue_number
 
     custom_settings = {
         "omit_interaction": [],
-        "backbone": genref_config["use_backbone"],
-        "res_weight": genref_config["res_weight"],
-        "output_mode": genref_config["output_mode"],
+        "backbone": genref_config.use_backbone,
+        "res_weight": genref_config.res_weight,
+        "output_mode": genref_config.output_mode,
     }
 
     residue_list = [{} for i in range(len(ligands))]

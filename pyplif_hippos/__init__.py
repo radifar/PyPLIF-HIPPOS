@@ -17,7 +17,7 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-from initialize.parse_conf import ParseBase, ParseConfig, ParseConfigGenref, parse_config, parse_config_genref
+from initialize.parse_conf import ParseBase, ParseConfig, ParseConfigGenref
 from initialize.parse_docking_conf import parse_vina_conf, parse_plants_conf
 from parse_mol import parse_ligands, parse_protein
 from SIMILARITY_FORMULA import sim_dict

@@ -4,21 +4,22 @@ from __future__ import print_function
 
 from time import time
 
-from initialize.parse_conf import parse_config_genref
+from initialize.parse_conf import ParseConfigGenref
 from ifp_processing import get_refbitstring
 
 
 def main():
     x = time()
-    genref_config = parse_config_genref()
-    proteins = genref_config["proteins"]
-    ligands = genref_config["ligands"]
+    genref_config = ParseConfigGenref()
+    genref_config.parse_config()
+    proteins = genref_config.proteins
+    ligands = genref_config.ligands
 
     # calculate bitstring
     bitstrings = get_refbitstring(genref_config)
 
     # write bitstring result to output file
-    outfile = open(genref_config["outfile"], "w")
+    outfile = open(genref_config.outfile, "w")
 
     # A nested for loop, the outer one evaluate protein ligand pair
     # the inner one evaluate every residue.
@@ -29,12 +30,12 @@ def main():
         simp_bits = ""
 
         # for every residue convert the bits to string then concatenate with bitstring
-        for resname in genref_config["residue_name"]:
-            if genref_config["output_mode"]["full"]:
+        for resname in genref_config.residue_name:
+            if genref_config.output_mode["full"]:
                 full_bits += bitstring[resname].full_bit.to01()
-            if genref_config["output_mode"]["full_nobb"]:
+            if genref_config.output_mode["full_nobb"]:
                 full_nobb_bits += bitstring[resname].nobb_bit.to01()
-            if genref_config["output_mode"]["simplified"]:
+            if genref_config.output_mode["simplified"]:
                 simp_bits += bitstring[resname].simp.to01()
 
         # augment the bits with description and new line

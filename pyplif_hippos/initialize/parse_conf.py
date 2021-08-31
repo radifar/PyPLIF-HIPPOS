@@ -213,99 +213,78 @@ class ParseConfigGenref(ParseBase):
         self.config = "genref-config.txt"
         self.type = "genref"
         self.read_config(self.config, self.type)
-        print(self.config_lines)
 
+        self.proteins = ""
+        self.ligands = ""
 
-def parse_config_genref():
-    config = "genref-config.txt"
+        self.outfile = "genref-results.txt"
+        self.logfile = "hippos-genref.log"
 
-    proteins = ""
-    ligands = ""
+        self.input_options = [
+            "proteins",
+            "ligands",
+        ]
 
-    use_backbone = True
-    res_name = []
-    res_num = []
-    res_weight = []
+        self.fingerprinting_options = [
+            "use_backbone",
+            "residue_name",
+            "residue_number",
+            "res_weight",
+        ]
 
-    output_mode = dict(full=False, full_nobb=False, simplified=False)
+        self.output_options = [
+            "output_mode",
+            "outfile",
+            "logfile",
+        ]
 
-    outfile = "genref-results.txt"
-    logfile = "hippos-genref.log"
+    def parse_config(self):
+        for line in self.config_lines:
+            if not line:
+                continue
 
-    if len(sys.argv) > 1:
-        config = sys.argv[1]
-    else:
-        print("HIPPOS-GENREF config file not defined, using genref-config.txt instead")
-        print("To change the config file, use it as argument after HIPPOS")
-        print("Example:")
-        print("\t hippos-genref <config file>\n")
+            option = line[0]
+            single_value = None
+            multiple_value = None
+            if len(line) > 1:
+                single_value = line[1]
+                multiple_value = line[1:]
 
-    try:
-        configread = open(config, "r")
-    except IOError:
-        print("The config file: '%s' can not be found" % config)
-        sys.exit(1)
-
-    configlines = [line for line in configread]
-    configread.close()
-
-    for line in configlines:
-        uncommented = line.split("#")[0]
-        line_list = uncommented.split()
-
-        if not line_list:
-            continue
-        option = line_list[0]
-
-        if option == "proteins":
-            proteins = line_list[1:]
-        elif option == "ligands":
-            ligands = line_list[1:]
-
-        elif option == "use_backbone":
-            value = line_list[1]
-            bool_val = ["yes", "no"]
-            if value in bool_val:
-                if value == "no":
-                    use_backbone = False
-
-        elif option == "residue_name":
-            res_name = line_list[1:]
-        elif option == "residue_number":
-            res_num = line_list[1:]
-
-        elif option == "res_weight":
-            res_weight = line_list[1:]
-
-        elif option == "output_mode":
-            values = line_list[1:]
-            mode = ["full", "full_nobb", "simplified"]
-            for value in values:
-                if value in mode:
-                    output_mode[value] = True
+            if option in self.input_options:
+                if option == "proteins":
+                    self.proteins = multiple_value
                 else:
-                    print("output_mode '%s' is not recognized" % value)
-                    sys.exit(1)
-            if all(not value for value in output_mode.values()):
-                output_mode["full"] = True
+                    self.ligands = multiple_value
 
-        elif option == "outfile":
-            outfile = line_list[1]
-        elif option == "logfile":
-            logfile = line_list[1]
-        elif option:
-            print("Warning: '%s' option is not recognized" % option)
+            elif option in self.fingerprinting_options:
+                if option == "use_backbone":
+                    value = single_value
+                    bool_val = ["yes", "no"]
+                    if value in bool_val:
+                        if value == "no":
+                            self.use_backbone = False
+                elif option == "residue_name":
+                    self.residue_name = multiple_value
+                elif option == "residue_number":
+                    self.residue_number = multiple_value
+                else:
+                    self.res_weight = multiple_value
 
-    parse_result = dict(
-        proteins=proteins,
-        ligands=ligands,
-        use_backbone=use_backbone,
-        residue_name=res_name,
-        residue_number=res_num,
-        res_weight=res_weight,
-        outfile=outfile,
-        logfile=logfile,
-        output_mode=output_mode,
-    )
+            elif option in self.output_options:
+                if option == "output_mode":
+                    for value in multiple_value:
+                        if value in ("full", "full_nobb", "simplified"):
+                            self.output_mode[value] = True
+                        else:
+                            print("output_mode '%s' is not recognized" % value)
+                            sys.exit(1)
 
-    return parse_result
+                    if not any(self.output_mode.values()):
+                        self.output_mode["full"] = True
+                elif option == "outfile":
+                    self.outfile = single_value
+                else:
+                    self.logfile = single_value
+
+            else:
+                print("Warning: '%s' option is not recognized" % option)
