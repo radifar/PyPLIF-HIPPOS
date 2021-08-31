@@ -77,52 +77,45 @@ def parse_vina_conf(vina_conf):
 
 
 def parse_plants_conf(plants_conf):
-    original_path = os.getcwd()
-    write_multi_mol2 = True
-
     try:
+        write_multi_mol2 = True
         with open(plants_conf, "r") as f:
             for line in f:
-                uncommented = line.split("#")[0]
-                line_list = uncommented.split()
-
-                if not line_list:
+                line = line.split("#")[0].split()
+                if not line:
                     continue
-                line_list = line_list[:2]
-                option, value = line_list
+
+                line = line[:2]
+                option, value = line
 
                 if option == "output_dir":
                     plants_output = value
-                if option == "protein_file":
+                elif option == "protein_file":
                     protein_file = value
-                if option == "ligand_file":
-                    ligand_file = value
-                if option == "write_multi_mol2":
+                elif option == "write_multi_mol2":
                     if value == "0":
                         write_multi_mol2 = False
     except IOError:
         print("The PLANTS config file: '%s' can not be found" % plants_conf)
         sys.exit(1)
 
+    original_path = os.getcwd()
     conf_path = os.path.abspath(plants_conf)
     os.chdir(os.path.dirname(conf_path))
-
-    convert = ob.OBConversion()
-    convert.SetInFormat("mol2")
 
     protein = ob.OBMol()
     ligands = ob.OBMol()
     flexibles = ob.OBMol()
-
+    convert = ob.OBConversion()
+    convert.SetInFormat("mol2")
     convert.ReadFile(protein, protein_file)
 
-    # Extracting molecule list & score list
     try:
         os.chdir(plants_output)
         mollist = []
         scorelist = []
         with open("features.csv", "r") as f:
-            f.readline()  # just removing the first line
+            f.readline()  # remove first line
             for mol in f:
                 mol = mol.split(",")
                 mollist.append(mol[0])
