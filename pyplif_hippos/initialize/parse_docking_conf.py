@@ -9,49 +9,50 @@ except ImportError:
 
 
 def parse_vina_conf(vina_conf):
-    original_path = os.getcwd()
-
     try:
         with open(vina_conf, "r") as f:
             for line in f:
-                uncommented = line.split("#")[0]
-                line_list = uncommented.split()
-
-                if not line_list:
+                line = line.split("#")[0].split()
+                if not line:
                     continue
-                option, _, value = line_list
 
+                option, _, value = line
                 if option == "receptor":
                     protein_file = value
-                if option == "ligand":
+                elif option == "ligand":
                     ligand_file = value
                     out = ligand_file[:-6] + "_out" + ligand_file[-6:]
-                if option == "out":
+                elif option == "out":
                     out = value
     except IOError:
         print("The VINA config file: '%s' can not be found" % vina_conf)
         sys.exit(1)
 
+    original_path = os.getcwd()
     conf_path = os.path.abspath(vina_conf)
     os.chdir(os.path.dirname(conf_path))
 
     try:
         scorelist = []
+        mollist = []
+        ligand_name = ligand_file[:-6]
+        pose = 1
         with open(out, "r") as f:
             for line in f:
                 line = line.split()
                 if (len(line) > 2) and (line[2] == "RESULT:"):
+                    ligand_pose = ligand_name + "_" + str(pose)
                     scorelist.append(line[3])
+                    mollist.append(ligand_pose)
+                    pose += 1
     except IOError:
         print("Ligand output file: '%s' can not be found" % out)
         sys.exit(1)
 
-    convert = ob.OBConversion()
-    convert.SetInFormat("pdbqt")
-
     protein = ob.OBMol()
     ligands = ob.OBMol()
-
+    convert = ob.OBConversion()
+    convert.SetInFormat("pdbqt")
     convert.ReadFile(protein, protein_file)
 
     docked_ligands = []
@@ -62,12 +63,6 @@ def parse_vina_conf(vina_conf):
         docked_ligands.append(ligands)
         ligands = ob.OBMol()
         not_at_end = convert.Read(ligands)
-
-    mollist = []
-    ligand_name = ligand_file[:-6]
-    for i in range(len(docked_ligands)):
-        ligand_pose = ligand_name + "_" + str(i + 1)
-        mollist.append(ligand_pose)
 
     docking_results = {
         "protein": protein,
