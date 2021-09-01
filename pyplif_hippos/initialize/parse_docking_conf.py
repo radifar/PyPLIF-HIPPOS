@@ -34,17 +34,17 @@ def parse_vina_conf(vina_conf):
 
     try:
         scorelist = []
-        mollist = []
+        ligand_pose = []
         ligand_name = ligand_file[:-6]
-        pose = 1
+        pose_number = 1
         with open(out, "r") as f:
             for line in f:
                 line = line.split()
                 if (len(line) > 2) and (line[2] == "RESULT:"):
-                    ligand_pose = ligand_name + "_" + str(pose)
+                    pose = ligand_name + "_" + str(pose_number)
                     scorelist.append(line[3])
-                    mollist.append(ligand_pose)
-                    pose += 1
+                    ligand_pose.append(pose)
+                    pose_number += 1
     except IOError:
         print("Ligand output file: '%s' can not be found" % out)
         sys.exit(1)
@@ -68,7 +68,7 @@ def parse_vina_conf(vina_conf):
         "protein": protein,
         "docked_ligands": docked_ligands,
         "docked_proteins": docked_proteins,
-        "mollist": mollist,
+        "ligand_pose": ligand_pose,
         "scorelist": scorelist,
     }
 
@@ -112,13 +112,13 @@ def parse_plants_conf(plants_conf):
 
     try:
         os.chdir(plants_output)
-        mollist = []
+        ligand_pose = []
         scorelist = []
         with open("features.csv", "r") as f:
             f.readline()  # remove first line
             for mol in f:
                 mol = mol.split(",")
-                mollist.append(mol[0])
+                ligand_pose.append(mol[0])
                 scorelist.append(mol[1])
     except IOError:
         print("The protein ligand folder can not be found")
@@ -142,7 +142,7 @@ def parse_plants_conf(plants_conf):
             not_at_end = convert.Read(flexibles)
 
     else:
-        for mol in mollist:
+        for mol in ligand_pose:
             lig_file = mol + ".mol2"
             flex_file = mol + "_protein.mol2"
 
@@ -160,7 +160,7 @@ def parse_plants_conf(plants_conf):
         "protein": protein,
         "docked_ligands": docked_ligands,
         "docked_proteins": docked_proteins,
-        "mollist": mollist,
+        "ligand_pose": ligand_pose,
         "scorelist": scorelist,
     }
 

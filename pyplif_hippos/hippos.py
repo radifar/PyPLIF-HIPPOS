@@ -13,16 +13,16 @@ from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bits
 from similarity import count_abcdp, how_similar
 
 
-def enumerate_ligand_files(ligand_list, ligand_files):
+def enumerate_ligand_files(ligand_pose, ligand_files):
     temp_ligand_list = []
     for ligand in ligand_files:
         for filename in glob.glob(ligand):
             temp_ligand_list.append(filename)
     temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
-    ligand_list.extend(temp_ligand_list)
+    ligand_pose.extend(temp_ligand_list)
 
 
-def enumerate_ligand_file_list(ligand_list, ligand_file_list):
+def enumerate_ligand_file_list(ligand_pose, ligand_file_list):
     for ligand_file in ligand_file_list:
         temp_ligand_list = []
         with open(ligand_file, 'r') as ligands:
@@ -31,7 +31,7 @@ def enumerate_ligand_file_list(ligand_list, ligand_file_list):
                 for filename in glob.glob(ligand):
                     temp_ligand_list.append(filename)
             temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
-            ligand_list.extend(temp_ligand_list)
+            ligand_pose.extend(temp_ligand_list)
 
 
 def replace_bit_char(bitstring, bit_index_list):
@@ -60,22 +60,21 @@ def main():
 
     if hippos_config.direct_ifp:
         if not hippos_config.complex_list:
-            ligand_list = []
+            ligand_pose = []
             if hippos_config.ligand_files:
                 ligand_files = hippos_config.ligand_files
-                enumerate_ligand_files(ligand_list, ligand_files)
+                enumerate_ligand_files(ligand_pose, ligand_files)
             if hippos_config.ligand_file_list:
                 ligand_file_list = hippos_config.ligand_file_list
-                enumerate_ligand_file_list(ligand_list, ligand_file_list)
+                enumerate_ligand_file_list(ligand_pose, ligand_file_list)
             protein = hippos_config.protein
 
-            ligand_mol_list = parse_ligands(ligand_list)
+            ligand_mol_list = parse_ligands(ligand_pose)
             protein_mol = parse_protein(protein)
 
             bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config)
-            ligand_pose = ligand_list
             scorelist = []
-            for pose in ligand_list:
+            for pose in ligand_pose:
                 scorelist.append("")
         else:
             bitstrings = get_complex_bitstring("complex_list", hippos_config)
@@ -124,12 +123,12 @@ def main():
         scorelist = docking_results["scorelist"]
         ligand_pose = []
         if hippos_config.docking_method == "plants":
-            for mol in docking_results["mollist"]:
+            for mol in docking_results["ligand_pose"]:
                 mol = mol.split("_")
                 new_name = mol[0] + "_" + mol[-1]
                 ligand_pose.append(new_name)
         if hippos_config.docking_method == "vina":
-            ligand_pose = docking_results["mollist"]
+            ligand_pose = docking_results["ligand_pose"]
 
     # set flag for every chosen output mode
     output_mode = hippos_config.output_mode
