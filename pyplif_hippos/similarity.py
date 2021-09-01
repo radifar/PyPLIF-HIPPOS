@@ -8,6 +8,7 @@ Real Data Sets" by Todeschini et al. 2012
 dx.doi.org/10.1021/ci300261r
 """
 
+
 def clean_omitted_interactions(refbit, tgtbit):
     clean_refbit = ""
     clean_tgtbit = ""
@@ -38,3 +39,10 @@ def how_similar(abcdp, sim_coef):
     except ZeroDivisionError:
         sim = "NA"
     return sim
+
+
+def replace_bit_char(bitstring, bit_index_list):
+    for i, v in enumerate(bit_index_list):
+        if v == 1:
+            bitstring = bitstring[:i] + "n" + bitstring[i+1:]
+    return bitstring

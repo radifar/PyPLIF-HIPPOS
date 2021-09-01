@@ -2,44 +2,23 @@
 
 from __future__ import print_function
 
-import glob
-import re
 import sys
 from time import time
 
 from initialize.parse_conf import ParseConfig
 from initialize.parse_docking_conf import parse_plants_conf, parse_vina_conf
-from parse_mol import parse_ligands, parse_protein
-from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bitstring
-from similarity import count_abcdp, how_similar
-
-
-def enumerate_ligand_files(ligand_pose, ligand_files):
-    temp_ligand_list = []
-    for ligand in ligand_files:
-        for filename in glob.glob(ligand):
-            temp_ligand_list.append(filename)
-    temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
-    ligand_pose.extend(temp_ligand_list)
-
-
-def enumerate_ligand_file_list(ligand_pose, ligand_file_list):
-    for ligand_file in ligand_file_list:
-        temp_ligand_list = []
-        with open(ligand_file, 'r') as ligands:
-            for ligand in ligands:
-                ligand = ligand.strip()
-                for filename in glob.glob(ligand):
-                    temp_ligand_list.append(filename)
-            temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
-            ligand_pose.extend(temp_ligand_list)
-
-
-def replace_bit_char(bitstring, bit_index_list):
-    for i, v in enumerate(bit_index_list):
-        if v == 1:
-            bitstring = bitstring[:i] + "n" + bitstring[i+1:]
-    return bitstring
+from parse_mol import (
+    parse_ligands,
+    parse_protein,
+    enumerate_ligand_files,
+    enumerate_ligand_file_list
+)
+from ifp_processing import (
+    get_bitstring,
+    get_direct_bitstring,
+    get_complex_bitstring
+)
+from similarity import count_abcdp, how_similar, replace_bit_char
 
 
 def main():
