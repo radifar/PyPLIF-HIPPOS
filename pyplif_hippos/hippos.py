@@ -47,7 +47,6 @@ def main():
     hippos_config = ParseConfig()
     hippos_config.parse_config()
 
-    logfile = open(hippos_config.logfile, "w")  # Output #4
     ligand_pose = []
     scorelist = []
 
@@ -85,9 +84,11 @@ def main():
             missing_docking_output = (
                 "The docking output could not be found. Please check your docking result."
             )
+
             print(missing_docking_output)
-            logfile.write(missing_docking_output)
-            logfile.close()
+            with open(hippos_config.logfile, "w") as logfile:
+                logfile.write(missing_docking_output)
+
             sys.exit(1)
 
         scorelist = docking_results["scorelist"]
@@ -108,6 +109,7 @@ def main():
         full_nobb_outfile = open(hippos_config.full_nobb_outfile, "w")  # Output #3
 
     # write ligand info and similarity coef info
+    logfile = open(hippos_config.logfile, "w")
     logfile.write(
         "Ligand name is %s with %s poses\n\n"
         % (ligand_pose[0].split("_")[0], len(ligand_pose))
