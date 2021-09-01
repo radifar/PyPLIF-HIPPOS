@@ -176,7 +176,12 @@ def main():
                         coefficient.append("%.3f" % similarity_value)
                     except TypeError:
                         coefficient.append("%s" % similarity_value)
-                        bitstring_zero = True
+                        bitstring_error = (
+                            "It appears that one of the target or reference bitstring is zero,\n"
+                            "Check the ligand pose that generate 'NA' value."
+                        )
+                        print(bitstring_error)
+                        logfile.write(bitstring_error)
             sim_outfile.write(
                 "%s %s\n" % (ligand_name, " ".join(coefficient))
             )  # Output Similarity
@@ -193,13 +198,7 @@ def main():
 
     y = time()
     z = y - x
-    if bitstring_zero:
-        bitstring_error = """
-It appears that one of the target or reference bitstring is zero,
-Check the ligand pose that generate 'NA' value.
-        """
-        print(bitstring_error)
-        logfile.write(bitstring_error)
+
     print("Total time taken %.3f s." % z)
     logfile.write("\nTotal time taken %.3f s." % z)
     logfile.close()
