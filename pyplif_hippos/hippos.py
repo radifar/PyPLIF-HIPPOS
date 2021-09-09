@@ -35,7 +35,7 @@ def process_input(config):
                 enumerate_ligand_file_list(ligand_pose, ligand_file_list)
 
             ligand_mol_list = parse_ligands(ligand_pose)
-            protein_mol = parse_protein(hippos_config.protein)
+            protein_mol = parse_protein(config.protein)
 
             bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, config)
             for pose in ligand_pose:
