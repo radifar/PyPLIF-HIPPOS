@@ -21,18 +21,14 @@ from ifp_processing import (
 from similarity import count_abcdp, how_similar, replace_bit_char
 
 
-def main():
-    x = time()
-    hippos_config = ParseConfig()
-    hippos_config.parse_config()
-
+def process_input(config):
     ligand_pose = []
     scorelist = []
 
-    if hippos_config.direct_ifp:
-        if not hippos_config.complex_list:
-            ligand_files = hippos_config.ligand_files
-            ligand_file_list = hippos_config.ligand_file_list
+    if config.direct_ifp:
+        if not config.complex_list:
+            ligand_files = config.ligand_files
+            ligand_file_list = config.ligand_file_list
             if ligand_files:
                 enumerate_ligand_files(ligand_pose, ligand_files)
             if ligand_file_list:
@@ -41,21 +37,21 @@ def main():
             ligand_mol_list = parse_ligands(ligand_pose)
             protein_mol = parse_protein(hippos_config.protein)
 
-            bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config)
+            bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, config)
             for pose in ligand_pose:
                 scorelist.append("")
         else:
-            bitstrings = get_complex_bitstring("complex_list", hippos_config)
+            bitstrings = get_complex_bitstring("complex_list", config)
             print(bitstrings)
     else:
-        if hippos_config.docking_method == "plants":
-            docking_results = parse_plants_conf(hippos_config.docking_conf)
+        if config.docking_method == "plants":
+            docking_results = parse_plants_conf(config.docking_conf)
             for mol in docking_results["ligand_pose"]:
                 mol = mol.split("_")
                 new_name = mol[0] + "_" + mol[-1]
                 ligand_pose.append(new_name)
         else:
-            docking_results = parse_vina_conf(hippos_config.docking_conf)
+            docking_results = parse_vina_conf(config.docking_conf)
             ligand_pose = docking_results["ligand_pose"]
 
         # checking docking output, if not found then exit.
@@ -65,13 +61,22 @@ def main():
             )
 
             print(missing_docking_output)
-            with open(hippos_config.logfile, "w") as logfile:
+            with open(config.logfile, "w") as logfile:
                 logfile.write(missing_docking_output)
 
             sys.exit(1)
 
         scorelist = docking_results["scorelist"]
-        bitstrings = get_bitstring(docking_results, hippos_config)
+        bitstrings = get_bitstring(docking_results, config)
+
+    return ligand_pose, scorelist, bitstrings
+
+
+def main():
+    x = time()
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    ligand_pose, scorelist, bitstrings = process_input(hippos_config)
 
     # set flag for every chosen output mode
     output_mode = hippos_config.output_mode
