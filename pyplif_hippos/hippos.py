@@ -21,19 +21,35 @@ from ifp_processing import (
 from similarity import count_abcdp, how_similar, replace_bit_char
 
 
+def collect_ligand(ligand_pose, config):
+    ligand_files = config.ligand_files
+    ligand_file_list = config.ligand_file_list
+    if ligand_files:
+        enumerate_ligand_files(ligand_pose, ligand_files)
+    if ligand_file_list:
+        enumerate_ligand_file_list(ligand_pose, ligand_file_list)
+
+
+def is_docking_output_missing(docking_results):
+    if len(docking_results["docked_ligands"]) == 0:
+        missing_docking_output = (
+            "The docking output could not be found. Please check your docking result."
+        )
+
+        print(missing_docking_output)
+        with open(config.logfile, "w") as logfile:
+            logfile.write(missing_docking_output)
+
+        sys.exit(1)
+
+
 def process_input(config):
     ligand_pose = []
     scorelist = []
 
     if config.direct_ifp:
         if not config.complex_list:
-            ligand_files = config.ligand_files
-            ligand_file_list = config.ligand_file_list
-            if ligand_files:
-                enumerate_ligand_files(ligand_pose, ligand_files)
-            if ligand_file_list:
-                enumerate_ligand_file_list(ligand_pose, ligand_file_list)
-
+            collect_ligand(ligand_pose, config)
             ligand_mol_list = parse_ligands(ligand_pose)
             protein_mol = parse_protein(config.protein)
 
@@ -54,17 +70,7 @@ def process_input(config):
             docking_results = parse_vina_conf(config.docking_conf)
             ligand_pose = docking_results["ligand_pose"]
 
-        # checking docking output, if not found then exit.
-        if len(docking_results["docked_ligands"]) == 0:
-            missing_docking_output = (
-                "The docking output could not be found. Please check your docking result."
-            )
-
-            print(missing_docking_output)
-            with open(config.logfile, "w") as logfile:
-                logfile.write(missing_docking_output)
-
-            sys.exit(1)
+        is_docking_output_missing(docking_results)
 
         scorelist = docking_results["scorelist"]
         bitstrings = get_bitstring(docking_results, config)
