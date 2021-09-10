@@ -189,9 +189,6 @@ class ParseConfig(ParseBase):
                         else:
                             print("output_mode '%s' is not recognized" % value)
                             sys.exit(1)
-
-                    if not any(self.output_mode.values()):
-                        self.output_mode["full"] = True
                 elif option == "simplified_outfile":
                     self.simplified_outfile = single_value
                 elif option == "full_outfile":
@@ -205,6 +202,9 @@ class ParseConfig(ParseBase):
 
             else:
                 print("Warning: '%s' option is not recognized" % option)
+
+        if not any(self.output_mode.values()):
+            self.output_mode["full"] = True
 
 
 class ParseConfigGenref(ParseBase):
@@ -279,8 +279,7 @@ class ParseConfigGenref(ParseBase):
                             print("output_mode '%s' is not recognized" % value)
                             sys.exit(1)
 
-                    if not any(self.output_mode.values()):
-                        self.output_mode["full"] = True
+
                 elif option == "outfile":
                     self.outfile = single_value
                 else:
@@ -288,3 +287,6 @@ class ParseConfigGenref(ParseBase):
 
             else:
                 print("Warning: '%s' option is not recognized" % option)
+
+        if not any(self.output_mode.values()):
+            self.output_mode["full"] = True
