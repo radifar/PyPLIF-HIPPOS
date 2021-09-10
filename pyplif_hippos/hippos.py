@@ -19,6 +19,7 @@ from ifp_processing import (
     get_complex_bitstring
 )
 from similarity import count_abcdp, how_similar, replace_bit_char
+from observer import setup_dict, do_task
 
 
 def collect_ligand(ligand_pose, config):
@@ -80,107 +81,73 @@ def process_input(config):
 
 def main():
     x = time()
-    hippos_config = ParseConfig()
-    hippos_config.parse_config()
-    ligand_pose, scorelist, bitstrings = process_input(hippos_config)
+    config = ParseConfig()
+    config.parse_config()
+    ligand_pose, scorelist, bitstrings = process_input(config)
 
-    # set flag for every chosen output mode
-    output_mode = hippos_config.output_mode
-    simplified_flag = output_mode["simplified"]
-    full_flag = output_mode["full"]
-    full_nobb_flag = output_mode["full_nobb"]
+    for mode in config.output_mode:
+        if config.output_mode[mode]:
+            setup_dict[mode](config)
 
-    # set file handler for every chosen output mode
-    if simplified_flag:
-        simplified_outfile = open(hippos_config.simplified_outfile, "w")  # Output #1
-    if full_flag:
-        full_outfile = open(hippos_config.full_outfile, "w")  # Output #2
-    if full_nobb_flag:
-        full_nobb_outfile = open(hippos_config.full_nobb_outfile, "w")  # Output #3
+    setup_dict["logfile"](config)
+    if config.similarity_coef:
+        setup_dict["similarity"](config)
 
-    # write ligand info and similarity coef info
-    logfile = open(hippos_config.logfile, "w")
-    logfile.write(
-        "Ligand name is %s with %s poses\n\n"
-        % (ligand_pose[0].split("_")[0], len(ligand_pose))
-    )  # Output Logfile
-
-    similarity_coef = hippos_config.similarity_coef
-    if similarity_coef:
-        sim_outfile = open(hippos_config.sim_outfile, "w")  # Output #5
-        logfile.write(
-            "similarity coefficient used are %s\n" % (", ".join(similarity_coef))
-        )  # Output Logfile
-
-    # if simplified then write the length and position for each bitstring
-    if simplified_flag:
-        logfile.write(
-            "%s %s %s %s\n" % ("RESNAME", "length", "startbit", "endbit")
-        )  # Output Logfile
+    do_task("initial_information", config, ligand_pose)
 
     # Iterate through pose and write the ligand+pose, docking score,
     # similarity coef, bitstring
-    log_flag = True
-    bitstring_zero = False
-
     for pose, (ligand_name, score) in enumerate(zip(ligand_pose, scorelist)):
         ligand_name = ligand_name.replace(" ", "_").ljust(16)
         score = score.ljust(9)
-        simp_bits = ""
-        full_bits = ""
-        nobb_bits = ""
+        simp_bits = full_bits = nobb_bits = ""
 
         # Concatenate bitstring from every residue, then write to their respective
         # output file
         bit_start = 1
-        for resname in hippos_config.residue_name:
+        for resname in config.residue_name:
             bit_replace_index = bitstrings[resname].bit_replace_index
             simp_bit_replace_index = bitstrings[resname].simp_bit_replace_index
-            if simplified_flag:
+            if config.output_mode["simplified"]:
                 simp_res_bit = bitstrings[resname].simp_bits_list[pose].to01()
                 if bool(sum(simp_bit_replace_index)):
                     simp_res_bit = replace_bit_char(simp_res_bit, simp_bit_replace_index)
                 simp_bits += simp_res_bit
-            if full_flag:
+                if pose == 0:
+                    bitlength = len(simp_res_bit)
+                    bit_end = bit_start + bitlength - 1
+                    do_task("simplified_bit_log", resname, bitlength, bit_start, bit_end)
+                    bit_start += bitlength
+
+            if config.output_mode["full"]:
                 full_res_bit = bitstrings[resname].full_bits_list[pose].to01()
                 if bool(sum(bit_replace_index)):
                     full_res_bit = replace_bit_char(full_res_bit, bit_replace_index)
                 full_bits += full_res_bit
-            if full_nobb_flag:
+
+            if config.output_mode["full_nobb"]:
                 nobb_res_bit = bitstrings[resname].full_nobb_list[pose].to01()
                 if bool(sum(bit_replace_index)):
                     nobb_res_bit = replace_bit_char(nobb_res_bit, bit_replace_index)
                 nobb_bits += nobb_res_bit
-            if log_flag & simplified_flag:
-                bitlength = len(simp_res_bit)
-                bit_end = bit_start + bitlength - 1
-                logfile.write(
-                    "%-10s %-6s %-7s %s\n" % (resname, bitlength, bit_start, bit_end)
-                )  # Output Logfile
-                bit_start += bitlength
-        log_flag = False
 
-        if simplified_flag:
-            simplified_outfile.write("%s %s %s\n" % (ligand_name, score, simp_bits))
-        if full_flag:
-            full_outfile.write("%s %s %s\n" % (ligand_name, score, full_bits))
-        if full_nobb_flag:
-            full_nobb_outfile.write("%s %s %s\n" % (ligand_name, score, nobb_bits))
+        all_bits = (simp_bits, full_bits, nobb_bits)
+        do_task("write_bitstrings", ligand_name, score, all_bits)
 
         # If similarity coef requested => calculate abcd and p
-        if similarity_coef:
+        if config.similarity_coef:
             abcdp_list = []
             coefficient = []
-            if full_flag:
-                for full in hippos_config.full_ref:
+            if config.output_mode["full"]:
+                for full in config.full_ref:
                     abcdp_list.append(count_abcdp(full, full_bits))
-            elif full_nobb_flag:
-                for nobb in hippos_config.full_nobb_ref:
+            elif config.output_mode["full_nobb"]:
+                for nobb in config.full_nobb_ref:
                     abcdp_list.append(count_abcdp(nobb, nobb_bits))
             else:
-                for simp in hippos_config.simplified_ref:
+                for simp in config.simplified_ref:
                     abcdp_list.append(count_abcdp(simp, simp_bits))
-            for sim_coef in similarity_coef:
+            for sim_coef in config.similarity_coef:
                 for abcdp in abcdp_list:
                     similarity_value = how_similar(abcdp, sim_coef)
                     try:
@@ -191,28 +158,15 @@ def main():
                             "It appears that one of the target or reference bitstring is zero,\n"
                             "Check the ligand pose that generate 'NA' value."
                         )
-                        print(bitstring_error)
-                        logfile.write(bitstring_error)
-            sim_outfile.write(
-                "%s %s\n" % (ligand_name, " ".join(coefficient))
-            )  # Output Similarity
-
-    # Close all file
-    if simplified_flag:
-        simplified_outfile.close()
-    if full_flag:
-        full_outfile.close()
-    if full_nobb_flag:
-        full_nobb_outfile.close()
-    if similarity_coef:
-        sim_outfile.close()
+                        'logfile.write(bitstring_error)'
+                        do_task("bitstring_error", bitstring_error)
+            do_task("write_similarity", ligand_name, coefficient)
 
     y = time()
-    z = y - x
-
-    print("Total time taken %.3f s." % z)
-    logfile.write("\nTotal time taken %.3f s." % z)
-    logfile.close()
+    total_time = y - x
+    print("Total time taken %.3f s." % total_time)
+    do_task("write_time", total_time)
+    do_task("close_files")
 
 
 if __name__ == "__main__":
