@@ -10,6 +10,7 @@ dependencies:
     # Package dependencies
   - numpy
   - bitarray
+  - openbabel
   
     # Testing
   - pytest
@@ -17,7 +18,7 @@ dependencies:
   - codecov
 
     # Pip-only installs
-  - pip:
-    - openbabel-wheel
-  #  - codecov
+  # - pip:
+  #   - openbabel-wheel
+  #   - codecov
 
