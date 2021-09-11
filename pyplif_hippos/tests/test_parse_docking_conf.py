@@ -3,15 +3,18 @@ Test for functions in pyplif_hippos.initialize.parse_docking_conf
 """
 
 # Import package, test suite, and other packages as needed
-from pyplif_hippos import parse_vina_conf, parse_plants_conf
+import os
+import sys
+
 import pytest
-import os, sys
 
 try:
     # Open Babel >= 3.0
     from openbabel import openbabel as ob
 except ImportError:
     import openbabel as ob
+
+from pyplif_hippos import parse_vina_conf, parse_plants_conf
 
 
 def test_parse_vina_conf():
@@ -25,7 +28,7 @@ def test_parse_vina_conf():
     assert docking_results["docked_proteins"] == []
 
     assert docking_results["scorelist"][0] == "-6.8"
-    assert docking_results["mollist"][0] == "247120_1"
+    assert docking_results["ligand_pose"][0] == "247120_1"
 
     # More test on protein
     protein = docking_results["protein"]
@@ -47,7 +50,7 @@ def test_parse_plants_conf():
 
     assert len(docking_results["docked_proteins"]) == 25
     assert docking_results["scorelist"][0] == "-68.2062"
-    assert docking_results["mollist"][0] == "247120 CHEMBL344548_entry_00001_conf_01"
+    assert docking_results["ligand_pose"][0] == "247120 CHEMBL344548_entry_00001_conf_01"
 
     # More test on protein
     protein = docking_results["protein"]

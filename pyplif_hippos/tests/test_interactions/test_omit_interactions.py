@@ -7,7 +7,7 @@ import sys
 
 from collections import namedtuple
 
-from pyplif_hippos import parse_config, hippos, similarity
+from pyplif_hippos import ParseConfig, hippos, similarity
 
 
 def test_configuration_single_omit_interaction(tmpdir):
@@ -45,8 +45,9 @@ logfile plants.log
 
     # Act
 
-    hippos_config = parse_config()
-    omit_interaction = hippos_config["omit_interaction"][0]
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    omit_interaction = hippos_config.omit_interaction[0]
 
     # Assert
 
@@ -89,8 +90,9 @@ logfile plants.log
 
     # Act
 
-    hippos_config = parse_config()
-    omit_interaction = hippos_config["omit_interaction"][0]
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    omit_interaction = hippos_config.omit_interaction[0]
 
     # Assert
 
@@ -134,9 +136,10 @@ logfile plants.log
 
     # Act
 
-    hippos_config = parse_config()
-    omit_interaction_1 = hippos_config["omit_interaction"][0]
-    omit_interaction_2 = hippos_config["omit_interaction"][1]
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    omit_interaction_1 = hippos_config.omit_interaction[0]
+    omit_interaction_2 = hippos_config.omit_interaction[1]
 
     # Assert
 
@@ -191,17 +194,18 @@ logfile plants.log
 
     # Act
 
-    hippos_config = parse_config()
-    omit_interaction_1 = hippos_config["omit_interaction"][0]
-    omit_interaction_2 = hippos_config["omit_interaction"][1]
-    omit_interaction_3 = hippos_config["omit_interaction"][2]
-    omit_interaction_4 = hippos_config["omit_interaction"][3]
-    omit_interaction_5 = hippos_config["omit_interaction"][4]
-    omit_interaction_6 = hippos_config["omit_interaction"][5]
-    omit_interaction_7 = hippos_config["omit_interaction"][6]
-    omit_interaction_8 = hippos_config["omit_interaction"][7]
-    omit_interaction_9 = hippos_config["omit_interaction"][8]
-    omit_interaction_10 = hippos_config["omit_interaction"][9]
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    omit_interaction_1 = hippos_config.omit_interaction[0]
+    omit_interaction_2 = hippos_config.omit_interaction[1]
+    omit_interaction_3 = hippos_config.omit_interaction[2]
+    omit_interaction_4 = hippos_config.omit_interaction[3]
+    omit_interaction_5 = hippos_config.omit_interaction[4]
+    omit_interaction_6 = hippos_config.omit_interaction[5]
+    omit_interaction_7 = hippos_config.omit_interaction[6]
+    omit_interaction_8 = hippos_config.omit_interaction[7]
+    omit_interaction_9 = hippos_config.omit_interaction[8]
+    omit_interaction_10 = hippos_config.omit_interaction[9]
 
     # Assert
 
@@ -271,17 +275,18 @@ logfile plants.log
 
     # Act
 
-    hippos_config = parse_config()
-    omit_interaction_1 = hippos_config["omit_interaction"][0]
-    omit_interaction_2 = hippos_config["omit_interaction"][1]
-    omit_interaction_3 = hippos_config["omit_interaction"][2]
-    omit_interaction_4 = hippos_config["omit_interaction"][3]
-    omit_interaction_5 = hippos_config["omit_interaction"][4]
-    omit_interaction_6 = hippos_config["omit_interaction"][5]
-    omit_interaction_7 = hippos_config["omit_interaction"][6]
-    omit_interaction_8 = hippos_config["omit_interaction"][7]
-    omit_interaction_9 = hippos_config["omit_interaction"][8]
-    omit_interaction_10 = hippos_config["omit_interaction"][9]
+    hippos_config = ParseConfig()
+    hippos_config.parse_config()
+    omit_interaction_1 = hippos_config.omit_interaction[0]
+    omit_interaction_2 = hippos_config.omit_interaction[1]
+    omit_interaction_3 = hippos_config.omit_interaction[2]
+    omit_interaction_4 = hippos_config.omit_interaction[3]
+    omit_interaction_5 = hippos_config.omit_interaction[4]
+    omit_interaction_6 = hippos_config.omit_interaction[5]
+    omit_interaction_7 = hippos_config.omit_interaction[6]
+    omit_interaction_8 = hippos_config.omit_interaction[7]
+    omit_interaction_9 = hippos_config.omit_interaction[8]
+    omit_interaction_10 = hippos_config.omit_interaction[9]
 
     # Assert
 
