@@ -158,7 +158,6 @@ def main():
                             "It appears that one of the target or reference bitstring is zero,\n"
                             "Check the ligand pose that generate 'NA' value."
                         )
-                        'logfile.write(bitstring_error)'
                         do_task("bitstring_error", bitstring_error)
             do_task("write_similarity", ligand_name, coefficient)
 
