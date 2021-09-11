@@ -55,8 +55,7 @@ def process_input(config):
             protein_mol = parse_protein(config.protein)
 
             bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, config)
-            for pose in ligand_pose:
-                scorelist.append("")
+            scorelist = [""] * len(ligand_pose)
         else:
             bitstrings = get_complex_bitstring("complex_list", config)
             print(bitstrings)
