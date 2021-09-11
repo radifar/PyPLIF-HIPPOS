@@ -29,7 +29,7 @@ def count_abcdp(refbit, tgtbit):
     d = (~refbit & ~tgtbit).count()
     p = a + b + c + d
 
-    return (a, b, c, d, p)
+    return a, b, c, d, p
 
 
 def how_similar(abcdp, sim_coef):
