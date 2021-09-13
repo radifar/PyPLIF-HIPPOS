@@ -20,7 +20,7 @@ from pyplif_hippos import parse_vina_conf, parse_plants_conf
 def test_parse_vina_conf():
     """Test parsing AutoDock Vina configuration"""
 
-    docking_results = parse_vina_conf("pyplif_hippos/tests/data/vina/vina-001.conf")
+    docking_results = parse_vina_conf("tests/data/vina/vina-001.conf")
 
     assert isinstance(docking_results["protein"], ob.OBMol)
     assert isinstance(docking_results["docked_ligands"][0], ob.OBMol)
@@ -40,7 +40,7 @@ def test_parse_plants_conf():
     """Test parsing PLANTS configuration"""
 
     docking_results = parse_plants_conf(
-        "pyplif_hippos/tests/data/plants/plants-001.conf"
+        "tests/data/plants/plants-001.conf"
     )
 
     assert isinstance(docking_results["protein"], ob.OBMol)
