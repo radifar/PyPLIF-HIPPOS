@@ -29,7 +29,8 @@ from parse_mol import (
 from ifp_processing import (
     get_bitstring,
     get_direct_bitstring,
-    get_complex_bitstring
+    get_complex_bitstring,
+    Residue
 )
 from similarity import count_abcdp, how_similar, replace_bit_char
 from observer import setup_dict, do_task
