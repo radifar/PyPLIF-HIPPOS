@@ -14,6 +14,7 @@ dependencies:
   
     # Testing
   - pytest
+  - pluggy=0.13.1
   - pytest-cov
   - codecov
 
