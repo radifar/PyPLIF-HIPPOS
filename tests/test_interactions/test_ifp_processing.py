@@ -76,7 +76,7 @@ def test_residue_class(hippos_config):
     """
     Simple test on Residue class
     """
-    
+
     # Setup
 
     custom_settings = {
