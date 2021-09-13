@@ -3,5 +3,5 @@ include MANIFEST.in
 include versioneer.py
 include setup.sh
 
-graft src
+graft src/pyplif_hippos
 global-exclude *.py[cod] __pycache__ *.so
