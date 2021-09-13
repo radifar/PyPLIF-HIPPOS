@@ -64,11 +64,11 @@ jobs:
     - name: Run tests
 
       # conda setup requires this special shell
-      shell: bash -l {0}
+      shell: bash
 
       run: |
-        coverage run -m pytest -v tests && coverage xml
-#        pytest -v --cov-config=setup.cfg --cov=src/pyplif_hippos --cov-report=xml --color=yes
+#        coverage run -m pytest -v tests && coverage xml
+        pytest -v --cov=src --cov-config=setup.cfg --cov-report=xml --color=yes tests
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
