@@ -67,7 +67,7 @@ jobs:
       shell: bash -l {0}
 
       run: |
-        pytest -v --cov=src/pyplif_hippos --cov-report=xml --color=yes tests
+        pytest -v --cov-config=setup.cfg --cov=src/pyplif_hippos --cov-report=xml --color=yes tests
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
