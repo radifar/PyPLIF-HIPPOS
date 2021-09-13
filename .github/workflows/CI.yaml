@@ -67,7 +67,7 @@ jobs:
       shell: bash -l {0}
 
       run: |
-        coverage run --source=src -m pytest -v && coverage xml
+        coverage run -m pytest -v tests && coverage xml
 #        pytest -v --cov-config=setup.cfg --cov=src/pyplif_hippos --cov-report=xml --color=yes
 
     - name: CodeCov
