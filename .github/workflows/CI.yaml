@@ -67,7 +67,6 @@ jobs:
       shell: bash
 
       run: |
-#        coverage run -m pytest -v tests && coverage xml
         pytest -v --cov=src --cov-config=setup.cfg --cov-report=xml --color=yes tests
 
     - name: CodeCov
