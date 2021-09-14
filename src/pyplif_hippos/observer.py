@@ -144,5 +144,5 @@ setup_dict = dict(
     full=setup_full,
     full_nobb=setup_full_nobb,
     similarity=setup_similarity,
-    logfile=setup_logfile
+    logfile=setup_logfile,
 )

@@ -45,7 +45,7 @@ def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
         omit_interaction=hippos_config.omit_interaction,
         backbone=hippos_config.use_backbone,
         output_mode=hippos_config.output_mode,
-        res_weight=hippos_config.res_weight
+        res_weight=hippos_config.res_weight,
     )
 
     residue_obj = {}
@@ -78,7 +78,7 @@ def get_bitstring(docking_results, hippos_config):
         omit_interaction=hippos_config.omit_interaction,
         backbone=hippos_config.use_backbone,
         output_mode=hippos_config.output_mode,
-        res_weight=hippos_config.res_weight
+        res_weight=hippos_config.res_weight,
     )
     """
     Assigning residue_obj
@@ -931,7 +931,11 @@ class Residue(ResidueData):
         self.setup_bitstring(len(ligands))
 
         for ligand, ligand_atom_group, simp, full, full_nobb in zip_longest(
-            ligands, ligand_atom_groups, self.simp_bits_list, self.full_bits_list, self.full_nobb_list
+            ligands,
+            ligand_atom_groups,
+            self.simp_bits_list,
+            self.full_bits_list,
+            self.full_nobb_list,
         ):
 
             possible_interactions = []

@@ -24,13 +24,13 @@ from parse_mol import (
     parse_ligands,
     parse_protein,
     enumerate_ligand_files,
-    enumerate_ligand_file_list
+    enumerate_ligand_file_list,
 )
 from ifp_processing import (
     get_bitstring,
     get_direct_bitstring,
     get_complex_bitstring,
-    Residue
+    Residue,
 )
 from similarity import count_abcdp, how_similar, replace_bit_char
 from observer import setup_dict, do_task

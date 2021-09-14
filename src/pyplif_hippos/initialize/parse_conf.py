@@ -21,8 +21,13 @@ class ParseBase:
             marker = ""
             if config_type == "genref":
                 marker = "-GENREF"
-            print("HIPPOS%s config file not defined, using %s instead" % (marker, config_file))
-            print("To change the config file, use it as argument after HIPPOS%s" % marker)
+            print(
+                "HIPPOS%s config file not defined, using %s instead"
+                % (marker, config_file)
+            )
+            print(
+                "To change the config file, use it as argument after HIPPOS%s" % marker
+            )
             print("Example:")
             print("\t hippos%s <config file>\n" % marker.lower())
 
@@ -56,7 +61,9 @@ class ParseConfig(ParseBase):
         self.full_ref = []
         self.full_nobb_ref = []
         self.omit_interaction = []
-        self.Omit_interaction = namedtuple("omit_interaction", "interaction_type res_name")
+        self.Omit_interaction = namedtuple(
+            "omit_interaction", "interaction_type res_name"
+        )
         self.abbr_interaction = dict(
             HPB="hydrophobic",
             ARM="aromatic",
@@ -278,7 +285,6 @@ class ParseConfigGenref(ParseBase):
                         else:
                             print("output_mode '%s' is not recognized" % value)
                             sys.exit(1)
-
 
                 elif option == "outfile":
                     self.outfile = single_value

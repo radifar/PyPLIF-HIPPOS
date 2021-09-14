@@ -44,5 +44,5 @@ def how_similar(abcdp, sim_coef):
 def replace_bit_char(bitstring, bit_index_list):
     for i, v in enumerate(bit_index_list):
         if v == 1:
-            bitstring = bitstring[:i] + "n" + bitstring[i+1:]
+            bitstring = bitstring[:i] + "n" + bitstring[i + 1 :]
     return bitstring

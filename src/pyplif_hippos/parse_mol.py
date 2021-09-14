@@ -36,17 +36,17 @@ def enumerate_ligand_files(ligand_pose, ligand_files):
     for ligand in ligand_files:
         for filename in glob.glob(ligand):
             temp_ligand_list.append(filename)
-    temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
+    temp_ligand_list.sort(key=lambda ligand: int(re.sub("\D", "", ligand)))
     ligand_pose.extend(temp_ligand_list)
 
 
 def enumerate_ligand_file_list(ligand_pose, ligand_file_list):
     for ligand_file in ligand_file_list:
         temp_ligand_list = []
-        with open(ligand_file, 'r') as ligands:
+        with open(ligand_file, "r") as ligands:
             for ligand in ligands:
                 ligand = ligand.strip()
                 for filename in glob.glob(ligand):
                     temp_ligand_list.append(filename)
-            temp_ligand_list.sort(key=lambda ligand: int(re.sub('\D', '', ligand)))
+            temp_ligand_list.sort(key=lambda ligand: int(re.sub("\D", "", ligand)))
             ligand_pose.extend(temp_ligand_list)
