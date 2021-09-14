@@ -2,7 +2,7 @@
 
 [![GitHub Actions Build Status](https://github.com/radifar/PyPLIF-HIPPOS/workflows/CI/badge.svg)](https://github.com/radifar/PyPLIF-HIPPOS/actions?query=workflow%3ACI)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/radifar/PyPLIF-HIPPOS.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/radifar/PyPLIF-HIPPOS/context:python)
-[![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/master/graph/badge.svg)](https://codecov.io/gh/radifar/pyplif-hippos/branch/master)   
+[![codecov](https://codecov.io/gh/radifar/pyplif-hippos/branch/main/graph/badge.svg)](https://codecov.io/gh/radifar/pyplif-hippos/branch/main)   
 [![Anaconda-Server Badge](https://img.shields.io/badge/Install%20with-conda-green.svg?style=flat)](https://anaconda.org/conda-forge/pyplif-hippos)
 [![Documentation Status](https://readthedocs.org/projects/pyplif-hippos/badge/?version=latest&style=flat)](https://pyplif-hippos.readthedocs.io/en/latest/)
 [![DOI:10.1021/acs.jcim.0c00305](https://zenodo.org/badge/DOI/10.1021/acs.jcim.0c00305.svg)](https://doi.org/10.1021/acs.jcim.0c00305)   
