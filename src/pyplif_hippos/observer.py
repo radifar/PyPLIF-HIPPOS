@@ -1,3 +1,6 @@
+import sys
+
+
 subscribers = {}
 file_handlers = {}
 
@@ -32,6 +35,19 @@ def handle_initial_log(config, ligand_pose):
         file_handle.write("similarity coefficient used are %s\n\n" % coef)
     if "simplified" in file_handlers:
         file_handle.write("RESNAME length startbit endbit\n")
+
+
+def handle_missing_docking_output(docking_results):
+    if len(docking_results["docked_ligands"]) == 0:
+        missing_docking_output = (
+            "The docking output could not be found. Please check your docking result."
+        )
+
+        print(missing_docking_output)
+        file_handle = file_handlers["log"]
+        file_handle.write(missing_docking_output)
+
+        sys.exit(1)
 
 
 def handle_bit_variation(resname, bitlength, bit_start, bit_end):
@@ -116,6 +132,7 @@ def setup_similarity(config):
 def setup_logfile(config):
     file_handlers["log"] = open(config.logfile, "w")
     subscribe("initial_information", handle_initial_log)
+    subscribe("is_docking_output_missing", handle_missing_docking_output)
     subscribe("simplified_bit_log", handle_bit_variation)
     subscribe("biststring_error", handle_bistring_error)
     subscribe("write_time", handle_write_time)

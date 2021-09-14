@@ -31,19 +31,6 @@ def collect_ligand(ligand_pose, config):
         enumerate_ligand_file_list(ligand_pose, ligand_file_list)
 
 
-def is_docking_output_missing(docking_results):
-    if len(docking_results["docked_ligands"]) == 0:
-        missing_docking_output = (
-            "The docking output could not be found. Please check your docking result."
-        )
-
-        print(missing_docking_output)
-        with open(config.logfile, "w") as logfile:
-            logfile.write(missing_docking_output)
-
-        sys.exit(1)
-
-
 def process_input(config):
     ligand_pose = []
     scorelist = []
@@ -70,7 +57,7 @@ def process_input(config):
             docking_results = parse_vina_conf(config.docking_conf)
             ligand_pose = docking_results["ligand_pose"]
 
-        is_docking_output_missing(docking_results)
+        do_task("is_docking_output_missing", docking_results)
 
         scorelist = docking_results["scorelist"]
         bitstrings = get_bitstring(docking_results, config)
@@ -82,7 +69,6 @@ def main():
     x = time()
     config = ParseConfig()
     config.parse_config()
-    ligand_pose, scorelist, bitstrings = process_input(config)
 
     for mode in config.output_mode:
         if config.output_mode[mode]:
@@ -91,6 +77,8 @@ def main():
     setup_dict["logfile"](config)
     if config.similarity_coef:
         setup_dict["similarity"](config)
+
+    ligand_pose, scorelist, bitstrings = process_input(config)
 
     do_task("initial_information", config, ligand_pose)
 
