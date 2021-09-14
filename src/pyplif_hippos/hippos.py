@@ -93,10 +93,12 @@ def main():
         # output file
         bit_start = 1
         for resname in config.residue_name:
-            bit_replace_index = bitstrings[resname].bit_replace_index
-            simp_bit_replace_index = bitstrings[resname].simp_bit_replace_index
+            residue = bitstrings[resname]
+            bit_replace_index = residue.bit_replace_index
+            simp_bit_replace_index = residue.simp_bit_replace_index
+
             if config.output_mode["simplified"]:
-                simp_res_bit = bitstrings[resname].simp_bits_list[pose].to01()
+                simp_res_bit = residue.simp_bits_list[pose].to01()
                 if bool(sum(simp_bit_replace_index)):
                     simp_res_bit = replace_bit_char(simp_res_bit, simp_bit_replace_index)
                 simp_bits += simp_res_bit
@@ -107,13 +109,13 @@ def main():
                     bit_start += bitlength
 
             if config.output_mode["full"]:
-                full_res_bit = bitstrings[resname].full_bits_list[pose].to01()
+                full_res_bit = residue.full_bits_list[pose].to01()
                 if bool(sum(bit_replace_index)):
                     full_res_bit = replace_bit_char(full_res_bit, bit_replace_index)
                 full_bits += full_res_bit
 
             if config.output_mode["full_nobb"]:
-                nobb_res_bit = bitstrings[resname].full_nobb_list[pose].to01()
+                nobb_res_bit = residue.full_nobb_list[pose].to01()
                 if bool(sum(bit_replace_index)):
                     nobb_res_bit = replace_bit_char(nobb_res_bit, bit_replace_index)
                 nobb_bits += nobb_res_bit
