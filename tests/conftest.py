@@ -1,7 +1,7 @@
 import pytest
 
 
-class Config():
+class Config:
     pass
 
 
@@ -16,3 +16,17 @@ def hippos_config():
     config.res_weight = []
 
     return config
+
+
+@pytest.fixture(scope="module")
+def vina_ligands_mol2():
+    mol_path = "tests/data/direct_ifp/mol2_vina/"
+    ligand_names = [
+        mol_path + "vina1.mol2",
+        mol_path + "vina2.mol2",
+        mol_path + "vina3.mol2",
+        mol_path + "vina4.mol2",
+        mol_path + "vina5.mol2",
+    ]
+
+    return ligand_names
