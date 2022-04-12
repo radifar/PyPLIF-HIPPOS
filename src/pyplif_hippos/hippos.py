@@ -27,7 +27,7 @@ def collect_ligand(ligand_pose, config):
         enumerate_ligand_file_list(ligand_pose, ligand_file_list)
 
 
-def process_input(config):
+def process_input_to_bitstring(config):
     ligand_pose = []
     scorelist = []
 
@@ -74,7 +74,7 @@ def main():
     if config.similarity_coef:
         setup_dict["similarity"](config)
 
-    ligand_pose, scorelist, bitstrings = process_input(config)
+    ligand_pose, scorelist, bitstrings = process_input_to_bitstring(config)
 
     do_task("initial_information", config, ligand_pose)
 
