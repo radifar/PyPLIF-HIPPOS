@@ -149,7 +149,7 @@ def get_refbitstring(genref_config):
     return residue_list
 
 
-def assign_atoms(ligand, docking_method):
+def assign_atoms(ligand, charge_assignment):
     hydrophobic = []
     h_donor = []
     h_accept = []
@@ -177,12 +177,12 @@ def assign_atoms(ligand, docking_method):
         if atom.IsHbondAcceptor():
             h_accept.append(atom.GetId())
         # Electrostatic
-        if docking_method == "plants":
+        if charge_assignment == "plants":
             if atom.GetPartialCharge() > 0:
                 positive.append(atom.GetId())
             if atom.GetPartialCharge() < 0:
                 negative.append(atom.GetId())
-        if docking_method == "vina":
+        if charge_assignment == "vina":
             if (atom.GetAtomicNum() == 7) and (atom.GetPartialCharge() >= -0.235):
                 positive.append(atom.GetId())
             if (atom.GetAtomicNum() == 8) and (atom.GetPartialCharge() <= -0.648):
