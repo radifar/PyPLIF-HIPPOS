@@ -1,5 +1,6 @@
 import glob
 import re
+from typing import List
 
 try:
     from openbabel import openbabel as ob
@@ -7,7 +8,22 @@ except ImportError:
     import openbabel as ob
 
 
-def parse_ligands(ligand_list):
+def parse_ligands(ligand_list: str) -> List[ob.OBMol]:
+    """Extract the ligand file names and create OBMol object for each file.
+
+    Parameters
+    ----------
+    ligand_list: str
+        a string that can be divided into list of string where each string
+        is ligand file name
+
+    Returns
+    -------
+    list
+        a list of OBMol object containing molecule from each ligand file
+
+    """
+
     ligand_mol_list = []
     file_format = ligand_list[0].split(".")[-1]
 
@@ -21,7 +37,20 @@ def parse_ligands(ligand_list):
     return ligand_mol_list
 
 
-def parse_protein(protein):
+def parse_protein(protein: str) -> ob.OBMol:
+    """Take protein file name and return an OBMol object for that protein
+
+    Parameters
+    ----------
+    protein : str
+        a protein file name
+
+    Returns
+    -------
+    ob.OBMol
+        OBMol object for protein
+    """
+
     file_format = protein.split(".")[-1]
     convert = ob.OBConversion()
     convert.SetInFormat(file_format)
@@ -31,7 +60,17 @@ def parse_protein(protein):
     return protein_mol
 
 
-def enumerate_ligand_files(ligand_pose, ligand_files):
+def enumerate_ligand_files(ligand_pose: List[str], ligand_files: List[str]) -> None:
+    """Take ligand file name in ligand_files and add it to the ligand_pose list
+
+    Parameters
+    ----------
+    ligand_pose : List[str]
+        list of ligand poses that will be extended
+    ligand_files : List[str]
+        list of ligand file name
+    """
+
     temp_ligand_list = []
     for ligand in ligand_files:
         for filename in glob.glob(ligand):
@@ -40,7 +79,19 @@ def enumerate_ligand_files(ligand_pose, ligand_files):
     ligand_pose.extend(temp_ligand_list)
 
 
-def enumerate_ligand_file_list(ligand_pose, ligand_file_list):
+def enumerate_ligand_file_list(
+    ligand_pose: List[str], ligand_file_list: List[str]
+) -> None:
+    """Take list of ligand_file_list, extract ligand file name from each of them and add it to the ligand_pose
+
+    Parameters
+    ----------
+    ligand_pose : List[str]
+        list of ligand poses that will be extended
+    ligand_file_list : List[str]
+        list of ligand_file_list, each of them contain several ligand file name
+    """
+
     for ligand_file in ligand_file_list:
         temp_ligand_list = []
         with open(ligand_file, "r") as ligands:
