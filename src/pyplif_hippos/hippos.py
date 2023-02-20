@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import sys
 from time import time
+from typing import Type, List, Tuple, Dict
 
 from initialize.parse_conf import ParseConfig
 from initialize.parse_docking_conf import parse_plants_conf, parse_vina_conf
@@ -13,12 +14,27 @@ from parse_mol import (
     enumerate_ligand_files,
     enumerate_ligand_file_list,
 )
-from ifp_processing import get_bitstring, get_direct_bitstring, get_complex_bitstring
+from ifp_processing import (
+    Residue,
+    get_bitstring,
+    get_direct_bitstring,
+    get_complex_bitstring,
+)
 from similarity import count_abcdp, how_similar, replace_bit_char
 from observer import setup_dict, do_task
 
 
-def collect_ligand(ligand_pose, config):
+def collect_ligand(ligand_pose: List[str], config: Type[ParseConfig]) -> None:
+    """Process file ligand names and add it to ligand_pose
+
+    Parameters
+    ----------
+    ligand_pose : List[str]
+        list consisting ligand file names
+    config : ParseConfig
+        ParseConfig object which contain configuration data
+    """
+
     ligand_files = config.ligand_files
     ligand_file_list = config.ligand_file_list
     if ligand_files:
@@ -27,7 +43,22 @@ def collect_ligand(ligand_pose, config):
         enumerate_ligand_file_list(ligand_pose, ligand_file_list)
 
 
-def process_input_to_bitstring(config):
+def process_input_to_bitstring(
+    config: Type[ParseConfig],
+) -> Tuple[List[str], List[str], Dict[str, Type[Residue]]]:
+    """Using provided configuration generate ligand_pose, scorelist, and bitstrings
+
+    Parameters
+    ----------
+    config : ParseConfig
+        ParseConfig object which contain configuration data
+
+    Returns
+    -------
+    ligand_pose, scorelist, bitstrings: Tuple[List[str], List[str], Dict[str, Type[Residue]]]
+        Generate ligand_pose, scorelist, and bitstrings
+    """
+
     ligand_pose = []
     scorelist = []
 

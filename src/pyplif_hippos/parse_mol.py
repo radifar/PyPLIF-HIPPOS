@@ -1,6 +1,6 @@
 import glob
 import re
-from typing import List
+from typing import Type, List
 
 try:
     from openbabel import openbabel as ob
@@ -8,7 +8,7 @@ except ImportError:
     import openbabel as ob
 
 
-def parse_ligands(ligand_list: str) -> List[ob.OBMol]:
+def parse_ligands(ligand_list: str) -> List[Type[ob.OBMol]]:
     """Extract the ligand file names and create OBMol object for each file.
 
     Parameters
@@ -32,12 +32,13 @@ def parse_ligands(ligand_list: str) -> List[ob.OBMol]:
     for ligand in ligand_list:
         mol = ob.OBMol()
         convert.ReadFile(mol, ligand)
+        mol.AddHydrogens(False, True, 7.4)
         ligand_mol_list.append(mol)
 
     return ligand_mol_list
 
 
-def parse_protein(protein: str) -> ob.OBMol:
+def parse_protein(protein: str) -> Type[ob.OBMol]:
     """Take protein file name and return an OBMol object for that protein
 
     Parameters
@@ -56,6 +57,7 @@ def parse_protein(protein: str) -> ob.OBMol:
     convert.SetInFormat(file_format)
     protein_mol = ob.OBMol()
     convert.ReadFile(protein_mol, protein)
+    protein_mol.AddHydrogens(False, True, 7.4)
 
     return protein_mol
 
