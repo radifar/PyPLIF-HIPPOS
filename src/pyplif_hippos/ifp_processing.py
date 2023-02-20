@@ -487,6 +487,10 @@ class Residue(ResidueData):
         # disulfide bridge
         if (self.AA_name == "CYS") and (len(self.hydrogens) < 2):
             self.interactions = (1, 0, 0, 0, 0, 0)
+        
+        # Unprotonated N in tryptophan
+        if (self.AA_name == "TRP") and (len(self.hydrogens) == 1):
+            self.interactions = (1, 1, 0, 0, 0, 0)
 
         # Classifying atoms into atom groups if interaction exist,
         # assign atom object as 'value' to interaction 'key'
