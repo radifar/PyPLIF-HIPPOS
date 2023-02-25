@@ -1,6 +1,7 @@
 import glob
+import sys
 import re
-from typing import Type, List
+from typing import Type, List, Tuple
 
 try:
     from openbabel import openbabel as ob
@@ -26,14 +27,30 @@ def parse_ligands(ligand_list: str) -> List[Type[ob.OBMol]]:
 
     ligand_mol_list = []
     file_format = ligand_list[0].split(".")[-1]
+    if file_format not in "pdb mol2 pdbqt".split():
+        print("Can not read from this format.\nAccepted file formats: pdb, pdbqt, and mol2")
+        sys.exit(1)
 
     convert = ob.OBConversion()
-    convert.SetInFormat(file_format)
-    for ligand in ligand_list:
-        mol = ob.OBMol()
-        convert.ReadFile(mol, ligand)
-        mol.AddHydrogens(False, True, 7.4)
-        ligand_mol_list.append(mol)
+    convert.SetInAndOutFormats(file_format, "pdb")
+    if file_format == "pdb":
+        for ligand in ligand_list:
+            mol = ob.OBMol()
+            convert.ReadFile(mol, ligand)
+            mol.AddHydrogens(False, True, 7.4)
+            ligand_mol_list.append(mol)
+    else:
+        read_to_pdb = ob.OBConversion()
+        read_to_pdb.SetInFormat("pdb")
+        for ligand in ligand_list:
+            mol = ob.OBMol()
+            convert.ReadFile(mol, ligand)
+            mol.AddHydrogens(False, True, 7.4)
+            pdb_string = convert.WriteString(mol)
+            mol_pdb = ob.OBMol()
+            read_to_pdb.ReadString(mol_pdb, pdb_string)
+            ligand_mol_list.append(mol_pdb)
+    
 
     return ligand_mol_list
 
@@ -53,13 +70,40 @@ def parse_protein(protein: str) -> Type[ob.OBMol]:
     """
 
     file_format = protein.split(".")[-1]
+    if file_format not in "pdb mol2 pdbqt".split():
+        print("Can not read from this format.\nAccepted file formats: pdb, pdbqt, and mol2")
+        sys.exit(1)
+    
     convert = ob.OBConversion()
-    convert.SetInFormat(file_format)
-    protein_mol = ob.OBMol()
-    convert.ReadFile(protein_mol, protein)
-    protein_mol.AddHydrogens(False, True, 7.4)
+    convert.SetInAndOutFormats(file_format, "pdb")
+    if file_format == "pdb":
+        protein_mol = ob.OBMol()
+        convert.ReadFile(protein_mol, protein)
+        protein_mol.AddHydrogens(False, True, 7.4)
+    else:
+        read_to_pdb = ob.OBConversion()
+        read_to_pdb.SetInFormat("pdb")
 
+        protein_mol_origin = ob.OBMol()
+        convert.ReadFile(protein_mol_origin, protein)
+        if file_format == "mol2":
+            protein_mol_origin.AddHydrogens(False, True, 7.4)
+        protein_mol_string = convert.WriteString(protein_mol_origin)
+        protein_mol = ob.OBMol()
+        read_to_pdb.ReadString(protein_mol, protein_mol_string)
     return protein_mol
+
+
+def parse_complex(complex_list: List[str]) -> List[Tuple[ob.OBMol]]:
+    complex_mol_list = []
+    for complex in complex_list:
+        protein = parse_protein(complex.split()[0])
+        ligand_name = complex.split()[1]
+        ligand = parse_ligands([ligand_name])[0]
+        protein_ligand = (protein, ligand)
+        complex_mol_list.append(protein_ligand)
+    
+    return complex_mol_list
 
 
 def enumerate_ligand_files(ligand_pose: List[str], ligand_files: List[str]) -> None:

@@ -1,6 +1,7 @@
 from collections import namedtuple
 import numpy as np
 from bitarray import bitarray
+from types import SimpleNamespace
 from ctypes import c_double
 
 try:
@@ -54,7 +55,7 @@ def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
 
     ligand_atom_groups = []
     for ligand in ligand_mol_list:
-        ligand_atom_group = assign_atoms(ligand, "vina")
+        ligand_atom_group = assign_atoms(ligand, "DIRECT")
         ligand_atom_groups.append(ligand_atom_group)
 
     for name in res_name:
@@ -64,7 +65,49 @@ def get_direct_bitstring(protein_mol, ligand_mol_list, hippos_config):
 
 
 def get_complex_bitstring(complex_list, hippos_config):
-    return 2
+    res_name = hippos_config.residue_name
+    res_num = hippos_config.residue_number
+
+    custom_settings = dict(
+        omit_interaction=hippos_config.omit_interaction,
+        backbone=hippos_config.use_backbone,
+        output_mode=hippos_config.output_mode,
+        res_weight=hippos_config.res_weight,
+    )
+
+    residue_obj_list = []
+    pseudo_residue_obj = {}
+
+    for protein, ligand in complex_list:
+        residue_obj = {}
+        for name, num in zip(res_name, res_num):
+            residue_obj[name] = Residue(protein, name, num, custom_settings)
+        ligand_atom_groups = [assign_atoms(ligand, "DIRECT")]
+        ligand_mol_list = [ligand]
+        for name in res_name:
+            residue_obj[name].calculateDirectIFP(ligand_mol_list, ligand_atom_groups)
+        residue_obj_list.append(residue_obj)
+    
+    for name in res_name:
+        pseudo_residue = SimpleNamespace()
+        pseudo_residue.bit_replace_index = residue_obj_list[0][name].bit_replace_index
+        pseudo_residue.simp_bit_replace_index = residue_obj_list[0][name].simp_bit_replace_index
+        pseudo_residue.simp_bits_list = []
+        pseudo_residue.full_bits_list = []
+        pseudo_residue.full_nobb_list = []
+
+        for i in range(len(complex_list)):
+            residue = residue_obj_list[i][name]
+            if residue.simplified:
+                pseudo_residue.simp_bits_list.append(residue.simp_bits_list[0])
+            if residue.full:
+                pseudo_residue.full_bits_list.append(residue.full_bits_list[0])
+            if residue.full_nobb:
+                pseudo_residue.full_nobb_list.append(residue.full_nobb_list[0])
+        pseudo_residue_obj[name] = pseudo_residue
+
+    return pseudo_residue_obj
+
 
 
 def get_bitstring(docking_results, hippos_config):
@@ -186,6 +229,11 @@ def assign_atoms(ligand, charge_assignment):
             if (atom.GetAtomicNum() == 7) and (atom.GetPartialCharge() >= -0.235):
                 positive.append(atom.GetId())
             if (atom.GetAtomicNum() == 8) and (atom.GetPartialCharge() <= -0.648):
+                negative.append(atom.GetId())
+        if charge_assignment == "DIRECT":
+            if atom.MatchesSMARTS("[$([+1,+2,+3]),$([NX3&!$([NX3]-O)]-[C]=[NX3+])]"):
+                positive.append(atom.GetId())
+            if atom.MatchesSMARTS("[$([-1,-2,-3]),$(O=[C,S,P]-[O-])]"):
                 negative.append(atom.GetId())
 
     # Create interaction matrix, similar to AAInteractionMatrix

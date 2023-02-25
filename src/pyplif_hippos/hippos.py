@@ -9,6 +9,7 @@ from typing import Type, List, Tuple, Dict
 from initialize.parse_conf import ParseConfig
 from initialize.parse_docking_conf import parse_plants_conf, parse_vina_conf
 from parse_mol import (
+    parse_complex,
     parse_ligands,
     parse_protein,
     enumerate_ligand_files,
@@ -36,11 +37,11 @@ def collect_ligand(ligand_pose: List[str], config: Type[ParseConfig]) -> None:
     """
 
     ligand_files = config.ligand_files
-    ligand_file_list = config.ligand_file_list
+    multiple_ligand_list = config.multiple_ligand_list
     if ligand_files:
         enumerate_ligand_files(ligand_pose, ligand_files)
-    if ligand_file_list:
-        enumerate_ligand_file_list(ligand_pose, ligand_file_list)
+    if multiple_ligand_list:
+        enumerate_ligand_file_list(ligand_pose, multiple_ligand_list)
 
 
 def process_input_to_bitstring(
@@ -65,14 +66,22 @@ def process_input_to_bitstring(
     if config.direct_ifp:
         if not config.complex_list:
             collect_ligand(ligand_pose, config)
+            print(ligand_pose)
             ligand_mol_list = parse_ligands(ligand_pose)
             protein_mol = parse_protein(config.protein)
 
             bitstrings = get_direct_bitstring(protein_mol, ligand_mol_list, config)
             scorelist = [""] * len(ligand_pose)
         else:
-            bitstrings = get_complex_bitstring("complex_list", config)
-            print(bitstrings)
+            complex_list = []
+            with open(config.complex_list, "r") as complex:
+                for pair in complex:
+                    complex_list.append(pair)
+            scorelist = [""] * len(complex_list)
+            ligand_pose = complex_list
+
+            complex_mol_list = parse_complex(complex_list)
+            bitstrings = get_complex_bitstring(complex_mol_list, config)
     else:
         if config.docking_method == "plants":
             docking_results = parse_plants_conf(config.docking_conf)
