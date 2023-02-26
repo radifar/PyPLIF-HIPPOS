@@ -66,7 +66,6 @@ def process_input_to_bitstring(
     if config.direct_ifp:
         if not config.complex_list:
             collect_ligand(ligand_pose, config)
-            print(ligand_pose)
             ligand_mol_list = parse_ligands(ligand_pose)
             protein_mol = parse_protein(config.protein)
 
