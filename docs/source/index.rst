@@ -63,6 +63,7 @@ workshop.
    hippos-genref-config
    getting-started-vina
    getting-started-plants
+   direct-ifp-mode
    advanced-usage
    hippos-config
    license

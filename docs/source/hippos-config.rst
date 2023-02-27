@@ -58,10 +58,15 @@ Input Options
 	
 	The protein file name that will be used in Direct IFP mode. Format allowed: ``pdb``, ``mol2``, ``pdbqt``.
 
-* **ligand_list**
+* **ligand_files**
 	value: ``list of ligand name`` , eg. ``3BO.pdb 3BR.pdb 3BS.pdb``
 	
 	The list of ligand name that will be paired with the protein in Direct IFP mode.
+
+* **ligand_list**
+	value: ``a file containing ligand file names`` , eg. ``ligand_list.txt``
+	
+	The name of the file that contain ligand file names.
 
 * **multiple_ligand_list**
 	value: ``list of file containing ligand file names`` , eg. ``ligand_list1.txt ligand_list2.txt ligand_list3.txt``
