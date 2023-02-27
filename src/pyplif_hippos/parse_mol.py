@@ -9,14 +9,13 @@ except ImportError:
     import openbabel as ob
 
 
-def parse_ligands(ligand_list: str) -> List[Type[ob.OBMol]]:
+def parse_ligands(ligand_list: List[str]) -> List[Type[ob.OBMol]]:
     """Extract the ligand file names and create OBMol object for each file.
 
     Parameters
     ----------
-    ligand_list: str
-        a string that can be divided into list of string where each string
-        is ligand file name
+    ligand_list: List[str]
+        A list of ligand file name
 
     Returns
     -------

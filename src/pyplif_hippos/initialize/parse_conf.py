@@ -49,6 +49,7 @@ class ParseConfig(ParseBase):
         self.direct_ifp = False
         self.protein = ""
         self.ligand_files = []
+        self.ligand_list = []
         self.multiple_ligand_list = []
         self.complex_list = ""
 
@@ -87,6 +88,7 @@ class ParseConfig(ParseBase):
             "direct_ifp",
             "protein",
             "ligand_files",
+            "ligand_list",
             "multiple_ligand_list",
             "complex_list",
         ]
@@ -137,6 +139,8 @@ class ParseConfig(ParseBase):
                     self.protein = single_value
                 elif option == "ligand_files":
                     self.ligand_files = multiple_value
+                elif option == "ligand_list":
+                    self.ligand_list = multiple_value
                 elif option == "multiple_ligand_list":
                     self.multiple_ligand_list = multiple_value
                 else:

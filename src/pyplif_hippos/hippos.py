@@ -37,11 +37,15 @@ def collect_ligand(ligand_pose: List[str], config: Type[ParseConfig]) -> None:
     """
 
     ligand_files = config.ligand_files
-    multiple_ligand_list = config.multiple_ligand_list
     if ligand_files:
         enumerate_ligand_files(ligand_pose, ligand_files)
-    if multiple_ligand_list:
+    if config.ligand_list:
+        multiple_ligand_list = config.ligand_list
         enumerate_ligand_file_list(ligand_pose, multiple_ligand_list)
+    if config.multiple_ligand_list:
+        multiple_ligand_list = config.multiple_ligand_list
+        enumerate_ligand_file_list(ligand_pose, multiple_ligand_list)
+        
 
 
 def process_input_to_bitstring(
