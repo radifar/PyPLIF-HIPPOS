@@ -63,12 +63,14 @@ The above example can be found in ``examples-input/09-direct_ifp/example_1/pdb``
 the result will be the same as ``example_0`` which will generate two output file, one for the interaction bitstring
 ``example_0_outfile.csv``, and the other one for similarity score ``example_0_similarity.csv``. Here is the example
 output for ``example_0_outfile.csv`` ::
+
     3chp_4BO.pdb               0000000000000000000001000000000000000000000000000100000010100000000000000000010000001000000000000000000001010000000000000000000001000
     3chq_4BQ.pdb               0000000000000000000001000100000000000000000000001000000000100000000001000000010000001000000000000000000001010000000000000000000001000
     3chr_4BS.pdb               0000000000000000000001000000000000010000000000101100000010100000000001000000010000001000000000000000000000010000000000000000000000000
     3chs_4BU.pdb               0000000000010000000001000000000000000000000000101000000010100000000001000000010000001000000000000010000001010000000000000000000001000
 
 And here is the example output for ``example_0_similarity.csv`` :: 
+
     3chp_4BO.pdb     0.500 0.389
     3chq_4BQ.pdb     0.333 0.067
     3chr_4BS.pdb     0.417 0.288
@@ -77,6 +79,7 @@ And here is the example output for ``example_0_similarity.csv`` ::
 The second one is by providing the file containing a list of ligand file names. To do this we can use the
 ``ligand_list`` or ``multiple_ligand_list`` option instead of ``ligand_files``. ``ligand_list`` will accept a single
 text file containing the ligand file names like so  ::
+
     direct_ifp true
     protein protein.pdb
     ligand_list ligand_input.txt
@@ -92,12 +95,14 @@ text file containing the ligand file names like so  ::
     sim_outfile example_0_similarity.csv
 
 Where the ``ligand_input.txt`` content is ::
+
     3chp_4BO.pdb
     3chq_4BQ.pdb
     3chr_4BS.pdb
     3chs_4BU.pdb
 
 While ``multiple_ligand_list`` can accept multiple file that contain ligand file names like so ::
+
     direct_ifp true
     protein protein.pdb
     multiple_ligand_list ligand_input1.txt ligand_input2.txt
@@ -127,12 +132,14 @@ Notice that in this example we will not using ``protein`` option since the prote
 complex_list file.
 
 First lets take a look at the ``complex_list.txt`` which contain the protein-ligand pair that will be analyzed ::
+
     3cho_protein.pdb 3cho_4BG.pdb
     3chr_protein.pdb 3chr_4BS.pdb
     3chs_protein.pdb 3chs_4BU.pdb
 
 This example files can be found in ``examples-input/09-direct_ifp/example_4/pdb``. Next we can use the following
 configuration file to analyze the above protein-ligand pairs ::
+
     direct_ifp true
     complex_list  complex_list.txt
 
@@ -147,6 +154,7 @@ configuration file to analyze the above protein-ligand pairs ::
     sim_outfile example_0_similarity.csv
 
 Running the above example will give us the following output for ``example_0_outfile.csv`` ::
+
     3cho_protein.pdb_3cho_4BG.pdb
             0000000000000000000001000000000010000000000000000000000010100000000000000000000000001000000000000000000000010000000000000000000000000
     3chr_protein.pdb_3chr_4BS.pdb
@@ -156,6 +164,7 @@ Running the above example will give us the following output for ``example_0_outf
 
 
 and ``example_0_similarity.csv`` ::
+    
     3cho_protein.pdb_3cho_4BG.pdb
     1.000 1.000
     3chr_protein.pdb_3chr_4BS.pdb
