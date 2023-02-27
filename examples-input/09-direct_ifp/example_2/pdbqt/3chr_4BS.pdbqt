@@ -1,0 +1,55 @@
+REMARK  8 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: N1_1  and  C2_5 
+REMARK    2  A    between atoms: C2_5  and  C3_6 
+REMARK    3  A    between atoms: C3_6  and  C4_7 
+REMARK    4  A    between atoms: C4_7  and  C5_8 
+REMARK       I    between atoms: C5_8  and  N7_10 
+REMARK    5  A    between atoms: N7_10  and  C9_12 
+REMARK    6  A    between atoms: C12_15  and  O15_18 
+REMARK    7  A    between atoms: O15_18  and  C16_19 
+REMARK    8  A    between atoms: C16_19  and  C17_20 
+ROOT
+HETATM    1  C9  4BS A 613       9.334  41.165  66.584  1.00 28.44     0.034 A 
+HETATM    2  C10 4BS A 613       9.588  39.784  66.670  1.00 29.72     0.032 A 
+HETATM    3  C11 4BS A 613       8.801  38.975  67.485  1.00 27.84     0.039 A 
+HETATM    4  C12 4BS A 613       7.747  39.543  68.183  1.00 27.44     0.069 A 
+HETATM    5  C13 4BS A 613       7.506  40.906  68.096  1.00 28.40     0.039 A 
+HETATM    6  C14 4BS A 613       8.277  41.709  67.287  1.00 27.74     0.032 A 
+ENDROOT
+BRANCH   1   7
+HETATM    7  N7  4BS A 613      10.089  42.037  65.882  1.00 27.85    -0.327 N 
+HETATM    8  C5  4BS A 613      11.295  41.749  65.424  1.00 29.10     0.222 C 
+HETATM    9  O6  4BS A 613      11.840  40.674  65.591  1.00 30.38    -0.273 OA
+ATOM     10  H7  4BS A 613       9.709  42.965  65.696  1.00  0.00     0.169 HD
+BRANCH   8  11
+HETATM   11  C4  4BS A 613      11.948  42.878  64.680  1.00 28.13     0.105 C 
+BRANCH  11  12
+HETATM   12  C3  4BS A 613      13.432  42.679  64.406  1.00 29.28     0.036 C 
+BRANCH  12  13
+HETATM   13  C2  4BS A 613      13.726  41.857  63.162  1.00 27.55     0.230 C 
+BRANCH  13  14
+HETATM   14  N1  4BS A 613      13.423  40.457  63.429  1.00 27.93    -0.079 N 
+ATOM     15  H13 4BS A 613      13.914  40.105  64.251  1.00  0.00     0.274 HD
+ATOM     16  H12 4BS A 613      12.469  40.325  63.764  1.00  0.00     0.274 HD
+ATOM     17  H11 4BS A 613      13.620  39.905  62.594  1.00  0.00     0.274 HD
+ENDBRANCH  13  14
+ENDBRANCH  12  13
+ENDBRANCH  11  12
+ENDBRANCH   8  11
+ENDBRANCH   1   7
+BRANCH   4  18
+HETATM   18  O15 4BS A 613       6.896  38.852  69.001  1.00 26.47    -0.347 OA
+BRANCH  18  19
+HETATM   19  C16 4BS A 613       6.917  37.470  69.358  1.00 28.76     0.214 C 
+BRANCH  19  20
+HETATM   20  C17 4BS A 613       7.842  36.983  70.478  1.00 31.62    -0.034 A 
+HETATM   21  C22 4BS A 613       8.085  35.618  70.501  1.00 30.90     0.009 A 
+HETATM   22  C21 4BS A 613       8.876  35.022  71.464  1.00 30.06     0.001 A 
+HETATM   23  C20 4BS A 613       9.465  35.805  72.443  1.00 32.54     0.000 A 
+HETATM   24  C19 4BS A 613       9.248  37.187  72.451  1.00 29.40     0.001 A 
+HETATM   25  C18 4BS A 613       8.439  37.770  71.479  1.00 32.55     0.009 A 
+ENDBRANCH  19  20
+ENDBRANCH  18  19
+ENDBRANCH   4  18
+TORSDOF 8

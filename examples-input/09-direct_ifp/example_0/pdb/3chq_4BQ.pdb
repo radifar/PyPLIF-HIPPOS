@@ -1,0 +1,32 @@
+REMARK 620 4 4BQ A 901   O1  108.5 118.3 109.2                                  
+REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE 4BQ A 901                 
+HET    4BQ  A 901      24                                                       
+HETNAM     4BQ (2S)-2-AMINO-5-OXO-5-[(4-PHENYLMETHOXYPHENYL)                    
+HETNAM   2 4BQ  AMINO]PENTANOIC ACID                                            
+HETSYN     4BQ N-[4-(PHENYLMETHOXY)PHENYL]-L-GLUTAMINE                          
+FORMUL   7  4BQ    C18 H20 N2 O4                                                
+LINK        ZN    ZN A 701                 O1  4BQ A 901     1555   1555  2.15  
+HETATM 4863  C21 4BQ A 901       8.165  38.326  72.119  1.00 18.72           C  
+HETATM 4864  C22 4BQ A 901       8.853  37.762  73.208  1.00 18.52           C  
+HETATM 4865  C23 4BQ A 901       9.068  36.375  73.263  1.00 19.47           C  
+HETATM 4866  C24 4BQ A 901       8.596  35.550  72.228  1.00 16.96           C  
+HETATM 4867  C25 4BQ A 901       7.910  36.113  71.139  1.00 16.58           C  
+HETATM 4868  C20 4BQ A 901       7.694  37.499  71.078  1.00 19.65           C  
+HETATM 4869  C19 4BQ A 901       7.027  38.045  69.971  1.00 16.92           C  
+HETATM 4870  O18 4BQ A 901       6.769  39.478  69.865  1.00 17.11           O  
+HETATM 4871  C15 4BQ A 901       7.675  40.196  69.096  1.00 13.23           C  
+HETATM 4872  C16 4BQ A 901       8.789  39.592  68.461  1.00 12.71           C  
+HETATM 4873  C17 4BQ A 901       9.685  40.375  67.708  1.00 13.25           C  
+HETATM 4874  C14 4BQ A 901       7.477  41.578  68.954  1.00 14.58           C  
+HETATM 4875  C13 4BQ A 901       8.370  42.358  68.199  1.00 14.48           C  
+HETATM 4876  C12 4BQ A 901       9.483  41.769  67.575  1.00 14.65           C  
+HETATM 4877  N10 4BQ A 901      10.382  42.593  66.975  1.00 17.51           N  
+HETATM 4878  C8  4BQ A 901      11.573  42.222  66.462  1.00 17.80           C  
+HETATM 4879  O9  4BQ A 901      12.071  41.095  66.557  1.00 18.24           O  
+HETATM 4880  C7  4BQ A 901      12.362  43.375  65.828  1.00 18.00           C  
+HETATM 4881  C6  4BQ A 901      13.874  43.105  65.830  1.00 20.43           C  
+HETATM 4882  C4  4BQ A 901      14.356  42.332  64.584  1.00 24.91           C  
+HETATM 4883  C2  4BQ A 901      15.779  41.850  64.845  1.00 24.04           C  
+HETATM 4884  O3  4BQ A 901      16.707  42.479  64.301  1.00 27.90           O  
+HETATM 4885  O1  4BQ A 901      15.905  40.869  65.602  1.00 22.87           O  
+HETATM 4886  N5  4BQ A 901      13.501  41.160  64.322  1.00 25.15           N  

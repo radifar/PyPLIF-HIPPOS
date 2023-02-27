@@ -1,0 +1,3 @@
+3cho_protein.pdb 3cho_4BG.pdb
+3chr_protein.pdb 3chr_4BS.pdb
+3chs_protein.pdb 3chs_4BU.pdb

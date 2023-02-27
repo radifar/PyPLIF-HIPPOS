@@ -1,0 +1,4 @@
+3chp_4BO.pdbqt
+3chq_4BQ.pdbqt
+3chr_4BS.pdbqt
+3chs_4BU.pdbqt

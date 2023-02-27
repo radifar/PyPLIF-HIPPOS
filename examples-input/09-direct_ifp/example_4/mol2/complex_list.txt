@@ -1,0 +1,3 @@
+3cho_protein.mol2 3cho_4BG.mol2
+3chr_protein.mol2 3chr_4BS.mol2
+3chs_protein.mol2 3chs_4BU.mol2

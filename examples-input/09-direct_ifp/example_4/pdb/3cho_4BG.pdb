@@ -1,0 +1,24 @@
+REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE 4BG A 901                 
+HET    4BG  A 901      19                                                       
+HETNAM     4BG N-[4-(BENZYLOXY)PHENYL]GLYCINAMIDE                               
+HETSYN     4BG 2-AMINO-N-[4-(PHENYLMETHOXY)PHENYL]-ACETAMIDE                    
+FORMUL   5  4BG    C15 H16 N2 O2                                                
+HETATM 4885  C1  4BG A 901      24.439  -0.159   3.585  1.00 19.64           C  
+HETATM 4886  C2  4BG A 901      23.520   0.449   4.452  1.00 22.23           C  
+HETATM 4887  C3  4BG A 901      22.892   1.650   4.084  1.00 25.01           C  
+HETATM 4888  C4  4BG A 901      23.174   2.236   2.843  1.00 26.00           C  
+HETATM 4889  C5  4BG A 901      24.094   1.628   1.977  1.00 22.86           C  
+HETATM 4890  C6  4BG A 901      24.739   0.432   2.351  1.00 24.66           C  
+HETATM 4891  C7  4BG A 901      25.948  -0.026   1.552  1.00 27.59           C  
+HETATM 4892  O8  4BG A 901      26.142   0.528   0.322  1.00 29.44           O  
+HETATM 4893  C9  4BG A 901      27.440   0.441  -0.094  1.00 22.48           C  
+HETATM 4894  C12 4BG A 901      28.467   0.653   0.841  1.00 21.43           C  
+HETATM 4895  C13 4BG A 901      29.745   0.996   0.414  1.00 18.06           C  
+HETATM 4896  C10 4BG A 901      27.713   0.522  -1.469  1.00 18.66           C  
+HETATM 4897  C11 4BG A 901      29.008   0.869  -1.899  1.00 20.51           C  
+HETATM 4898  C14 4BG A 901      30.026   1.131  -0.957  1.00 19.69           C  
+HETATM 4899  N15 4BG A 901      31.175   1.699  -1.393  1.00 19.16           N  
+HETATM 4900  C16 4BG A 901      32.129   2.204  -0.582  1.00 20.09           C  
+HETATM 4901  O17 4BG A 901      31.939   2.591   0.575  1.00 17.77           O  
+HETATM 4902  C18 4BG A 901      33.507   2.345  -1.230  1.00 19.79           C  
+HETATM 4903  N19 4BG A 901      34.336   3.253  -0.422  1.00 19.67           N  
