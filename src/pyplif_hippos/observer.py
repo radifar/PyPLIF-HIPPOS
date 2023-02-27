@@ -26,10 +26,14 @@ def handle_open_file(file_name):
 
 
 def handle_initial_log(config, ligand_pose):
-    ligand_name = ligand_pose[0].split("_")[0]
-    pose_count = len(ligand_pose)
     file_handle = file_handlers["log"]
-    file_handle.write("Ligand name is %s with %s poses\n\n" % (ligand_name, pose_count))
+    if config.direct_ifp == True:
+        ligand_names = ' '.join(ligand_pose)
+        file_handle.write("Ligand name are %s \n\n" % (ligand_names))
+    else:
+        ligand_name = ligand_pose[0].split("_")[0]
+        pose_count = len(ligand_pose)
+        file_handle.write("Ligand name is %s with %s poses\n\n" % (ligand_name, pose_count))
     if "similarity" in file_handlers:
         coef = ", ".join(config.similarity_coef)
         file_handle.write("similarity coefficient used are %s\n\n" % coef)
