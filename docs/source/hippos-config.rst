@@ -14,6 +14,11 @@ Basic Options
 * **docking_conf**
 	value: ``docking_configuration_file_name`` , eg. ``vina.conf`` or ``plants.conf``
 
+* **direct_ifp**
+	value: ``true`` or ``false``, (default: ``false``)
+
+	If the value is set to true, it will use Direct IFP method and thus ``docking_method`` and ``docking_conf`` will be ignored.
+
 Input Options
 -------------
 
@@ -47,6 +52,27 @@ Input Options
 		value: ``bitstring1 bitstring2 ... n``
 		
 		At least 1 simplified bitstring must be provided
+	
+* **protein**
+	value: ``protein file name`` , eg. ``protein.pdb``
+	
+	The protein file name that will be used in Direct IFP mode. Format allowed: ``pdb``, ``mol2``, ``pdbqt``.
+
+* **ligand_list**
+	value: ``list of ligand name`` , eg. ``3BO.pdb 3BR.pdb 3BS.pdb``
+	
+	The list of ligand name that will be paired with the protein in Direct IFP mode.
+
+* **multiple_ligand_list**
+	value: ``list of file containing ligand file names`` , eg. ``ligand_list1.txt ligand_list2.txt ligand_list3.txt``
+	
+	The list of file that contain ligand file names.
+
+* **complex_list**
+	value: ``a filename containing list protein-ligand pair`` , eg. ``complex_list.txt``
+	
+	In Direct IFP mode, if this value is set then ``protein``, ``ligand_list``, and ``multiple_ligand_list`` will not be required.
+
 
 Output Options
 --------------
