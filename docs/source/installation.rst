@@ -24,14 +24,21 @@ If HIPPOS installed correctly you should get a message that inform you the confi
 Next, you can just jump to Getting Started with PLANTS or Vina tutorial. But if you prefer not to use Conda
 then you can install HIPPOS using the instructions below.
 
+Manual Installation
+-------------------
+
+The following instruction is for manual installation step which is more tedious, but you can use it in case
+you would like to use the latest feature PyPLIF-HIPPOS by installing the newest code from Github.
+Another advantage of manual installation is the visibility of PyPLIF-HIPPOS which makes it easier to find,
+in case you would like to do some modification to PyPLIF-HIPPOS code.
+
 Requirement
 -----------
 
-* Python >= 2.6 or >= 3.6
-* Open Babel (library) >= 2.2
-* Python-OpenBabel >= 2.1
-* Python-BitArray
-* Python-Numpy >= 1.3
+* python >= 3.5
+* python3-openbabel >= 2.1
+* python3-bitarray
+* python3-numpy >= 1.3
 
 Getting HIPPOS
 --------------
@@ -41,43 +48,47 @@ You can get HIPPOS at Github by cloning the repository or download the code `her
 Installing on Linux
 -------------------
 
-In Ubuntu you can simply enter these commands to install the requirements above (Python is already installed in Linux):
+The following instructions were tested and work well on Ubuntu 20.04, Debian 11 and Fedora 30,
+so they will most likely work in newer version too.
 
-| ``sudo apt-get install openbabel``
-| ``sudo apt-get install python-openbabel``
-| ``sudo apt-get install python-bitarray``
-| ``sudo apt-get install python-numpy``
+First make sure that you have Python 3 installed, and it is your default when you run `python`
+command. If it is not then you can install ``python-is-python3`` package or use ``update-alternatives``
+command:
+
+| ``sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1``
+
+The next step is to install the requirements for PyPLIF-HIPPOS. And depending on your OS or
+package manager that you use, the command could be different.
+
+In Ubuntu or Debian you can simply enter these commands to install the requirements above:
+
+| ``sudo apt install python3-openbabel``
+| ``sudo apt install python3-bitarray``
+| ``sudo apt install python3-numpy``
 
 In Fedora you can enter these commands instead:
 
-| ``sudo yum install openbabel``
-| ``sudo yum install python-openbabel``
-| ``sudo yum install python-bitarray``
-| ``sudo yum install numpy``
-
-After the requirements fulfilled
+| ``sudo dnf install python3-openbabel``
+| ``sudo dnf install python3-bitarray``
+| ``sudo dnf install python3-numpy``
 
 After all of the dependencies installed, you can install HIPPOS by opening
-the terminal and enter the HIPPOS directory and run setup.sh like so:
+the terminal and enter the PyPLIF-HIPPOS directory and run setup.sh:
 
 ``./setup.sh``
 
-You will be prompted with a question whether to install HIPPOS in ``[HOME_DIRECTORY]/.hippos``
-which is a hidden directory inside your ``HOME_DIRECTORY``. Or would you rather
-choose your own directory. If you want to keep the default then just press `enter`
-or if you would like to choose your own installation directory you can type `y`
-and press enter, then you have to type the installation directory for example
-``/home/radifar/apps/hippos`` then press enter.
+This will run the script that will create an `alias` for the PyPLIF-HIPPOS
+program in this directory. So every time you call `hippos` or `hippos-genref` it
+will refer to this directory. Therefore it is advised **not to delete this directory**.
 
-If HIPPOS installed successfully then a message like 'HIPPOS successfully
-installed' should appear. When HIPPOS is already installed and you're running
-setup.sh a message like 'HIPPOS is already installed' will appear, and the
-installation process will stop and exit.
+Notice that this process does not add anything to your machine, so this step is
+just registering a shortcut to your command line environment.
+
+If HIPPOS installed successfully then a message like 'PyPLIF HIPPOS is ready
+for service' should appear.
 
 If you would like to install newer version of HIPPOS and overwrite the old
-one then all you need to do is by adding 'force' option to setup.sh like so:
-
-``./setup.sh force``
+one then all you need to do is to run the setup.sh script again.
 
 To test if HIPPOS had been installed, *open new command line window* and type the following:
 
@@ -92,6 +103,22 @@ Next type the following:
 Then press enter
 
 If there are no error message then the installation is success.
+
+Uninstalling
+------------
+
+To uninstall PyPLIF-HIPPOS you can simply run setup.sh script with `uninstall`
+option
+
+``./setup.sh uninstall``
+
+And a message 'PyPLIF HIPPOS has been successfully uninstalled' will appear.
+
+Notice that as the installation process is just registering alias for `hippos`
+and `hippos-genref`, the uninstallation process is actually just removing those
+alias and therefore nothing is really removed from your machine. If you would
+like to remove PyPLIF-HIPPOS you need to manually remove the PyPLIF-HIPPOS from
+the directory where you install it.
 
 Installing on Windows 10
 ------------------------
