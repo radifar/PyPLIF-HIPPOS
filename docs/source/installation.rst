@@ -8,7 +8,13 @@ The easiest way to install HIPPOS is using `Conda <https://docs.anaconda.com/ana
 can choose either Anaconda or Miniconda. If you never used Conda before then most likely Miniconda
 is more suitable for you.
 
-After you installed Conda in your machine, install HIPPOS using the following command:
+After you installed Conda in your machine, it is highly recommended to create new environment and activate
+it first:
+
+|  ``conda create -n hippos-env``
+|  ``conda activate hippos-env``
+
+then install HIPPOS using the following command:
 
 ``conda install -c conda-forge pyplif-hippos``
 
@@ -23,6 +29,21 @@ To check if HIPPOS installed correctly try these commands:
 If HIPPOS installed correctly you should get a message that inform you the configuration file not found.
 Next, you can just jump to Getting Started with PLANTS or Vina tutorial. But if you prefer not to use Conda
 then you can install HIPPOS using the instructions below.
+
+Installing Latest Update In Conda Environment
+---------------------------------------------
+
+Sometimes the changes (or new feature) in the code is not yet released and therefore
+not available in conda-forge repository, therefore the easiest way to use this latest update 
+is by creating new conda environment then activate it like mentioned above.
+
+The next step is to install all the PyPLIF-HIPPOS requirements using Conda:
+
+``conda install -c conda-forge openbabel numpy bitarray``
+
+Then you can download the code from https://github.com/radifar/PyPLIF-HIPPOS,
+extract the zip file, then run the `setup.sh`. See the `Installing on Linux` instruction
+below for more details about `setup.sh` script.
 
 Manual Installation
 -------------------
@@ -120,9 +141,23 @@ alias and therefore nothing is really removed from your machine. If you would
 like to remove PyPLIF-HIPPOS you need to manually remove the PyPLIF-HIPPOS from
 the directory where you install it.
 
-Installing on Windows 10
-------------------------
+Installing on MacOS
+-------------------
 
-Windows 10 provides Ubuntu in their `Microsoft Store <https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6>`_. 
-After you successfully add Ubuntu on your Windows, the next step is to do the same installation steps on Ubuntu.
+To install PyPLIF-HIPPOS on MacOS it is highly recommended that you use Conda virtual environment.
+There are two ways to install PyPLIF-HIPPOS using Conda. First you can simply install PyPLIF-HIPPOS
+using the following command:
+
+``conda install -c conda-forge pyplif-hippos``
+
+Or, if you would like to use the latest update from PyPLIF-HIPPOS you can follow the installation
+process for Latest Update In Conda Environment above.
+
+Installing on Windows
+---------------------
+
+Unfortunately, the only way to use PyPLIF-HIPPOS in Windows is by adding a layer of
+virtualization and simulate Linux on top of it, which can be done by installing WSL
+(Windows Subsystem for Linux). You can use Ubuntu, Fedora, or Debian inside your WSL,
+then use any installation method that suitable for you.
 
