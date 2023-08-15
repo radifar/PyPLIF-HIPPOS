@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = u'PyPLIF HIPPOS'
-copyright = u'2021, Muhammad Radifar & Enade Perdana Istyastono'
+copyright = u'2023, Muhammad Radifar & Enade Perdana Istyastono'
 author = u'Muhammad Radifar & Enade Perdana Istyastono'
 
 # The short X.Y version
-version = u'0.1'
+version = u'0.2'
 # The full version, including alpha/beta/rc tags
-release = u'0.1'
+release = u'0.2'
 
 
 # -- General configuration ---------------------------------------------------
